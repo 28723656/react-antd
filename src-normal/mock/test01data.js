@@ -1,6 +1,6 @@
 import React from "react";
 
-export const weaponData_mock =
+export const dataSource =
     {
         // 武器等级
         weaponRank:0,
@@ -15,11 +15,7 @@ export const weaponData_mock =
         _success:false,
 
         // 强化信息
-        weaponMsg:[
-        ],
-
-         // 统计
-        count: 0,
+        weaponMsg:[]
     }
 
 

@@ -1,30 +1,70 @@
 import React,{Component} from 'react'
 import {message} from "antd";
+import {connect} from 'react-redux'
+import PropTypes from 'prop-types'
 
 import WeaponInfo from "../../pageContent/Test01/WeaponInfo";
 import Require from "../../pageContent/Test01/Require";
 import WeaponLog from "../../pageContent/Test01/WeaponLog";
-import {dataSource} from "../../mock/test01data"
+import {powerUp,getWeaponData} from "../../redux/actions";
 
-let count = 0
 
 class Test01 extends Component{
 
-    state ={
-        dataSource :''
+
+    static propTypes = {
+        weaponData: PropTypes.object.isRequired,
+        powerUp: PropTypes.func.isRequired,
+        getWeaponData: PropTypes.func.isRequired,
     }
 
-    componentWillMount() {
-        console.log("count:",count)
 
-        // 开始的时候初始化值
-        this.setState({
-           dataSource
-        });
+
+    componentWillMount() {
+        this.props.getWeaponData();
     }
 
     // 处理金币减少和等级增加
     handleCoinAndRank = (costCoin,success) =>{
+        const {weaponData,powerUp} = this.props;
+        let newRank = weaponData.weaponRank;
+        let tempCount = weaponData.count
+        if(success){
+            newRank = weaponData.weaponRank + 1;
+            if(newRank >= 12)
+            message.success('+'+newRank+'成功！');
+        }else{
+            if(newRank <10){
+            }else if(newRank >= 12){
+                newRank = 0;
+                message.error("破碎吧！")
+            }
+        }
+        debugger
+        // 日志信息
+        weaponData.weaponMsg.push(
+            success?
+            <p key={tempCount++} >{tempCount}:  +{weaponData.weaponRank+1}  流光星陨刀 强化成功. 花费金币: {(costCoin/10000).toFixed(2)}W</p>
+                :
+            <p key={tempCount++} style={{color:'red'}} >{tempCount}:  +{weaponData.weaponRank+1}  流光星陨刀 失败{newRank === 0?'归零':''}! 花费金币: {(costCoin/10000).toFixed(2)}W</p>
+
+    );
+        if(weaponData.weaponMsg.length >10){
+            weaponData. weaponMsg.shift();
+        }
+        const newData =  {}
+        // 让tempData的值变一下
+        newData.weaponRank = newRank
+        newData.leftCoin=weaponData.leftCoin-costCoin
+        newData. _costCoin=costCoin
+        newData. _success=success
+        newData. weaponMsg=weaponData.weaponMsg
+        newData. count=tempCount
+
+       powerUp(newData);
+
+
+       /*
         const {weaponRank,leftCoin,_costCoin,_success,weaponMsg} = this.state.dataSource;
         let newRank = weaponRank;
         if(success){
@@ -62,26 +102,34 @@ class Test01 extends Component{
         this.setState({
             dataSource
         });
+        */
     }
 
     render() {
 
-        const {weaponRank,leftCoin,weaponMsg} = this.state.dataSource;
+        const {weaponData} = this.props
+        const empty =  JSON.stringify(weaponData) === '{}';
 
         return (
             <div >
                 {/*要求*/}
                 <Require/>
+                { !empty &&
+                <div>
+                    <WeaponInfo weaponRank={weaponData.weaponRank} leftCoin={weaponData.leftCoin} handleCoinAndRank={this.handleCoinAndRank} />
+                    <WeaponLog weaponMsg={weaponData.weaponMsg} />
+                </div>
 
-                {/*武器说明*/}
-                <WeaponInfo weaponRank={weaponRank} leftCoin={leftCoin} handleCoinAndRank={this.handleCoinAndRank} />
+                }
 
-                {/*日志*/}
-                <WeaponLog weaponMsg={weaponMsg} />
+
 
             </div>
         )
     }
 }
 
-export  default Test01
+export  default connect(
+    state =>({weaponData:state.weaponData}),
+    {powerUp,getWeaponData}
+)(Test01)

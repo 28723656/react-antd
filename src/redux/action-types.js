@@ -1,0 +1,3 @@
+export const POWER_UP = 'POWER_UP'
+
+export const RECEIVE_WEAPON_DATA = 'RECEIVE_WEAPON_DATA'

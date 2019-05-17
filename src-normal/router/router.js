@@ -1,5 +1,9 @@
 import React, {Component} from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import {
+    Route,
+    HashRouter,
+    BrowserRouter
+} from 'react-router-dom';
 
 import Menus from '../components/Menus';
 
