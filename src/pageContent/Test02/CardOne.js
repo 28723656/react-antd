@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import { Menu, Dropdown, Button, Icon, message } from 'antd';
 import QingTian from "./Lyric/JayChou/QingTian";
 import YeDeDiQiZhang from "./Lyric/JayChou/YeDeDiQiZhang";
+import ZaoMengZhe from "./Lyric/YiDong/ZaoMengZhe";
 
 
 class CardOne extends Component {
@@ -15,6 +16,8 @@ class CardOne extends Component {
              this.setState({lyricName:'周杰伦-晴天'})
          }else if(e.key === '2'){
              this.setState({lyricName:'周杰伦-夜的第七章'})
+         }else if(e.key === '3'){
+             this.setState({lyricName:'以冬-造梦者'})
          }
 
     }
@@ -43,7 +46,7 @@ class CardOne extends Component {
                 </Menu.Item>
                 <Menu.Item key="3">
                     <Icon type="customer-service" />
-                    3rd item
+                    以冬-造梦者
                 </Menu.Item>
             </Menu>
         );
@@ -61,6 +64,7 @@ class CardOne extends Component {
 
                 {lyricKey === '1'   &&  <QingTian/> }
                 {lyricKey === '2'   &&  <YeDeDiQiZhang/> }
+                {lyricKey === '3'   &&  <ZaoMengZhe/> }
 
 
             </div>
