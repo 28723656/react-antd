@@ -13,6 +13,7 @@ import Page2 from "../../pages/Page2";
 import Page3 from "../../pages/Page3";
 import Page4 from "../../pages/Page4";
 import Test01 from "../../pages/Test01";
+import Test02 from "../../pages/Test02";
 
 require('./style.css')
 
@@ -48,6 +49,9 @@ class Menus extends Component {
                         <Menu.Item key="5">
                             <NavLink to='/test01'  > 练习一：模块化练习 </NavLink>
                         </Menu.Item>
+                        <Menu.Item key="6">
+                            <NavLink to='/test02'  > 练习二：数字排列 </NavLink>
+                        </Menu.Item>
                     </Menu>
                 </Header>
                 <Content style={{ padding: '0 50px', marginTop: 64 }}>
@@ -58,6 +62,7 @@ class Menus extends Component {
                             <Route path="/page3" component={Page3}/>
                             <Route path="/page4" component={Page4}/>
                             <Route path="/test01" component={Test01}/>
+                            <Route path="/test02" component={Test02}/>
                     </div>
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
