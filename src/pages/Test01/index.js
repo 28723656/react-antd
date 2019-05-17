@@ -60,6 +60,7 @@ class Test01 extends Component{
         newData._success = success
         newData.weaponMsg = weaponData.weaponMsg
         newData.count = tempCount
+
         powerUp(newData);
 
     }

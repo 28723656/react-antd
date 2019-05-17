@@ -2,6 +2,8 @@ import React,{Component} from 'react'
 import { Card } from 'antd';
 
 import CardOne from '../../pageContent/Test02/CardOne'
+import {connect} from "react-redux";
+import {change_card2} from "../../redux/actions";
 
 const tabList = [
     {
@@ -27,24 +29,27 @@ class Page1 extends Component{
     };
 
     onTabChange = (key, type) => {
-        console.log(key, type);
-        this.setState({ [type]: key });
+        const {change_card2} = this.props
+        console.log("tab->",key)
+        change_card2(key)
     };
 
     render() {
+
+        const {key} = this.props.cardTest2Data;
+        debugger
         return (
             <div>
-
                 <Card
                     style={{ width: '100%'}}
                     title="歌词"
                     tabList={tabList}
-                    activeTabKey={this.state.key}
+                    activeTabKey={key}
                     onTabChange={key => {
                         this.onTabChange(key, 'key');
                     }}
                 >
-                    {contentList[this.state.key]}
+                    {contentList[key]}
                 </Card>
 
             </div>
@@ -53,5 +58,7 @@ class Page1 extends Component{
     }
 }
 
-
-export default Page1
+export  default connect(
+    state =>({cardTest2Data:state.cardTest2Data}),
+    {change_card2}
+)(Page1)

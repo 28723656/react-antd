@@ -3,37 +3,38 @@ import { Menu, Dropdown, Button, Icon, message } from 'antd';
 import QingTian from "./Lyric/JayChou/QingTian";
 import YeDeDiQiZhang from "./Lyric/JayChou/YeDeDiQiZhang";
 import ZaoMengZhe from "./Lyric/YiDong/ZaoMengZhe";
+import {connect} from "react-redux";
+import {changeSong} from "../../redux/actions";
 
+import PropTypes from 'prop-types'
 
 class CardOne extends Component {
 
+    static propTypes ={
+        lyricData: PropTypes.object.isRequired,
+        changeSong: PropTypes.func.isRequired
+    }
 
      handleMenuClick =(e) => {
-        console.log('click', e);
-        this.setState({lyricKey:e.key})
-
+        const {changeSong} = this.props
+         let value = '';
          if(e.key === '1'){
-             this.setState({lyricName:'周杰伦-晴天'})
+             value = '周杰伦-晴天'
          }else if(e.key === '2'){
-             this.setState({lyricName:'周杰伦-夜的第七章'})
+             value =' 周杰伦-夜的第七章'
          }else if(e.key === '3'){
-             this.setState({lyricName:'以冬-造梦者'})
+             value = '以冬-造梦者'
          }
+         const newData ={lyricKey: e.key, lyricName: value}
+         // 调用redux改变状态
+      //   changeSong(newData)
+         changeSong(e.key,value)
 
     }
-
-    state ={
-        // 默认选择的歌曲
-        lyricKey:'1',
-        lyricName:''
-    }
-
-
 
     render() {
 
-         const {lyricKey,lyricName} = this.state;
-
+         const {lyricKey,lyricName} = this.props.lyricData;
         const menu = (
             <Menu onClick={this.handleMenuClick}>
                 <Menu.Item key="1" >
@@ -74,4 +75,7 @@ class CardOne extends Component {
     }
 }
 
-export default CardOne
+export  default connect(
+    state =>({lyricData:state.lyricData}),
+    {changeSong}
+)(CardOne)
