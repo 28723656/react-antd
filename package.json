@@ -6,6 +6,8 @@
     "antd": "^3.18.1",
     "babel-plugin-import": "^1.11.0",
     "customize-cra": "^0.2.12",
+    "echarts": "^4.2.1",
+    "echarts-for-react": "^2.0.15-beta.0",
     "md5": "^2.2.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",

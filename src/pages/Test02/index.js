@@ -1,4 +1,4 @@
-import React,{Component} from 'react'
+import React,{Component,Fragment} from 'react'
 import { Card } from 'antd';
 
 import CardOne from '../../pageContent/Test02/CardOne'
@@ -39,7 +39,7 @@ class Page1 extends Component{
         const {key} = this.props.cardTest2Data;
         debugger
         return (
-            <div>
+            <Fragment>
                 <Card
                     style={{ width: '100%'}}
                     title="歌词"
@@ -51,8 +51,7 @@ class Page1 extends Component{
                 >
                     {contentList[key]}
                 </Card>
-
-            </div>
+            </Fragment>
         );
 
     }

@@ -82,8 +82,6 @@ class Test01 extends Component{
 
                 }
 
-
-
             </div>
         )
     }
