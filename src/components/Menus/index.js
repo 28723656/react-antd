@@ -44,7 +44,7 @@ class Menus extends Component {
                             <NavLink to='/page3'  >页面3</NavLink>
                         </Menu.Item>
                         <Menu.Item key="4">
-                            <NavLink to='/page4'  >页面4</NavLink>
+                            <NavLink to='/page4'  >排行榜</NavLink>
                         </Menu.Item>
                         <Menu.Item key="5">
                             <NavLink to='/test01'  > 练习一：模块化练习 </NavLink>

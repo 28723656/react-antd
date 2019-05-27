@@ -30,11 +30,11 @@ class WeaponInfo extends Component{
             <div>
 
                 <Row type="flex">
-                    <Col span={8}><h1>武器名称：{weaponRank>0?'+'+weaponRank:''} 流光星陨刀</h1></Col>
-                    <Col span={4} offset={0}> <Button type="primary" onClick={this.handlePowerUp} > 强化 </Button></Col>
+                    <Col xs={16} xl={4}  ><h4>武器名称：{weaponRank>0?'+'+weaponRank:''} 流光星陨刀</h4></Col>
+                    <Col xs={4} xl={2}  offset={2}> <Button type="primary" onClick={this.handlePowerUp} > 强化 </Button></Col>
                 </Row>
                 <Row type="flex">
-                    <Col span={6}><h1>剩余金币：{leftCoin}</h1></Col>
+                    <Col span={24}><h4>剩余金币：{leftCoin}</h4></Col>
                 </Row>
 
             </div>
