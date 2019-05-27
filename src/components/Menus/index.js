@@ -54,9 +54,9 @@ class Menus extends Component {
                         </Menu.Item>
                     </Menu>
                 </Header>
-                <Content style={{ padding: '0 50px', marginTop: 64 }}>
+                <Content style={{ padding: '0 0px', marginTop: 64 }}>
 
-                    <div style={{padding: 24, minHeight: '90vh'}}>
+                    <div style={{padding: '24 0px', minHeight: '90vh'}}>
                             <Route exact path="/" component={Page1}/>
                             <Route path="/page2" component={Page2}/>
                             <Route path="/page3" component={Page3}/>
