@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {message} from "antd";
+import {Card, message} from "antd";
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -71,18 +71,15 @@ class Test01 extends Component{
         const empty =  JSON.stringify(weaponData) === '{}';
 
         return (
-            <div >
-                {/*要求*/}
+            <Card title="" bordered={false}  >
                 <Require/>
                 { !empty &&
                 <div>
                     <WeaponInfo weaponRank={weaponData.weaponRank} leftCoin={weaponData.leftCoin} handleCoinAndRank={this.handleCoinAndRank} />
                     <WeaponLog weaponMsg={weaponData.weaponMsg} />
                 </div>
-
                 }
-
-            </div>
+            </Card>
         )
     }
 }

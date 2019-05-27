@@ -1,9 +1,10 @@
-import React,{Component,Fragment} from 'react'
-import { Card } from 'antd';
+import React, {Component} from 'react'
+import {Card, Row, Col} from 'antd';
 
 import CardOne from '../../pageContent/Test02/CardOne'
 import {connect} from "react-redux";
 import {change_card2} from "../../redux/actions";
+import CardTwo from "../../pageContent/Test02/CardTwo";
 
 const tabList = [
     {
@@ -18,11 +19,11 @@ const tabList = [
 
 const contentList = {
     tab1: <CardOne/>,
-    tab2: <p>content2</p>,
+    tab2: <CardTwo/>
 };
 
 
-class Page1 extends Component{
+class Page1 extends Component {
 
     state = {
         key: 'tab1',
@@ -30,18 +31,16 @@ class Page1 extends Component{
 
     onTabChange = (key, type) => {
         const {change_card2} = this.props
-        console.log("tab->",key)
+        console.log("tab->", key)
         change_card2(key)
     };
 
     render() {
 
         const {key} = this.props.cardTest2Data;
-        debugger
         return (
-            <Fragment>
+            <div>
                 <Card
-                    style={{ width: '100%'}}
                     title="歌词"
                     tabList={tabList}
                     activeTabKey={key}
@@ -51,13 +50,15 @@ class Page1 extends Component{
                 >
                     {contentList[key]}
                 </Card>
-            </Fragment>
+            </div>
+
+
         );
 
     }
 }
 
-export  default connect(
-    state =>({cardTest2Data:state.cardTest2Data}),
+export default connect(
+    state => ({cardTest2Data: state.cardTest2Data}),
     {change_card2}
 )(Page1)

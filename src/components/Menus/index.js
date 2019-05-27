@@ -45,7 +45,7 @@ class Menus extends Component {
                             <NavLink to='/page3'  >商城</NavLink>
                         </Menu.Item>
                         <Menu.Item key="4">
-                            <NavLink to='/page4'  >股票</NavLink>
+                            <NavLink to='/page4'  >排行榜</NavLink>
                         </Menu.Item>
                         <Menu.Item key="5">
                             <NavLink to='/page5'  >测试页面</NavLink>
@@ -58,9 +58,9 @@ class Menus extends Component {
                         </Menu.Item>
                     </Menu>
                 </Header>
-                <Content style={{ padding: '0 50px', marginTop: 64 }}>
+                <Content style={{ padding: '0 0px', marginTop: 64 }}>
 
-                    <div style={{padding: 24, minHeight: '90vh'}}>
+                    <div style={{padding: '24 0px', minHeight: '90vh'}}>
                             <Route exact path="/" component={Page1}/>
                             <Route path="/page2" component={Page2}/>
                             <Route path="/page3" component={Page3}/>
