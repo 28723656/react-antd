@@ -1,21 +1,22 @@
 import React, {Component} from 'react'
 import PageCard from "../../components/Card/PageCard";
 import CountDownPage from "../../pageContent/Page8/CountDownPage";
+import MyItem from "../../pageContent/Page8/MyItem";
 
 const tabList = [
     {
         key: 'tab1',
-        tab: '自定义界面一',
+        tab: '计时器',
     },
     {
         key: 'tab2',
-        tab: '自定义界面二',
+        tab: '我的物品',
     },
 ];
 
 const contentList = {
     tab1: <CountDownPage/>,
-    tab2: <h1>lost丶wind</h1>
+    tab2: <MyItem/>
 };
 
 class Page8 extends Component {

@@ -21,3 +21,8 @@ export const CHANGE_CARD2 = 'CHANGE_CARD2'
 // 卡片一
 // 选择歌曲
 export const CHANGE_SONG = 'CHANGE_SONG'
+
+
+//------------------
+// 页面8
+export const BUY_ITEM = 'BUY_ITEM'
