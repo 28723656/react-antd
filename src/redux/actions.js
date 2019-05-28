@@ -1,7 +1,7 @@
 import {
   POWER_UP,
   RECEIVE_WEAPON_DATA,
-  CHANGE_SONG, CHANGE_CARD2
+  CHANGE_SONG, CHANGE_CARD2, BUY_ITEM
 } from './action-types'
 
 import {weaponData_mock} from "../mock/test01data";
@@ -40,7 +40,11 @@ export const change_card2 = (key) => ({type: CHANGE_CARD2, data: {key}})
 export const changeSong = (key,value) => ({type: CHANGE_SONG, data: {key,value}})
 
 
+/**
+ * 页面8
+ */
 
+export const buyItem = ({id,name}) =>({type:BUY_ITEM,data:{id,name} })
 
 
 

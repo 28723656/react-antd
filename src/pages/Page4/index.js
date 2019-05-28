@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import {Card,Row,Col,Table,Icon} from "antd";
 import RankingList from '../../pageContent/Page4/RankingList'
+import PageCard from "../../components/Card/PageCard";
 
 
 
@@ -22,32 +23,12 @@ const contentList = {
 
 class Page4 extends Component{
 
-
-    state = {
-        key: 'tab1',
-    };
-
-    onTabChange = (key, type) => {
-        console.log("tab->", key)
-        this.setState({key})
-    };
-
     render() {
-        const {key} = this.state;
-
         return (
-            <div>
-                <Card
-                    title=""
-                    tabList={tabList}
-                    activeTabKey={key}
-                    onTabChange={key => {
-                        this.onTabChange(key, 'key');
-                    }}
-                >
-                    {contentList[key]}
-                </Card>
-            </div>
+            <PageCard
+                tabList={tabList}
+                contentList={contentList}
+            />
         )
     }
 }
