@@ -1,37 +1,33 @@
-import React,{Component} from 'react'
-import {Card,Row,Col,Table,Icon} from "antd";
-import RankingList from '../../pageContent/Page4/RankingList'
+import React, {Component} from 'react'
 import PageCard from "../../components/Card/PageCard";
-
 
 
 const tabList = [
     {
         key: 'tab1',
-        tab: '排行榜',
+        tab: '自定义界面一',
     },
     {
         key: 'tab2',
-        tab: '我喜欢的',
+        tab: '自定义界面二',
     },
 ];
 
 const contentList = {
-    tab1: <RankingList />,
-    tab2: <h1>第二个tab页面</h1>
+    tab1: <h1>啦啦啦</h1>,
+    tab2: <h1>lost丶wind</h1>
 };
 
-class Page4 extends Component{
-
+class Page8 extends Component {
     render() {
         return (
             <PageCard
                 tabList={tabList}
                 contentList={contentList}
+                firstPage='tab2'
             />
         )
     }
 }
 
-
-export default Page4
+export default Page8

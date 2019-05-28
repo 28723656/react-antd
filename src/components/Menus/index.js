@@ -7,13 +7,15 @@ import {
     Redirect,
     Switch,
 } from 'react-router-dom';
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu, Breadcrumb ,Avatar} from 'antd';
 import Page1 from "../../pages/Page1";
 import Page2 from "../../pages/Page2";
 import Page3 from "../../pages/Page3";
 import Page4 from "../../pages/Page4";
 import Test01 from "../../pages/Test01";
 import Test02 from "../../pages/Test02";
+import Page7 from "../../pages/Page7";
+import Page8 from "../../pages/Page8";
 
 require('./style.css')
 
@@ -52,6 +54,12 @@ class Menus extends Component {
                         <Menu.Item key="6">
                             <NavLink to='/test02'  > 练习二：数字排列 </NavLink>
                         </Menu.Item>
+                        <Menu.Item key="7">
+                            <NavLink to='/page7'  >幸运7</NavLink>
+                        </Menu.Item>
+                        <Menu.Item key="8">
+                            <NavLink to='/page8'  >  我的信息</NavLink>
+                        </Menu.Item>
                     </Menu>
                 </Header>
                 <Content style={{ padding: '0 0px', marginTop: 64 }}>
@@ -63,6 +71,8 @@ class Menus extends Component {
                             <Route path="/page4" component={Page4}/>
                             <Route path="/test01" component={Test01}/>
                             <Route path="/test02" component={Test02}/>
+                            <Route path="/page7" component={Page7}/>
+                            <Route path="/page8" component={Page8}/>
                     </div>
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
