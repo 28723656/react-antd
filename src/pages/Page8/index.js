@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PageCard from "../../components/Card/PageCard";
-
+import CountDownPage from "../../pageContent/Page8/CountDownPage";
 
 const tabList = [
     {
@@ -14,7 +14,7 @@ const tabList = [
 ];
 
 const contentList = {
-    tab1: <h1>啦啦啦</h1>,
+    tab1: <CountDownPage/>,
     tab2: <h1>lost丶wind</h1>
 };
 
@@ -24,7 +24,7 @@ class Page8 extends Component {
             <PageCard
                 tabList={tabList}
                 contentList={contentList}
-                firstPage='tab2'
+                firstPage='tab1'
             />
         )
     }
