@@ -1,13 +1,23 @@
 import React,{Component} from 'react';
 import { Tabs ,Table,Switch,Modal, Button ,Icon} from 'antd';
 import ReactEcharts from 'echarts-for-react'
+import {getAjax, updateAjax} from "../../util/ajax";
 
 
 const TabPane = Tabs.TabPane;
 
+
+
+
+
+
+
 class Page1 extends Component{
 
-    state = { visible: false };
+    state = {
+        visible: false,
+        data: []
+    };
 
     showModal = () => {
         this.setState({
@@ -34,14 +44,45 @@ class Page1 extends Component{
      }
 
 
-     onChange =(checked) => {
-        console.log(`switch to ${checked}`);
+     onChange =(checked,record) => {
+         const finished = checked?1:0
+         const  url = '/today/save'
+        const  data = {'id':record.id,finished}
+
+         updateAjax(url,data)
+             .then(response =>{
+                 console.log(response.data)
+             })
+             .catch((error) =>{
+                 alert('出错啦...'+error.message)
+             })
     }
+
+    componentWillMount() {
+
+        const  url = '/today/2'
+        getAjax(url)
+            .then(response =>{
+                const result = response.data
+                if(result.code === 20000){
+                    console.log(result.data)
+                    this.setState({data:result.data})
+                }
+
+            })
+            .catch((error) =>{
+                alert('出错啦...'+error.message)
+            })
+
+    }
+
 
     render() {
 
+        const {data} = this.state
+
         //echarts图的option
-      const  option = {
+        const  option = {
             title: {
                 text: '5月任务完成率'
             },
@@ -101,41 +142,39 @@ class Page1 extends Component{
                 title: '完成',
                 dataIndex: 'finished',
                 render: (value,row,index) =>{
-                    if(value === '1'){
+                    if(value === 1){
                         return <div>
-                            <Switch defaultChecked checkedChildren="已完成" unCheckedChildren="未完成" onChange={this.onChange} />
+                            <Switch defaultChecked checkedChildren="已完成" unCheckedChildren="未完成" onChange={(checked) =>this.onChange(checked,row)}/>
                             &nbsp;&nbsp; &nbsp;&nbsp;得分：10分
                         </div>
-                    }else if(value === '0'){
-                        return <Switch checkedChildren="已完成" unCheckedChildren="未完成"  onChange={this.onChange} />
+                    }else if(value === 0){
+                        return <Switch checkedChildren="已完成" unCheckedChildren="未完成"  onChange={(checked) =>this.onChange(checked,row)}/>
                     }
                 }
             },
         ];
-        const data = [
+        /*const data = [
             {
-                key: '1',
+                key: 1,
                 name: 'A->读书《穷爸爸，富爸爸》',
                 timeInterval: '13:00 - 16:00',
                 finished: '0',
             },
             {
 
-                key: '2',
+                key: 2,
                 name: 'S->学习react',
                 timeInterval: '9:00 - 11:00',
                 finished: '1',
             },
             {
 
-                key: '3',
+                key: 3,
                 name: 'C->玩游戏《鬼泣5》-通关血宫模式',
                 timeInterval: '19:00 - 22:00',
                 finished: '0',
             },
-        ];
-
-
+        ];*/
 
 
         return (
