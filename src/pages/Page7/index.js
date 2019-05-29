@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import SmallTable from "../../components/Table/SmallTable";
-import {Card, Col, Row, Table,Button} from "antd";
+import {Card, Col, Row, Table,Button,message} from "antd";
 import {connect} from "react-redux";
 import {buyItem} from "../../redux/actions";
 
@@ -17,6 +17,7 @@ class Page7 extends Component{
         console.log(record.name)
         const {buyItem}=this.props;
         buyItem(record);
+        message.success("购买"+record.name)
     }
     render() {
 

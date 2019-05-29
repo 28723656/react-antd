@@ -58,7 +58,7 @@ function personData(state = itemData_mock,action){
         case BUY_ITEM:
             let newArr = [];
             let count = 0;
-             [...itemData_mock].map((record,index) =>{
+             [...state].map((record,index) =>{
                 if(action.data.id ===record.id){
                     record.number ++;
                     count ++;

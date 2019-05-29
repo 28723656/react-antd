@@ -58,10 +58,10 @@ class Menus extends Component {
                         <Menu.Item key="7">
                             <NavLink to='/test02'  > 练习二：数字排列 </NavLink>
                         </Menu.Item>
-                        <Menu.Item key="7">
+                        <Menu.Item key="8">
                             <NavLink to='/page7'  >幸运7</NavLink>
                         </Menu.Item>
-                        <Menu.Item key="8">
+                        <Menu.Item key="9">
                             <NavLink to='/page8'  >  我的信息</NavLink>
                         </Menu.Item>
                     </Menu>
