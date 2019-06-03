@@ -51,7 +51,7 @@ class AddPlanModal extends Component{
                     <AddPlanModalContent handleSubmit={this.handleSubmit} />
                 </Modal>
                 <Button type="link" onClick={this.showModal}>
-                    <Icon type="plus" />
+                    <Icon type="plus" /> 添加
                 </Button>
             </div>
         )
