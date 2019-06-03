@@ -31,16 +31,24 @@ class AddPlanModal extends Component{
         });
     };
 
+    // 处理子窗口提交
+    handleSubmit = () =>{
+        this.setState({
+            visible: false,
+        });
+    }
+
     render() {
         return (
             <div>
                 <Modal
-                    title="Basic Modal"
+                    title="添加今日计划"
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
+                    footer={null}
                 >
-                    <AddPlanModalContent/>
+                    <AddPlanModalContent handleSubmit={this.handleSubmit} />
                 </Modal>
                 <Button type="link" onClick={this.showModal}>
                     <Icon type="plus" />

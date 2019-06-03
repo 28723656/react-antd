@@ -38,21 +38,21 @@ export const columns = [
 export const data = [
     {
         key: 1,
-        name: 'A->读书《穷爸爸，富爸爸》',
+        name: 'A->任务一:xx',
         timeInterval: '13:00 - 16:00',
         finished: 0,
     },
     {
 
         key: 2,
-        name: 'S->学习react',
+        name: 'S->任务二：学习react',
         timeInterval: '9:00 - 11:00',
         finished: 1,
     },
     {
 
         key: 3,
-        name: 'C->玩游戏《鬼泣5》-通关血宫模式通关血宫模式通关血宫模式',
+        name: 'C->任务三：读书',
         timeInterval: '19:00 - 22:00',
         finished: 0,
     },

@@ -8,13 +8,13 @@ import AddPlanModal from "./Common/AddPlanModal";
  * page1  今日计划部分
  */
 
-class TodayPlan extends Component{
+class UnfinishedPlan extends Component{
 
 
     render() {
         return (
             <div style={{padding:5}} >
-                <span>今日计划</span>
+                <span>未完成</span>
                 <Table columns={columns} dataSource={data} showHeader={false} size='small'
                        scroll={{x:true}}
                        pagination ={
@@ -27,4 +27,4 @@ class TodayPlan extends Component{
     }
 }
 
-export  default TodayPlan
+export  default UnfinishedPlan
