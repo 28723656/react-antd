@@ -43,7 +43,7 @@ export const changeSong = (key,value) => ({type: CHANGE_SONG, data: {key,value}}
 /**
  * 页面8
  */
-
+// 买东西
 export const buyItem = ({id,name}) =>({type:BUY_ITEM,data:{id,name} })
 
 

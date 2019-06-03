@@ -3,6 +3,10 @@ import {Card} from "antd";
 import PropTypes from 'prop-types';
 
 
+const initTitle = '今日计划'
+const initBordered=false
+const initBodyStyle = {padding:'8px'}
+
 class SmallPaddingCard extends Component{
     /**
      * 要求一下
@@ -15,8 +19,14 @@ class SmallPaddingCard extends Component{
     }
 
     render() {
+
+        let {title,bordered,bodyStyle} = this.props;
+        title = title === undefined?initTitle:title
+        bordered = title === undefined?initBordered:bordered
+        bodyStyle = bodyStyle === undefined?initBodyStyle:bodyStyle
+
         return (
-            <Card title='今日计划' bordered={false} bodyStyle={{padding:'8px'}} >
+            <Card title={title} bordered={bordered} bodyStyle={bodyStyle} >
             </Card>
         )
     }

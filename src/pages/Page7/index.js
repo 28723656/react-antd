@@ -17,7 +17,7 @@ class Page7 extends Component{
         console.log(record.name)
         const {buyItem}=this.props;
         buyItem(record);
-        message.success("购买"+record.name)
+        message.success('购买'+record.name);
     }
     render() {
 

@@ -39,7 +39,7 @@ class PageCard extends Component{
 
         // 初始化，即使不传递任何数，也能显示
         const {key} = this.state;
-       let{tabList,contentList}= this.props
+       let {tabList,contentList}= this.props
         tabList = tabList===undefined? initTabList:tabList
         contentList = contentList===undefined? initContentList:contentList
 

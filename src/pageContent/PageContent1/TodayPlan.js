@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import {Card, Table} from "antd";
 
-import {columns, columns3, data, data3} from "../../mock/mockDataPage1";
+import {columns1_1, columns1_3, data1_1, data1_3} from "../../mock/mockDataPage1";
 import AddPlanModal from "./Common/AddPlanModal";
 import SmallPaddingCard from "../../components/Card/SmallPaddingCard";
 
@@ -16,18 +16,17 @@ class TodayPlan extends Component{
         return (
             <div style={{padding:5}} >
                 <Card title='今日计划' bordered={false} bodyStyle={{padding:'8px'}} >
-                    <Table columns={columns}  dataSource={data} showHeader={false} size='small'
-                           scroll={{x:true}}
+                    <Table columns={columns1_1}  dataSource={data1_1} showHeader={false} size='small'
                            pagination ={
                                {hideOnSinglePage :true}
                            }
                     />
-                    <AddPlanModal/>
+                    <AddPlanModal title='添加今日计划' type={1}/>
                 </Card>
 
 
                 <Card title='未完成' style={{marginTop:15 }} bodyStyle={{padding:'8px'}}  >
-                <Table columns={columns} dataSource={data} showHeader={false} size='small'
+                <Table columns={columns1_1} dataSource={data1_1} showHeader={false} size='small'
                        scroll={{x:true}}
                        pagination ={
                            {hideOnSinglePage :true}
@@ -35,14 +34,14 @@ class TodayPlan extends Component{
                 />
             </Card>
 
-                <SmallPaddingCard title='其他任务'>
-                    <Table columns={columns3} dataSource={data3} showHeader={false} size='small'
+                <Card title='其他任务' style={{marginTop:15 }} bodyStyle={{padding:'8px'}}  >
+                    <Table columns={columns1_3} dataSource={data1_3} showHeader={false} size='small'
                            scroll={{x:true}}
                            pagination ={
                                {hideOnSinglePage :true}
                            }
                     />
-                </SmallPaddingCard>
+                </Card>
             </div>
         )
     }

@@ -1,4 +1,4 @@
-import {Button, Icon, Switch} from "antd";
+import {Button, Icon, Switch,Progress} from "antd";
 import React from "react";
 
 const onChange = (checked) => {
@@ -10,8 +10,8 @@ const addToTodayList = (value) =>{
     console.log("添加到任务列表",value);
 }
 
-
-export const columns = [
+// 1-今日计划   2-长期计划
+export const columns1_1 = [
     {
         title: '任务名称',
         dataIndex: 'name',
@@ -41,7 +41,7 @@ export const columns = [
 
 
 
-export const columns3 = [
+export const columns1_3 = [
     {
         title: '任务名称',
         dataIndex: 'name',
@@ -64,7 +64,7 @@ export const columns3 = [
 ];
 
 
-export const data = [
+export const data1_1 = [
     {
         key: 1,
         name: 'A->任务一:xx',
@@ -88,7 +88,7 @@ export const data = [
 ];
 
 
-export const data3 = [
+export const data1_3 = [
     {
         key: 1,
         name: 'D->任务一:洗衣服',
@@ -109,6 +109,57 @@ export const data3 = [
         timeInterval: '19:00 - 22:00',
         finished: 0,
     },
+];
+
+
+
+export const columns2_1 = [
+    {
+        title: '任务名称',
+        dataIndex: 'name',
+        width:'50%'
+    },
+    {
+        title: '完成度',
+        dataIndex: 'percent',
+        render: (value, row, index) => (
+            <Progress
+                strokeColor={{
+                    from: '#108ee9',
+                    to: '#87d068',
+                }}
+                percent={value}
+                status="active"
+            />
+        )
+    },
+];
+
+export const data2_1 = [
+    {
+        key: 1,
+        name: 'A->任务一:xx',
+        percent: 80.3,
+        finished: 0,
+    },
+    {
+        key: 2,
+        name: 'S->绝杀任务：',
+        percent: 10.3,
+        finished: 0,
+    },
+    {
+        key: 3,
+        name: 'B->超级简单的洗衣服',
+        percent: 100.0,
+        finished: 1,
+    },
+    {
+        key: 4,
+        name: 'C->一个名字超级超级长的任务，我看你怎么处理，不够，我还要继续增加字数',
+        percent: 50.0,
+        finished: 0,
+    }
 ];
 
 

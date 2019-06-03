@@ -16,12 +16,11 @@ import {
     Input,
     TimePicker,
 } from 'antd';
-import moment, {now} from 'moment';
 
 const { Option } = Select;
 const format = 'HH:mm';
 
-class AddPlanModalContentClass extends React.Component {
+class AddWeekModalContentClass extends React.Component {
 
     constructor(props){
         super(props);
@@ -30,7 +29,7 @@ class AddPlanModalContentClass extends React.Component {
     // 处理等级的改变
     handleRankChange = (e) =>{
         console.log(e.target.value);
-        const resultValue = e.target.value *2
+        const resultValue = e.target.value *10
         console.log(resultValue)
         this.props.form.setFieldsValue({
             score:resultValue
@@ -41,16 +40,8 @@ class AddPlanModalContentClass extends React.Component {
     // 提交
     handleSubmit = e => {
         e.preventDefault();
-        this.props.form.validateFields((err, fieldsValue) => {
+        this.props.form.validateFields((err, values) => {
             if (!err) {
-                const startTime = fieldsValue['startTime']
-                const endTime = fieldsValue['endTime']
-                const values ={
-                    ...fieldsValue,
-                    'startTime':startTime.format('HH:mm'),
-                    'endTime':endTime.format('HH:mm')
-                }
-
                 // 这里可以获取所有的值
                 console.log('Received values of form: ', values);
                 // 其实是关闭模态框
@@ -79,19 +70,6 @@ class AddPlanModalContentClass extends React.Component {
                     {getFieldDecorator('input')(<Input />)}
                 </Form.Item>
 
-                <Form.Item label="时间" style={{ marginBottom: 0 }}>
-                    <Form.Item
-                        style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
-                    >
-                        {getFieldDecorator('startTime',{ initialValue:moment()})(<TimePicker format={format}  />)}
-                    </Form.Item>
-                    <span style={{ display: 'inline-block', width: '24px', textAlign: 'center' }}>-</span>
-                    <Form.Item style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}>
-                        {getFieldDecorator('endTime',{initialValue:moment().add(1,'h')})(<TimePicker  format={format}  />)}
-                    </Form.Item>
-                </Form.Item>
-
-
                 <Form.Item label="设定等级（由低到高）">
                     {getFieldDecorator('rank')(
                         <Radio.Group onChange={this.handleRankChange}>
@@ -107,14 +85,14 @@ class AddPlanModalContentClass extends React.Component {
                 <Form.Item label="设定得分">
                     {getFieldDecorator('score')(
                         <Slider
-                            max={10}
+                            max={50}
                             marks={{
                                 0: '0分',
-                                2: '2分',
-                                4: '4分',
-                                6: '6分',
-                                8: '8分',
                                 10: '10分',
+                                20: '20分',
+                                30: '30分',
+                                40: '40分',
+                                50: '50分',
                             }}
                         />,
                     )}
@@ -135,6 +113,6 @@ class AddPlanModalContentClass extends React.Component {
     }
 }
 
-const AddPlanModalContent = Form.create({ name: 'validate_other' })(AddPlanModalContentClass);
+const AddWeekPlanModalContent = Form.create({ name: 'validate_other' })(AddWeekModalContentClass);
 
-export  default AddPlanModalContent;
+export  default AddWeekPlanModalContent;
