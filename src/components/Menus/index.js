@@ -80,7 +80,7 @@ class Menus extends Component {
                             <Route path="/page8" component={Page8}/>
                     </div>
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+                <Footer style={{ textAlign: 'center' }}>Ant Design ©2019 Created 风往西边吹丶</Footer>
             </Layout>
 
         );
