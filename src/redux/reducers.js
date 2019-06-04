@@ -88,9 +88,7 @@ function personData(state = itemData_mock,action){
 function yearPlanData(state=data2_3,action){
     switch (action.type) {
         case ADD_YEAR_PLAN:
-            let result = state;
-            result.push({...action.data,key:GenNonDuplicateID(),percent:0,finished:0});
-          return result;
+           return [{...action.data,key:GenNonDuplicateID(),percent:0,finished:0},...state]
         default:return state
     }
 }

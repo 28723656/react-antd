@@ -166,7 +166,19 @@ export const columns2_3 = [
     {
         title: '任务名称',
         dataIndex: 'name',
-        width:'50%'
+        width:'50%',
+        render:(value,row,index) =>{
+            let nameBefore = '->'+value
+            let nameEnd =''
+            switch (row.rank) {
+                case 1:return 'D'+nameBefore+nameEnd;
+                case 2:return 'C'+nameBefore+nameEnd;
+                case 3:return 'B'+nameBefore+nameEnd;
+                case 4:return 'A'+nameBefore+nameEnd;
+                case 5:return 'S'+nameBefore+nameEnd;
+                default:return 'B'+nameBefore+nameEnd;
+            }
+        }
     },
     {
         title: '完成度',
@@ -187,8 +199,8 @@ export const columns2_3 = [
 export const data2_3 = [
     {
         key: '1',
-        name: 'A->任务一:xx',
-        rank:3,
+        name: '任务一:xx',
+        rank:4,
         score:960,
         top:false,
         percent: 80.3,
@@ -196,8 +208,8 @@ export const data2_3 = [
     },
     {
         key: '2',
-        name: 'S->绝杀任务：',
-        rank:3,
+        name: '绝杀任务：',
+        rank:5,
         score:1522,
         top:true,
         percent: 10.3,
@@ -205,17 +217,17 @@ export const data2_3 = [
     },
     {
         key: '3',
-        name: 'B->超级简单的洗衣服',
-        rank:3,
-        score:1622,
+        name: '超级简单的洗衣服',
+        rank:1,
+        score:22,
         top:false,
         percent: 100.0,
         finished: 1,
     },
     {
         key: '4',
-        name: 'C->一个名字超级超级长的任务，我看你怎么处理，不够，我还要继续增加字数',
-        rank:3,
+        name: '一个名字超级超级长的任务，我看你怎么处理，不够，我还要继续增加字数',
+        rank:2,
         score:1822,
         top:false,
         percent: 50.0,
