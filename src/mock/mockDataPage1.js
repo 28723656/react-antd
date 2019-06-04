@@ -199,6 +199,7 @@ export const columns2_3 = [
 export const data2_3 = [
     {
         key: '1',
+        id:1,
         name: '任务一:xx',
         rank:4,
         score:960,
@@ -208,6 +209,7 @@ export const data2_3 = [
     },
     {
         key: '2',
+        id:2,
         name: '绝杀任务：',
         rank:5,
         score:1522,
@@ -217,6 +219,7 @@ export const data2_3 = [
     },
     {
         key: '3',
+        id:3,
         name: '超级简单的洗衣服',
         rank:1,
         score:22,
@@ -226,6 +229,7 @@ export const data2_3 = [
     },
     {
         key: '4',
+        id:4,
         name: '一个名字超级超级长的任务，我看你怎么处理，不够，我还要继续增加字数',
         rank:2,
         score:1822,

@@ -37,7 +37,7 @@ class LongPlan extends Component{
                                {hideOnSinglePage :true}
                            }
                     />
-                    <AddPlanModal title='添加本月计划' type={3}/>
+                    <AddPlanModal data={yearPlanData}  title='添加本月计划' type={3}/>
                 </Card>
 
                 <Card title='2019年计划' style={{marginTop:20 }} bodyStyle={{padding:'8px'}}  >

@@ -19,7 +19,7 @@ import {itemData_mock} from '../mock/page8Data'
 
 // 页面一 年计划的data
 import {data2_3} from "../mock/mockDataPage1";
-import {GenNonDuplicateID} from "../util/randomUtil";
+import {GenIntegerId, GenNonDuplicateID} from "../util/randomUtil";
 
 
 // 练习一
@@ -88,7 +88,7 @@ function personData(state = itemData_mock,action){
 function yearPlanData(state=data2_3,action){
     switch (action.type) {
         case ADD_YEAR_PLAN:
-           return [{...action.data,key:GenNonDuplicateID(),percent:0,finished:0},...state]
+           return [{...action.data,key:GenNonDuplicateID(),percent:0,finished:0,id:GenIntegerId()},...state]
         default:return state
     }
 }

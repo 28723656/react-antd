@@ -215,7 +215,7 @@ class AddPlanModalContentClass extends React.Component {
                 </Form.Item>
 
                 <Form.Item label="置顶">
-                    {getFieldDecorator('switch', { valuePropName: 'checked' })(<Switch  />)}
+                    {getFieldDecorator('switch', {initialValue:false })(<Switch  />)}
                 </Form.Item>
 
 

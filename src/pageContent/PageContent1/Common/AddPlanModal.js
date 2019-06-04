@@ -19,8 +19,8 @@ class AddPlanModal extends Component{
 
     static propTypes ={
         title:PropTypes.string.isRequired,
-        type:PropTypes.number.isRequired
-
+        type:PropTypes.number.isRequired,
+        data:PropTypes.array
     }
 
     state = {
@@ -64,6 +64,8 @@ class AddPlanModal extends Component{
         title = title === undefined?initTitle:title
         type = type ===undefined?initType:type
 
+        const {data} = this.props;
+
         return (
             <div>
                 <Modal
@@ -76,7 +78,7 @@ class AddPlanModal extends Component{
                 >
                     {type ===1 &&<AddTodayPlanModalContent handleSubmit={this.handleSubmit} />}
                     {type ===2 &&<AddWeekPlanModalContent handleSubmit={this.handleSubmit} />}
-                    {type ===3 &&<AddMonthPlanModalContent handleSubmit={this.handleSubmit} />}
+                    {type ===3 &&<AddMonthPlanModalContent data={data}   handleSubmit={this.handleSubmit} />}
                     {type ===4 &&<AddYearPlanModalContent addYearPlan={this.props.addYearPlan} handleSubmit={this.handleSubmit} />}
 
 

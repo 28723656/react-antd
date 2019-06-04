@@ -70,6 +70,17 @@ class AddMonthModalContentClass extends React.Component {
                     {getFieldDecorator('input')(<Input />)}
                 </Form.Item>
 
+                <Form.Item label="关联任务">
+                    {getFieldDecorator('parentName',{initialValue:0})(
+                        <Select>
+                            <Option value={0}>无</Option>
+                            <Option value={1}>任务一:读书</Option>
+                            <Option value={2}>任务二:学习react</Option>
+                            <Option value={3}>任务三:打架</Option>
+                        </Select>
+                    )}
+                </Form.Item>
+
                 <Form.Item label="设定等级（由低到高）">
                     {getFieldDecorator('rank')(
                         <Radio.Group onChange={this.handleRankChange}>
