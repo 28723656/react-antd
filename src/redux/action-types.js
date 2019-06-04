@@ -26,3 +26,10 @@ export const CHANGE_SONG = 'CHANGE_SONG'
 //------------------
 // 页面8
 export const BUY_ITEM = 'BUY_ITEM'
+
+
+/**
+ * 页面一： 计划系统
+ */
+// 添加年度计划
+export const ADD_YEAR_PLAN='ADD_YEAR_PLAN'

@@ -1,8 +1,8 @@
 import {Button, Icon, Switch,Progress} from "antd";
 import React from "react";
 
-const onChange = (checked) => {
-    console.log(`switch to ${checked}`);
+const onChange = (checked,row) => {
+    console.log(`switch to ${checked},and data is :`,row);
 }
 
 
@@ -161,5 +161,67 @@ export const data2_1 = [
         finished: 0,
     }
 ];
+
+export const columns2_3 = [
+    {
+        title: '任务名称',
+        dataIndex: 'name',
+        width:'50%'
+    },
+    {
+        title: '完成度',
+        dataIndex: 'percent',
+        render: (value, row, index) => (
+            <Progress
+                strokeColor={{
+                    from: '#108ee9',
+                    to: '#87d068',
+                }}
+                percent={value}
+                status="active"
+            />
+        )
+    },
+];
+
+export const data2_3 = [
+    {
+        key: '1',
+        name: 'A->任务一:xx',
+        rank:3,
+        score:960,
+        top:false,
+        percent: 80.3,
+        finished: 0,
+    },
+    {
+        key: '2',
+        name: 'S->绝杀任务：',
+        rank:3,
+        score:1522,
+        top:true,
+        percent: 10.3,
+        finished: 0,
+    },
+    {
+        key: '3',
+        name: 'B->超级简单的洗衣服',
+        rank:3,
+        score:1622,
+        top:false,
+        percent: 100.0,
+        finished: 1,
+    },
+    {
+        key: '4',
+        name: 'C->一个名字超级超级长的任务，我看你怎么处理，不够，我还要继续增加字数',
+        rank:3,
+        score:1822,
+        top:false,
+        percent: 50.0,
+        finished: 0,
+    }
+];
+
 
 

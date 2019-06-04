@@ -5,7 +5,7 @@ import {
     RECEIVE_WEAPON_DATA,
     CHANGE_SONG,
     CHANGE_CARD2,
-    BUY_ITEM
+    BUY_ITEM, ADD_YEAR_PLAN
 } from './action-types'
 
 // 练习一的初始数据
@@ -16,6 +16,10 @@ import {lyricData_mock} from "../mock/test02Card01Data";
 
 //页面8的初始化数据
 import {itemData_mock} from '../mock/page8Data'
+
+// 页面一 年计划的data
+import {data2_3} from "../mock/mockDataPage1";
+import {GenNonDuplicateID} from "../util/randomUtil";
 
 
 // 练习一
@@ -76,12 +80,32 @@ function personData(state = itemData_mock,action){
 }
 
 
+/**
+ * 页面一：计划系统
+ */
+
+// 先测试一波，仅仅测试年计划的数据变化
+function yearPlanData(state=data2_3,action){
+    switch (action.type) {
+        case ADD_YEAR_PLAN:
+            let result = state;
+            result.push({...action.data,key:GenNonDuplicateID(),percent:0,finished:0});
+          return result;
+        default:return state
+    }
+}
+
+
+
+
+
 // 多个的情况
 export default combineReducers({
     weaponData,
     lyricData,
     cardTest2Data,
-    personData
+    personData,
+    yearPlanData
 })
 
 // redux向外暴露的state结构  { counter:2, comment:[{},{}]  }

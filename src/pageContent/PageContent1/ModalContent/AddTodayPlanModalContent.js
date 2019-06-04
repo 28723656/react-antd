@@ -97,6 +97,7 @@ class AddPlanModalContentClass extends React.Component {
 
     // 任务栏选择后的效果
     onSelect = (value) =>{
+
         console.log('onSelect', value);
     }
 
@@ -162,8 +163,9 @@ class AddPlanModalContentClass extends React.Component {
                 </Form.Item>
 
                 <Form.Item label="关联任务">
-                    {getFieldDecorator('parentName',{initialValue:2})(
+                    {getFieldDecorator('parentName',{initialValue:0})(
                         <Select>
+                            <Option value={0}>无</Option>
                             <Option value={1}>任务一:读书</Option>
                             <Option value={2}>任务二:学习react</Option>
                             <Option value={3}>任务三:打架</Option>
