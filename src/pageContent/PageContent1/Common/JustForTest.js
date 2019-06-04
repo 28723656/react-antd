@@ -10,7 +10,6 @@ class JustForTest extends Component{
     static getDerivedStateFromProps(nextProps) {
         // Should be a controlled component.
         if ('value' in nextProps) {
-            debugger
             return {
                 ...(nextProps.value || {}),
             };

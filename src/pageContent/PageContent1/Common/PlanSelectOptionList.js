@@ -10,9 +10,7 @@ class PlanSelectOptionList extends Component{
     static getDerivedStateFromProps(nextProps) {
         // Should be a controlled component.
         if ('value' in nextProps) {
-            return {
-                ...(nextProps.value || {}),
-            };
+            return nextProps.value;
         }
         return null;
     }
@@ -30,19 +28,9 @@ class PlanSelectOptionList extends Component{
     handleSelectChange = record => {
         const selected = record ;
         console.log(selected)
-
-        if (!('value' in this.props)) {
-            this.setState({ selected });
-        }
-        this.triggerChange({ selected });
-    };
-
-    triggerChange = changedValue => {
-        // Should provide an event to pass value to Form.
-        const {onChange} = this.props;
-        if (onChange) {
-            onChange(Object.assign({}, this.state, changedValue));
-        }
+        this.setState({ selected });
+        // 调用这个的时候，会调用getDerivedStateFromProps，然后看那个方法里面的return
+        this.props.onChange(selected);
     };
 
     changeRankToLetter = (value) =>{
@@ -62,9 +50,10 @@ class PlanSelectOptionList extends Component{
     render() {
 
         const {data} = this.props
+        const {selected} = this.state;
 
         return (
-            <Select onChange={this.handleSelectChange} >
+            <Select onChange={this.handleSelectChange} defaultValue={selected} >
                 {
                     data.map((record,index) =>{
                         return <Option key={record.id} value={record.rank} >{this.changeRankToLetter(record.rank)}->{record.name} </Option>
