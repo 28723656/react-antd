@@ -7,7 +7,7 @@ import {Slider} from "antd";
  */
 
 //echarts图的option
-const  optionPercent = {
+const  initOptionPercent = {
     title: {
         text: '6月任务完成率'
     },
@@ -45,7 +45,7 @@ const  optionPercent = {
         }
     ]
 };
-const  optionScore = {
+const  initOptionScore = {
     title: {
         text: '6月任务完得分'
     },
@@ -89,21 +89,52 @@ const  optionScore = {
 
 class PlanStatistics extends Component{
 
-    handleMonthChange =(value) =>{
-        console.log(`选择了${value}月`)
-        optionPercent.title.text=value+'月任务完成率';
-        optionScore.title.text=value+'月任务完成率';
+    state = {
+        optionScore:{},
+        optionPercent:{}
     }
 
+    // 选择月份发生变化的时候
+    handleMonthChange =(value) =>{
+        console.log(`选择了${value}月`)
+        // 随机一个data percent  31个数
+        let dataPercentArr=[]
+        let dataScoreArr=[]
+        for(let i=0;i<31;i++){
+            dataPercentArr.push(Math.round(Math.random()*50+20))
+            dataScoreArr.push(Math.round(Math.random()*9+1  ))
+        }
+        const {optionPercent,optionScore} = this.state;
+        optionPercent.title.text=value+'月任务完成率';
+        optionScore.title.text=value+'月任务完成率';
+        optionPercent.series[0].data=dataPercentArr;
+        optionScore.series[0].data=dataScoreArr;
+
+        console.log(optionScore)
+
+        // 这里有点坑，通过ref引用来操作setOption改变数据,不需要setState
+      //  this.setState({optionScore,optionPercent})
+        this.echartsReactPercentRef.getEchartsInstance().setOption(optionPercent);
+        this.echartsReactScoreRef.getEchartsInstance().setOption(optionScore);
+
+    }
+
+    componentDidMount() {
+        this.setState({optionScore:initOptionScore,optionPercent:initOptionPercent})
+    }
+
+
     render() {
+        const {optionPercent,optionScore} = this.state;
+        console.log(optionScore)
+
         return (
-
             <div>
-
                 <Slider
                     style={{margin:'18px'}}
                     max={12}
                     min={1}
+                    defaultValue={6}
                     marks={{
                         1: '1月',
                         2: '2月',
@@ -120,9 +151,16 @@ class PlanStatistics extends Component{
                     }}
                     onChange={this.handleMonthChange}
                 />,
-
-                <ReactEcharts option={optionPercent}/>
-                <ReactEcharts option={optionScore}/>
+                <ReactEcharts
+                    ref={(e) => {
+                        this.echartsReactPercentRef = e;
+                    }}
+                    option={optionPercent}/>
+                <ReactEcharts
+                    ref={(e) => {
+                        this.echartsReactScoreRef = e;
+                    }}
+                    option={optionScore}/>
             </div>
         )
     }

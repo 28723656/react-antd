@@ -34,7 +34,6 @@ class PageCard extends Component{
         firstPage = firstPage===undefined?'tab1':firstPage
         this.setState({key:firstPage})
     }
-
     render() {
 
         // 初始化，即使不传递任何数，也能显示
