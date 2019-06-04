@@ -72,6 +72,7 @@ class AddPlanModal extends Component{
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                     footer={null}
+                    destroyOnClose={true}
                 >
                     {type ===1 &&<AddTodayPlanModalContent handleSubmit={this.handleSubmit} />}
                     {type ===2 &&<AddWeekPlanModalContent handleSubmit={this.handleSubmit} />}
