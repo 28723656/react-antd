@@ -7,6 +7,43 @@ const { Option } = Select;
  * 关联任务
  */
 class PlanSelectOptionList extends Component{
+    static getDerivedStateFromProps(nextProps) {
+        // Should be a controlled component.
+        if ('value' in nextProps) {
+            return {
+                ...(nextProps.value || {}),
+            };
+        }
+        return null;
+    }
+
+    constructor(props) {
+        super(props);
+
+        const value = props.value || {};
+        this.state = {
+            selected: value.selected || 1,
+        };
+    }
+
+
+    handleSelectChange = record => {
+        const selected = record ;
+        console.log(selected)
+
+        if (!('value' in this.props)) {
+            this.setState({ selected });
+        }
+        this.triggerChange({ selected });
+    };
+
+    triggerChange = changedValue => {
+        // Should provide an event to pass value to Form.
+        const {onChange} = this.props;
+        if (onChange) {
+            onChange(Object.assign({}, this.state, changedValue));
+        }
+    };
 
     changeRankToLetter = (value) =>{
         if(value === 1){
@@ -27,10 +64,10 @@ class PlanSelectOptionList extends Component{
         const {data} = this.props
 
         return (
-            <Select>
+            <Select onChange={this.handleSelectChange} >
                 {
                     data.map((record,index) =>{
-                        return <Option key={record.id} value={record.id} >{this.changeRankToLetter(record.rank)}->{record.name} </Option>
+                        return <Option key={record.id} value={record.rank} >{this.changeRankToLetter(record.rank)}->{record.name} </Option>
                     })
                 }
             </Select>

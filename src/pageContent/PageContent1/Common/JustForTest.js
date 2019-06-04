@@ -1,6 +1,10 @@
 import React,{Component} from 'react'
 import {Input} from "antd";
 
+
+/**
+ * 接收一个   {initialValue:{text:'口吐芬芳'}}    返回  {text:'口吐芬芳'}
+ */
 class JustForTest extends Component{
 
     static getDerivedStateFromProps(nextProps) {

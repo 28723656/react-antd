@@ -69,11 +69,11 @@ class AddMonthModalContentClass extends React.Component {
         return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
                 <Form.Item label="计划名称">
-                    {getFieldDecorator('name',{initialValue:{text:'口吐芬芳'}})(<JustForTest/>)}
+                    {getFieldDecorator('name',{initialValue:'口吐芬芳'})(<JustForTest/>)}
                 </Form.Item>
 
                 <Form.Item label="关联任务">
-                    {getFieldDecorator('parentName',{initialValue:1})(
+                    {getFieldDecorator('parentName',{initialValue:{selected:1}})(
                         <PlanSelectOptionList data={data} />
                     )}
                 </Form.Item>
