@@ -15,6 +15,7 @@ class LongPlan extends Component{
         addYearPlan:PropTypes.func
     }
 
+
     render() {
 
      const {yearPlanData} =this.props;

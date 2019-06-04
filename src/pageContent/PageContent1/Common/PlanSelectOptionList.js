@@ -30,7 +30,7 @@ class PlanSelectOptionList extends Component{
             <Select>
                 {
                     data.map((record,index) =>{
-                        return <Option  value={record.id} >{this.changeRankToLetter(record.rank)}->{record.name} </Option>
+                        return <Option key={record.id} value={record.id} >{this.changeRankToLetter(record.rank)}->{record.name} </Option>
                     })
                 }
             </Select>
