@@ -1,41 +1,15 @@
-import React,{Component} from 'react'
-import {
-    Form,
-    Select,
-    InputNumber,
-    Switch,
-    Radio,
-    Slider,
-    Button,
-    Upload,
-    Icon,
-    Rate,
-    Checkbox,
-    Row,
-    Col,
-    Input,
-    TimePicker,
-    AutoComplete
-} from 'antd';
-import moment, {now} from 'moment';
+import React from 'react'
+import {Button, Form, Select, Switch, TimePicker} from 'antd';
+import moment from 'moment';
 import PlanNameSearch from "../Common/PlanNameSearch";
+import PlanRadioGroup from "../Common/PlanRadioGroup";
+import PlanSlider from "../Common/PlanSlider";
 
 const { Option } = Select;
 const format = 'HH:mm';
 
 
 class AddPlanModalContentClass extends React.Component {
-
-    // 处理等级的改变
-    handleRankChange = (e) =>{
-        console.log(e.target.value);
-        const resultValue = e.target.value *2
-        console.log(resultValue)
-        this.props.form.setFieldsValue({
-            score:resultValue
-        });
-    }
-
 
     // 提交
     handleSubmit = e => {
@@ -59,7 +33,7 @@ class AddPlanModalContentClass extends React.Component {
     };
 
     render() {
-        let { getFieldDecorator } = this.props.form;
+        let { getFieldDecorator ,getFieldValue,setFieldsValue} = this.props.form;
 
         const formItemLayout = {
             labelCol: {
@@ -105,29 +79,14 @@ class AddPlanModalContentClass extends React.Component {
 
                 <Form.Item label="设定等级（由低到高）">
                     {getFieldDecorator('rank',{initialValue:4})(
-                        <Radio.Group onChange={this.handleRankChange} >
-                            <Radio.Button value={1}>&nbsp;&nbsp;D&nbsp;&nbsp;</Radio.Button>
-                            <Radio.Button value={2}>&nbsp;&nbsp;C&nbsp;&nbsp;</Radio.Button>
-                            <Radio.Button value={3}>&nbsp;&nbsp;B&nbsp;&nbsp;</Radio.Button>
-                            <Radio.Button value={4}>&nbsp;&nbsp;A&nbsp;&nbsp;</Radio.Button>
-                            <Radio.Button value={5}>&nbsp;&nbsp;S&nbsp;&nbsp;</Radio.Button>
-                        </Radio.Group>,
+                        <PlanRadioGroup setFieldsValue={setFieldsValue}  rate={2}  />
+
                     )}
                 </Form.Item>
 
                 <Form.Item label="设定得分">
                     {getFieldDecorator('score',{initialValue:8})(
-                        <Slider
-                            max={10}
-                            marks={{
-                                0: '0分',
-                                2: '2分',
-                                4: '4分',
-                                6: '6分',
-                                8: '8分',
-                                10: '10分',
-                            }}
-                        />,
+                        <PlanSlider max={10} getFieldValue={getFieldValue} />
                     )}
                 </Form.Item>
 

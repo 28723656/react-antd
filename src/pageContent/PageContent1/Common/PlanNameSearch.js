@@ -45,13 +45,6 @@ const defaultSelections = [
 
 class PlanNameSearch extends Component {
 
-    static getDerivedStateFromProps(nextProps) {
-        // Should be a controlled component.
-        if ('value' in nextProps) {
-            return nextProps.value
-        }
-        return null;
-    }
 
     constructor(props) {
         super(props);
