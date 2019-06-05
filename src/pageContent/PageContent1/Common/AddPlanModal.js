@@ -76,8 +76,8 @@ class AddPlanModal extends Component{
                     footer={null}
                     destroyOnClose={true}
                 >
-                    {type ===1 &&<AddTodayPlanModalContent handleSubmit={this.handleSubmit} />}
-                    {type ===2 &&<AddWeekPlanModalContent handleSubmit={this.handleSubmit} />}
+                    {type ===1 &&<AddTodayPlanModalContent data={data} handleSubmit={this.handleSubmit} />}
+                    {type ===2 &&<AddWeekPlanModalContent data={data} handleSubmit={this.handleSubmit} />}
                     {type ===3 &&<AddMonthPlanModalContent data={data}   handleSubmit={this.handleSubmit} />}
                     {type ===4 &&<AddYearPlanModalContent addYearPlan={this.props.addYearPlan} handleSubmit={this.handleSubmit} />}
 

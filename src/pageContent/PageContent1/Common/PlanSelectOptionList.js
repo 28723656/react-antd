@@ -17,17 +17,16 @@ class PlanSelectOptionList extends Component{
 
     constructor(props) {
         super(props);
-
         const value = props.value || {};
         this.state = {
-            selected: value.selected || 1,
+            selected: value || 1,
         };
     }
 
 
     handleSelectChange = record => {
         const selected = record ;
-        console.log(selected)
+
         this.setState({ selected });
         // 调用这个的时候，会调用getDerivedStateFromProps，然后看那个方法里面的return
         this.props.onChange(selected);
@@ -51,12 +50,12 @@ class PlanSelectOptionList extends Component{
 
         const {data} = this.props
         const {selected} = this.state;
-
+        console.log('selected',selected)
         return (
             <Select onChange={this.handleSelectChange} defaultValue={selected} >
                 {
                     data.map((record,index) =>{
-                        return <Option key={record.id} value={record.rank} >{this.changeRankToLetter(record.rank)}->{record.name} </Option>
+                        return <Option key={record.id} value={record.id} >{this.changeRankToLetter(record.rank)}->{record.name} </Option>
                     })
                 }
             </Select>

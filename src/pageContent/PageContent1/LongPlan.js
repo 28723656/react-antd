@@ -29,7 +29,7 @@ class LongPlan extends Component{
                                {hideOnSinglePage :true}
                            }
                     />
-                    <AddPlanModal title='添加本周计划' type={2}/>
+                    <AddPlanModal title='添加本周计划' data={yearPlanData}  type={2}/>
                 </Card>
 
                 <Card title='6月计划' style={{marginTop:20 }} bodyStyle={{padding:'8px'}}  >

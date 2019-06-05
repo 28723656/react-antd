@@ -94,6 +94,7 @@ class PlanNameSearch extends Component {
 
         return (
             <AutoComplete
+                defaultValue={this.state.text}
                 dataSource={dataSource}
                 onSelect={this.onSelect}
                 onSearch={this.handleSearch}
