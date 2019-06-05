@@ -18,19 +18,21 @@ import {
 } from 'antd';
 import PlanNameSearch from "../Common/PlanNameSearch";
 import PlanSelectOptionList from "../Common/PlanSelectOptionList";
+import PlanRadioGroup from "../Common/PlanRadioGroup";
+import PlanSlider from "../Common/PlanSlider";
 
 
 class AddWeekModalContentClass extends React.Component {
 
     // 处理等级的改变
-    handleRankChange = (e) =>{
+  /*  handleRankChange = (e) =>{
         console.log(e.target.value);
         const resultValue = e.target.value *10
         console.log(resultValue)
         this.props.form.setFieldsValue({
             score:resultValue
         });
-    }
+    }*/
 
 
     // 提交
@@ -50,7 +52,7 @@ class AddWeekModalContentClass extends React.Component {
 
 
     render() {
-        let { getFieldDecorator } = this.props.form;
+        let { getFieldDecorator ,getFieldValue,setFieldsValue} = this.props.form;
         let {data} = this.props;
 
 
@@ -81,34 +83,19 @@ class AddWeekModalContentClass extends React.Component {
 
                 <Form.Item label="设定等级（由低到高）">
                     {getFieldDecorator('rank',{ initialValue:3 })(
-                        <Radio.Group onChange={this.handleRankChange}>
-                            <Radio.Button value={1}>&nbsp;&nbsp;D&nbsp;&nbsp;</Radio.Button>
-                            <Radio.Button value={2}>&nbsp;&nbsp;C&nbsp;&nbsp;</Radio.Button>
-                            <Radio.Button value={3}>&nbsp;&nbsp;B&nbsp;&nbsp;</Radio.Button>
-                            <Radio.Button value={4}>&nbsp;&nbsp;A&nbsp;&nbsp;</Radio.Button>
-                            <Radio.Button value={5}>&nbsp;&nbsp;S&nbsp;&nbsp;</Radio.Button>
-                        </Radio.Group>,
+                        <PlanRadioGroup setFieldsValue={setFieldsValue}  />
                     )}
                 </Form.Item>
 
                 <Form.Item label="设定得分">
                     {getFieldDecorator('score',{ initialValue:30 })(
-                        <Slider
-                            max={50}
-                            marks={{
-                                0: '0分',
-                                10: '10分',
-                                20: '20分',
-                                30: '30分',
-                                40: '40分',
-                                50: '50分',
-                            }}
-                        />,
+                     <PlanSlider max={50} getFieldValue={getFieldValue} />
                     )}
+
                 </Form.Item>
 
                 <Form.Item label="置顶">
-                    {getFieldDecorator('switch', { initialValue:false })(<Switch />)}
+                    {getFieldDecorator('switch',{valuePropName:'checked',initialValue:false})(<Switch />)}
                 </Form.Item>
 
 
