@@ -83,7 +83,7 @@ class AddWeekModalContentClass extends React.Component {
 
                 <Form.Item label="设定等级（由低到高）">
                     {getFieldDecorator('rank',{ initialValue:3 })(
-                        <PlanRadioGroup setFieldsValue={setFieldsValue}  />
+                        <PlanRadioGroup setFieldsValue={setFieldsValue}  rate={10}  />
                     )}
                 </Form.Item>
 

@@ -24,7 +24,7 @@ class PlanRadioGroup extends Component {
 
     // 处理等级的改变
     handleRankChange = (e) =>{
-        const resultValue = e.target.value *10
+        const resultValue = e.target.value * this.props.rate
         this.setState({selected:e.target.value})
         this.props.setFieldsValue({
             score:resultValue,

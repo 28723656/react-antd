@@ -1,27 +1,14 @@
 import React from 'react'
 import {Button, Form, Radio, Select, Slider, Switch,} from 'antd';
 import PlanNameSearch from "../Common/PlanNameSearch";
+import PlanRadioGroup from "../Common/PlanRadioGroup";
+import PlanSlider from "../Common/PlanSlider";
 
 const { Option } = Select;
 const format = 'HH:mm';
 
 
 class AddYearModalContentClass extends React.Component {
-
-
-    // 处理等级的改变
-    handleRankChange = (e) =>{
-        console.log(e.target.value);
-        const resultValue = e.target.value *480
-        console.log(resultValue)
-        this.props.form.setFieldsValue({
-            score:resultValue
-        });
-    }
-
-
-
-
 
     // 提交
     handleSubmit = e => {
@@ -41,9 +28,8 @@ class AddYearModalContentClass extends React.Component {
     };
 
 
-
     render() {
-        let { getFieldDecorator } = this.props.form;
+        let {getFieldDecorator,getFieldValue,setFieldsValue  } = this.props.form;
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
@@ -63,35 +49,19 @@ class AddYearModalContentClass extends React.Component {
                 </Form.Item>
 
                 <Form.Item label="设定等级（由低到高）">
-                    {getFieldDecorator('rank')(
-                        <Radio.Group onChange={this.handleRankChange}>
-                            <Radio.Button value={1}>&nbsp;&nbsp;D&nbsp;&nbsp;</Radio.Button>
-                            <Radio.Button value={2}>&nbsp;&nbsp;C&nbsp;&nbsp;</Radio.Button>
-                            <Radio.Button value={3}>&nbsp;&nbsp;B&nbsp;&nbsp;</Radio.Button>
-                            <Radio.Button value={4}>&nbsp;&nbsp;A&nbsp;&nbsp;</Radio.Button>
-                            <Radio.Button value={5}>&nbsp;&nbsp;S&nbsp;&nbsp;</Radio.Button>
-                        </Radio.Group>,
+                    {getFieldDecorator('rank',{ initialValue:3 })(
+                       <PlanRadioGroup setFieldsValue={setFieldsValue}  rate={480} />
                     )}
                 </Form.Item>
 
                 <Form.Item label="设定得分">
-                    {getFieldDecorator('score')(
-                        <Slider
-                            max={2400}
-                            marks={{
-                                0: '0分',
-                                480: '480分',
-                                960: '960分',
-                                1440: '1440分',
-                                1920: '1920分',
-                                2400: '2400分',
-                            }}
-                        />,
+                    {getFieldDecorator('score',{ initialValue:1200 })(
+                        <PlanSlider max={2400} getFieldValue={getFieldValue}  />
                     )}
                 </Form.Item>
 
                 <Form.Item label="置顶">
-                    {getFieldDecorator('top', { valuePropName: 'checked' })(<Switch />)}
+                    {getFieldDecorator('top', { valuePropName: 'checked',initialValue:false })(<Switch />)}
                 </Form.Item>
 
 
