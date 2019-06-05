@@ -18,6 +18,7 @@ import {
 } from 'antd';
 import PlanSelectOptionList from "../Common/PlanSelectOptionList";
 import JustForTest2 from "../Common/JustForTest2";
+import PlanNameSearch from "../Common/PlanNameSearch";
 
 const { Option } = Select;
 const format = 'HH:mm';
@@ -69,7 +70,7 @@ class AddMonthModalContentClass extends React.Component {
         return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
                 <Form.Item label="计划名称">
-                    {getFieldDecorator('name',{initialValue:'口吐芬芳'})(<JustForTest2/>)}
+                    {getFieldDecorator('name',{initialValue:'口吐芬芳'})(<PlanNameSearch/>)}
                 </Form.Item>
 
                 <Form.Item label="关联任务">

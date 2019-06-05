@@ -1,9 +1,9 @@
-import React,{Component} from 'react'
+import React, {Component} from 'react'
 import {AutoComplete} from "antd";
 
 
 // 用于搜索的数据
-const defaultSelections=[
+const defaultSelections = [
     '读书：学习java编程思想',
     '读书：看小王子',
     '读书:看白夜行',
@@ -43,44 +43,54 @@ const defaultSelections=[
     '但偏偏风渐渐把距离吹得好远',
 ]
 
-class PlanNameSearch extends Component{
+class PlanNameSearch extends Component {
 
-    state = {
-        dataSource: [],
-    };
+    static getDerivedStateFromProps(nextProps) {
+        // Should be a controlled component.
+        if ('value' in nextProps) {
+            return nextProps.value
+        }
+        return null;
+    }
+
+    constructor(props) {
+        super(props);
+        const value = props.value || {};
+        this.state = {
+            text: value || '',
+            dataSource: [],
+        };
+    }
 
     // 任务栏选择后的效果
-    onSelect = (value) =>{
-
-        console.log('onSelect', value);
+    onSelect = (value) => {
+        this.props.onChange(value);
     }
 
 
     // 任务栏显示搜索的内容
     handleSearch = (value) => {
-
-        let resultSelections = defaultSelections.filter((record,index) => record.includes(value))
-
-        while (resultSelections.length >5){
+        let resultSelections = defaultSelections.filter((record, index) => record.includes(value))
+        while (resultSelections.length > 5) {
             resultSelections.pop()
         }
-
-        if(!value){
+        if (!value) {
             resultSelections = defaultSelections;
         }
-
         this.setState({
-            dataSource:resultSelections,
+            dataSource: resultSelections,
         });
+
+        this.props.onChange(value);
     };
 
     componentDidMount() {
-        this.setState({dataSource:defaultSelections})
+        this.setState({dataSource: defaultSelections})
     }
 
     render() {
 
-        const { dataSource } = this.state;
+        const {dataSource} = this.state;
 
         return (
             <AutoComplete
@@ -93,4 +103,4 @@ class PlanNameSearch extends Component{
     }
 }
 
-export  default PlanNameSearch;
+export default PlanNameSearch;
