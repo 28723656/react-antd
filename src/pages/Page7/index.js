@@ -20,9 +20,6 @@ class Page7 extends Component{
         message.success('购买'+record.name);
     }
     render() {
-
-
-
         const Columns1 = [
             {
                 title: '名称',

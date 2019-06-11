@@ -53,7 +53,6 @@ class SmallTable extends Component{
 
         return (
             <div>
-                <h4>{title} </h4>
                 <Table columns={columns} dataSource={dataSource} size="middle"
                        pagination={{
                            hideOnSinglePage:true,

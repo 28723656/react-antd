@@ -3,6 +3,7 @@ import axios from 'axios'
 
 
 axios.defaults.baseURL='http://localhost'
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 
 // 查
@@ -10,7 +11,7 @@ export  function getAjax(url) {
 
     const options = {
         method: 'get',
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+   //     headers: { 'content-type': 'application/x-www-form-urlencoded' },
         url,
     };
     return axios(options);
@@ -19,10 +20,12 @@ export  function getAjax(url) {
 
 // 改
 export  function updateAjax(url,data) {
+    debugger
+    console.log(data)
     const options = {
         method: 'put',
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        data: qs.stringify(data),
+   //     headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data,
         url,
     };
     return axios(options);
@@ -30,10 +33,12 @@ export  function updateAjax(url,data) {
 
 // 增
 export  function addAjax(url,data) {
+    debugger
+    console.log(data)
     const options = {
         method: 'post',
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        data: qs.stringify(data),
+ //   headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data,
         url,
     };
     return axios(options);
@@ -43,8 +48,9 @@ export  function addAjax(url,data) {
 export  function deleteAjax(url,data) {
     const options = {
         method: 'delete',
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        data: qs.stringify(data),
+  //      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+   //     data: qs.stringify(data),
+        data,
         url,
     };
     return axios(options);
