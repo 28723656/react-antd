@@ -41,7 +41,7 @@ class Menus extends Component {
                             <NavLink to='/'  >今日任务</NavLink>
                         </Menu.Item>
                         <Menu.Item key="2">
-                            <NavLink to='/page2'  >计划安排</NavLink>
+                            <NavLink to='/page2'  >作业界面</NavLink>
                         </Menu.Item>
                         <Menu.Item key="3">
                             <NavLink to='/page3'  >商城</NavLink>
