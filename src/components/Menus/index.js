@@ -37,7 +37,10 @@ class Menus extends Component {
                         defaultSelectedKeys={['2']}
                         style={{ lineHeight: '64px' }}
                     >
-                        <Menu.Item key="1">
+                        <Menu.Item key="2">
+                            <NavLink to='/'  >作业界面</NavLink>
+                        </Menu.Item>
+                     {/*   <Menu.Item key="1">
                             <NavLink to='/'  >今日任务</NavLink>
                         </Menu.Item>
                         <Menu.Item key="2">
@@ -63,13 +66,14 @@ class Menus extends Component {
                         </Menu.Item>
                         <Menu.Item key="9">
                             <NavLink to='/page8'  >  我的信息</NavLink>
-                        </Menu.Item>
+                        </Menu.Item>*/}
                     </Menu>
                 </Header>
                 <Content style={{ padding: '0 0px', marginTop: 64 }}>
 
                     <div style={{padding: '24 0px', minHeight: '90vh'}}>
-                            <Route exact path="/" component={Page1}/>
+                        <Route exact path="/" component={Page2}/>
+                      {/*      <Route exact path="/" component={Page1}/>
                             <Route path="/page2" component={Page2}/>
                             <Route path="/page3" component={Page3}/>
                             <Route path="/page4" component={Page4}/>
@@ -77,7 +81,7 @@ class Menus extends Component {
                             <Route path="/test01" component={Test01}/>
                             <Route path="/test02" component={Test02}/>
                             <Route path="/page7" component={Page7}/>
-                            <Route path="/page8" component={Page8}/>
+                            <Route path="/page8" component={Page8}/>*/}
                     </div>
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>Ant Design ©2019 Created 风往西边吹丶</Footer>

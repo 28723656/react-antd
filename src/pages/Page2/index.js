@@ -106,17 +106,17 @@ class Page1 extends Component {
 
         const columns1 = [
             {
-                title: '名称',
+                title: '姓名',
                 dataIndex: 'bookName',
                 key: 'bookName',
             },
             {
-                title: '描述',
+                title: '电话',
                 dataIndex: 'bookDescription',
                 key: 'bookDescription',
             },
             {
-                title: '价格',
+                title: '学号',
                 dataIndex: 'price',
                 key: 'price',
             },
@@ -133,20 +133,22 @@ class Page1 extends Component {
         ];
 
         const {bookData,entity} = this.state;
+        console.log('bookData',bookData,'entity',entity.id)
+        let title = entity.id === undefined?"新增":"修改";
 
         return (
             <div>
-                <Card bodyStyle={{padding: 20}} title='图书管理'>
+                <Card bodyStyle={{padding: 20}} title='数据库大作业'>
                     <Row>
                         <Col xs={8} xl={4} > <Button shape="circle" icon="plus" onClick={this.showModal} /></Col>
-                        <Col xs={120} xl={18}> <Search style={{width:'50%'}} placeholder="查询图书名称" onChange={this.handleSearch}  enterButton /></Col>
+                        <Col xs={120} xl={18}> <Search style={{width:'50%'}} placeholder="" onChange={this.handleSearch}  enterButton /></Col>
                     </Row>
                     <SmallTable  columns={columns1} dataSource={bookData}>
                     </SmallTable>
                 </Card>
 
                 <Modal
-                    title='图书修改'
+                    title={title}
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}

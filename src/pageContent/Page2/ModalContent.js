@@ -16,8 +16,6 @@ class ModalContentClass extends Component {
                 // 这里可以获取所有的值
                 console.log('Received values of form: ', fieldsValue);
                 const {type} = this.state;
-                console.log(type)
-                debugger
                 // 添加
                 if(type === 1){
                     addAjax('/plan/book',fieldsValue)
@@ -50,13 +48,10 @@ class ModalContentClass extends Component {
 
     componentDidMount() {
         const {data} = this.props;
-        debugger
         if(data.id === undefined){
             console.log('ok')
             this.setState({type:1});
         }
-        console.log(this.state.type);
-        debugger
         let {setFieldsValue} = this.props.form;
         setFieldsValue({
             id: data.id,
@@ -87,19 +82,19 @@ class ModalContentClass extends Component {
                     <Input hidden={true}/>
                 )}
 
-                <Form.Item label="名称">
+                <Form.Item label="姓名">
                     {getFieldDecorator('bookName')(
                         <Input/>
                     )}
                 </Form.Item>
-                <Form.Item label="描述">
+                <Form.Item label="电话">
                     {getFieldDecorator('bookDescription')(
                         <Input/>
                     )}
                 </Form.Item>
-                <Form.Item label="价格">
+                <Form.Item label="学号">
                     {getFieldDecorator('price')(
-                        <InputNumber min={0}/>
+                        <Input/>
                     )}
                 </Form.Item>
 
