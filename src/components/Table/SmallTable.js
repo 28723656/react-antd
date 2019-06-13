@@ -53,11 +53,12 @@ class SmallTable extends Component{
 
         return (
             <div>
-                <Table columns={columns} dataSource={dataSource} size="middle"
+                <Table rowKey='id' columns={columns} dataSource={dataSource} size="middle"
                        pagination={{
                            hideOnSinglePage:true,
                            pageSize:30
                        }}
+                       scroll={{x: '100%'}}
                 />
             </div>
         )

@@ -20,17 +20,7 @@ class Page1 extends Component {
         getAjax(`/plan/book/${value}`)
             .then(json =>{
                 if(json.data.flag){
-                    let dataArr = []
-                    json.data.data.map((record,index) =>{
-                        dataArr.push({
-                            key: index,
-                            id: record.id,
-                            bookName: record.bookName,
-                            bookDescription: record.bookDescription,
-                            price: record.price,
-                        });
-                    })
-                    this.setState({bookData: dataArr})
+                    this.setState({bookData: json.data.data})
                 }else{
                     message.error(json.data.message);
                 }
@@ -79,18 +69,7 @@ class Page1 extends Component {
             .then(json => {
                 console.log(json)
                 if (json.data.flag) {
-                    let dataArr = [];
-                    json.data.data.map((record, index) => {
-                        dataArr.push({
-                            key: index,
-                            id: record.id,
-                            bookName: record.bookName,
-                            bookDescription: record.bookDescription,
-                            price: record.price,
-                        });
-                    })
-                    this.setState({bookData: dataArr})
-
+                    this.setState({bookData: json.data.data})
                 }
 
             });
@@ -143,7 +122,7 @@ class Page1 extends Component {
                         <Col xs={8} xl={4} > <Button shape="circle" icon="plus" onClick={this.showModal} /></Col>
                         <Col xs={120} xl={18}> <Search style={{width:'50%'}} placeholder="" onChange={this.handleSearch}  enterButton /></Col>
                     </Row>
-                    <SmallTable  columns={columns1} dataSource={bookData}>
+                    <SmallTable   columns={columns1} dataSource={bookData}>
                     </SmallTable>
                 </Card>
 

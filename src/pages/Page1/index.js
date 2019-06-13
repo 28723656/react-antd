@@ -55,12 +55,6 @@ class Page1 extends Component{
 
 
     render() {
-
-
-
-
-
-
         return (
             <Tabs defaultActiveKey="1" onChange={this.callback}>
                 <TabPane tab="今日任务" key="1">
