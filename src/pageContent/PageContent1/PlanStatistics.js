@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import ReactEcharts from 'echarts-for-react'
-import {Slider} from "antd";
+import {Card, Slider} from "antd";
 
 /**
  *  page1 计划统计
@@ -130,6 +130,7 @@ class PlanStatistics extends Component{
 
         return (
             <div>
+                <Card>
                 <Slider
                     style={{margin:'18px'}}
                     max={12}
@@ -150,7 +151,9 @@ class PlanStatistics extends Component{
                         12: '12月',
                     }}
                     onChange={this.handleMonthChange}
-                />,
+                />
+                </Card>
+                <Card>
                 <ReactEcharts
                     ref={(e) => {
                         this.echartsReactPercentRef = e;
@@ -161,6 +164,7 @@ class PlanStatistics extends Component{
                         this.echartsReactScoreRef = e;
                     }}
                     option={optionScore}/>
+                </Card>
             </div>
         )
     }

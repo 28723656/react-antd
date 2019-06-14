@@ -2,8 +2,10 @@ import qs from 'qs';
 import axios from 'axios'
 
 
-//axios.defaults.baseURL='http://localhost'
-axios.defaults.baseURL='http://47.106.187.222'
+// 本地
+axios.defaults.baseURL='http://localhost'
+// 服务器
+//axios.defaults.baseURL='http://47.106.187.222'
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 

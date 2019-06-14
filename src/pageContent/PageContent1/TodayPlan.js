@@ -1,9 +1,8 @@
-import React,{Component} from 'react'
+import React, {Component} from 'react'
 import {Card, Table} from "antd";
 
 import {columns1_1, columns1_3, data1_1, data1_3} from "../../mock/mockDataPage1";
 import AddPlanModal from "./Common/AddPlanModal";
-import SmallPaddingCard from "../../components/Card/SmallPaddingCard";
 
 /**
  * page1  今日计划部分

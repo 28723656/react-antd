@@ -69,6 +69,7 @@ class AddPlanModal extends Component{
         return (
             <div>
                 <Modal
+                    width={650}
                     title={title}
                     visible={this.state.visible}
                     onOk={this.handleOk}

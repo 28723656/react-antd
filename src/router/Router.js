@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import Menus from '../components/Menus';
+import Menus from './Menus';
 
 
 class Router extends Component {
