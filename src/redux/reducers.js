@@ -5,7 +5,7 @@ import {
     RECEIVE_WEAPON_DATA,
     CHANGE_SONG,
     CHANGE_CARD2,
-    BUY_ITEM, ADD_YEAR_PLAN
+    BUY_ITEM, ADD_YEAR_PLAN, GET_YEAR_PLAN_LIST
 } from './action-types'
 
 // 练习一的初始数据
@@ -87,8 +87,9 @@ function personData(state = itemData_mock,action){
 // 先测试一波，仅仅测试年计划的数据变化
 function yearPlanData(state=data2_3,action){
     switch (action.type) {
-        case ADD_YEAR_PLAN:
-           return [{...action.data,key:GenNonDuplicateID(),percent:0,finished:0,id:GenIntegerId()},...state]
+        case GET_YEAR_PLAN_LIST:
+            console.log('year----',action.data);
+           return action.data;
         default:return state
     }
 }

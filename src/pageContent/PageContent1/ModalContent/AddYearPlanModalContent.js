@@ -1,5 +1,5 @@
 import React from 'react'
-import {Button, Form, Radio, Select, Slider, Switch,} from 'antd';
+import {Button, Form, Input, Radio, Select, Slider, Switch,} from 'antd';
 import PlanNameSearch from "../Common/PlanNameSearch";
 import PlanRadioGroup from "../Common/PlanRadioGroup";
 import PlanSlider from "../Common/PlanSlider";
@@ -19,7 +19,7 @@ class AddYearModalContentClass extends React.Component {
                 console.log('Received values of form: ', values);
 
               //  把获得的值传入到data中，还是应该让父界面处理
-                const {addYearPlan} = this.props
+               const {addYearPlan} = this.props
                 addYearPlan(values);
               //  其实是关闭模态框
                 this.props.handleSubmit();
@@ -42,6 +42,11 @@ class AddYearModalContentClass extends React.Component {
         };
         return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+
+                {getFieldDecorator('type',{initialValue:4})(
+                    <Input hidden={true}/>
+                )}
+
                 <Form.Item label="计划名称">
                     {getFieldDecorator('name',{initialValue:'计划：'})(
                       <PlanNameSearch/>
