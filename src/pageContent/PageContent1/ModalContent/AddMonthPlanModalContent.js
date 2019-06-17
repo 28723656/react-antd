@@ -34,7 +34,9 @@ class AddMonthModalContentClass extends React.Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 // 这里可以获取所有的值
-                console.log('Received values of form: ', values);
+                console.log('Received values of form-month ', values);
+                const {addPlan} = this.props
+                addPlan(values);
                 // 其实是关闭模态框
                 this.props.handleSubmit();
             }
@@ -57,6 +59,11 @@ class AddMonthModalContentClass extends React.Component {
         };
         return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+
+                {getFieldDecorator('type',{initialValue:3})(
+                    <Input hidden={true}/>
+                )}
+
                 <Form.Item label="计划名称">
                     {getFieldDecorator('name',{initialValue:'计划：'})(<PlanNameSearch/>)}
                 </Form.Item>

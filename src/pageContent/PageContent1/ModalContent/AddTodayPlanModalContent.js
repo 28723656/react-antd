@@ -1,5 +1,5 @@
 import React from 'react'
-import {Button, Form, Select, Switch, TimePicker} from 'antd';
+import {Button, Form, Input, Select, Switch, TimePicker} from 'antd';
 import moment from 'moment';
 import PlanNameSearch from "../Common/PlanNameSearch";
 import PlanRadioGroup from "../Common/PlanRadioGroup";
@@ -48,6 +48,11 @@ class AddPlanModalContentClass extends React.Component {
         };
         return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+
+                {getFieldDecorator('type',{initialValue:1})(
+                    <Input hidden={true}/>
+                )}
+
                 <Form.Item label="计划名称">
                     {getFieldDecorator('name',{initialValue:'计划：'})(
                        <PlanNameSearch/>

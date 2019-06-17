@@ -46,7 +46,6 @@ class SmallTable extends Component{
 
     render() {
         let {title,columns,dataSource} = this.props;
-        debugger
         //如果为空，就用默认的
         title = title===undefined?initTitle:title;
         columns = columns===undefined?initColumns:columns;

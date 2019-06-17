@@ -3,6 +3,7 @@ import {Button, Form, Input, Radio, Select, Slider, Switch,} from 'antd';
 import PlanNameSearch from "../Common/PlanNameSearch";
 import PlanRadioGroup from "../Common/PlanRadioGroup";
 import PlanSlider from "../Common/PlanSlider";
+import {addPlan} from "../../../redux/actions";
 
 const { Option } = Select;
 const format = 'HH:mm';
@@ -19,8 +20,8 @@ class AddYearModalContentClass extends React.Component {
                 console.log('Received values of form: ', values);
 
               //  把获得的值传入到data中，还是应该让父界面处理
-               const {addYearPlan} = this.props
-                addYearPlan(values);
+               const {addPlan} = this.props
+                addPlan(values);
               //  其实是关闭模态框
                 this.props.handleSubmit();
             }

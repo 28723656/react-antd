@@ -5,6 +5,7 @@ import AddWeekPlanModalContent from "../ModalContent/AddWeekPlanModalContent";
 import AddMonthPlanModalContent from "../ModalContent/AddMonthPlanModalContent";
 import AddYearPlanModalContent from "../ModalContent/AddYearPlanModalContent";
 import PropTypes from 'prop-types'
+import {addPlan} from "../../../redux/actions";
 
 /**
  *  用于page1 今日计划的modal
@@ -77,10 +78,10 @@ class AddPlanModal extends Component{
                     footer={null}
                     destroyOnClose={true}
                 >
-                    {type ===1 &&<AddTodayPlanModalContent data={data} handleSubmit={this.handleSubmit} />}
-                    {type ===2 &&<AddWeekPlanModalContent data={data} handleSubmit={this.handleSubmit} />}
-                    {type ===3 &&<AddMonthPlanModalContent data={data}   handleSubmit={this.handleSubmit} />}
-                    {type ===4 &&<AddYearPlanModalContent addYearPlan={this.props.addYearPlan} handleSubmit={this.handleSubmit} />}
+                    {type ===1 &&<AddTodayPlanModalContent  addPlan={this.props.addPlan} data={data} handleSubmit={this.handleSubmit} />}
+                    {type ===2 &&<AddWeekPlanModalContent   addPlan={this.props.addPlan} data={data} handleSubmit={this.handleSubmit} />}
+                    {type ===3 &&<AddMonthPlanModalContent  addPlan={this.props.addPlan}  data={data}   handleSubmit={this.handleSubmit} />}
+                    {type ===4 &&<AddYearPlanModalContent   addPlan={this.props.addPlan} handleSubmit={this.handleSubmit} />}
 
 
                 </Modal>

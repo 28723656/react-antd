@@ -1,7 +1,14 @@
 import {
     POWER_UP,
     RECEIVE_WEAPON_DATA,
-    CHANGE_SONG, CHANGE_CARD2, BUY_ITEM, ADD_YEAR_PLAN, GET_YEAR_PLAN_LIST
+    CHANGE_SONG,
+    CHANGE_CARD2,
+    BUY_ITEM,
+    ADD_YEAR_PLAN,
+    GET_YEAR_PLAN_LIST,
+    GET_TODAY_PLAN_LIST,
+    GET_WEEK_PLAN_LIST,
+    GET_MONTH_PLAN_LIST
 } from './action-types'
 
 import {weaponData_mock} from "../mock/test01data";
@@ -48,9 +55,9 @@ export const buyItem = ({id, name}) => ({type: BUY_ITEM, data: {id, name}})
 
 
 /**
- * 页面一：年度计划
+ * 页面一：计划列表
  */
-const yearPlan = (data) => ({type: GET_YEAR_PLAN_LIST, data});
+const planList = (type,data) => ({type, data});
 
 
 
@@ -58,28 +65,38 @@ const yearPlan = (data) => ({type: GET_YEAR_PLAN_LIST, data});
 /**
  * 页面一：计划
  */
-export const addYearPlan = (values) => {
+export const addPlan = (values) => {
     return async dispatch => {
         const response = await addAjax('/plan/plan', values);
         const result = response.data;
         if (result.flag) {
-            getYearPlanList(dispatch,4);
+            // 每次添加，更新4组数据
+            getPlanList(dispatch,1);
+            getPlanList(dispatch,2);
+            getPlanList(dispatch,3);
+            getPlanList(dispatch,4);
         }
     }
 }
 
 
 // 初始化年计划
-export const  initYearPlanData = (type) =>{
+export const  initPlanData = (type) =>{
     return async dispatch =>{
         const response = await getAjax(`/plan/plan/${type}`);
         const result = response.data;
-        debugger
         if(result.flag){
-            dispatch(yearPlan(result.data));
+            switch (type) {
+                case 1: dispatch(planList(GET_TODAY_PLAN_LIST,result.data));
+                case 2: dispatch(planList(GET_WEEK_PLAN_LIST,result.data));
+                case 3: dispatch(planList(GET_MONTH_PLAN_LIST,result.data));
+                case 4: dispatch(planList(GET_YEAR_PLAN_LIST,result.data));
+            }
         }
     }
 }
+
+
 
 
 
@@ -89,13 +106,19 @@ export const  initYearPlanData = (type) =>{
 
 
 /**
- * 页面一:获取年度计划列表
+ * 页面一:获取计划列表
  */
-async function getYearPlanList (dispatch,type){
+async function getPlanList (dispatch,type){
     const response = await getAjax(`/plan/plan/${type}`);
     const result = response.data;
     if(result.flag){
-        dispatch(yearPlan(result.data));
+        switch (type) {
+            case 1: dispatch(planList(GET_TODAY_PLAN_LIST,result.data));
+            case 2: dispatch(planList(GET_WEEK_PLAN_LIST,result.data));
+            case 3: dispatch(planList(GET_MONTH_PLAN_LIST,result.data));
+            case 4: dispatch(planList(GET_YEAR_PLAN_LIST,result.data));
+        }
+
     }
 }
 

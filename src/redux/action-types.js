@@ -32,7 +32,9 @@ export const BUY_ITEM = 'BUY_ITEM'
 // 添加年度计划
 export const ADD_YEAR_PLAN = 'ADD_YEAR_PLAN'
 
-// 获取年度计划
+export const GET_TODAY_PLAN_LIST = 'GET_TODAY_PLAN_LIST'
+export const GET_WEEK_PLAN_LIST = 'GET_WEEK_PLAN_LIST'
+export const GET_MONTH_PLAN_LIST = 'GET_MONTH_PLAN_LIST'
 export const GET_YEAR_PLAN_LIST = 'GET_YEAR_PLAN_LIST'
 
 

@@ -73,18 +73,7 @@ class Page1 extends Component {
                 </TabPane>
 
                 <TabPane tab="长期计划" key="2">
-                    <Row type='flex'>
-                        <Col span={16}>
-                            <LongPlan/>
-                        </Col>
-                        <Col span={8}>
-                            <Rank first={true}/>
-                            <Rank/>
-                            <Rank/>
-                            <Rank/>
-                        </Col>
-                    </Row>
-
+                      <LongPlan/>
                 </TabPane>
 
                 <TabPane tab="任务统计" key="3">

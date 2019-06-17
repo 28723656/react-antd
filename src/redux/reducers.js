@@ -5,7 +5,7 @@ import {
     RECEIVE_WEAPON_DATA,
     CHANGE_SONG,
     CHANGE_CARD2,
-    BUY_ITEM, ADD_YEAR_PLAN, GET_YEAR_PLAN_LIST
+    BUY_ITEM, ADD_YEAR_PLAN, GET_YEAR_PLAN_LIST, GET_MONTH_PLAN_LIST, GET_WEEK_PLAN_LIST, GET_TODAY_PLAN_LIST
 } from './action-types'
 
 // 练习一的初始数据
@@ -49,7 +49,7 @@ function cardTest2Data(state = {key: 'tab1'}, action) {
 function lyricData(state = lyricData_mock, action) {
     switch (action.type) {
         case CHANGE_SONG:
-            return {lyricKey:action.data.key,lyricName:action.data.value}
+            return {lyricKey: action.data.key, lyricName: action.data.value}
         default:
             return state
     }
@@ -57,22 +57,22 @@ function lyricData(state = lyricData_mock, action) {
 
 
 // 幸运7购物
-function personData(state = itemData_mock,action){
+function personData(state = itemData_mock, action) {
     switch (action.type) {
         case BUY_ITEM:
             let newArr = [];
             let count = 0;
-             [...state].map((record,index) =>{
-                if(action.data.id ===record.id){
-                    record.number ++;
-                    count ++;
+            [...state].map((record, index) => {
+                if (action.data.id === record.id) {
+                    record.number++;
+                    count++;
                 }
-                 newArr.push(record)
+                newArr.push(record)
             });
-             if(count ===0){
-                 newArr.push({id:action.data.id,name:action.data.name,number:1})
-             }
-             return newArr;
+            if (count === 0) {
+                newArr.push({id: action.data.id, name: action.data.name, number: 1})
+            }
+            return newArr;
 
         default:
             return state
@@ -85,15 +85,46 @@ function personData(state = itemData_mock,action){
  */
 
 // 先测试一波，仅仅测试年计划的数据变化
-function yearPlanData(state=data2_3,action){
+function yearPlanData(state = [], action) {
     switch (action.type) {
         case GET_YEAR_PLAN_LIST:
-            console.log('year----',action.data);
-           return action.data;
-        default:return state
+            console.log('year----', action.data);
+            return action.data;
+        default:
+            return state
     }
 }
 
+
+// 月计划
+function monthPlanData(state = [], action) {
+    switch (action.type) {
+        case GET_MONTH_PLAN_LIST:
+            return action.data;
+        default:
+            return state
+    }
+}
+
+// 周计划
+function weekPlanData(state = [], action) {
+    switch (action.type) {
+        case GET_WEEK_PLAN_LIST:
+            return action.data;
+        default:
+            return state
+    }
+}
+
+// 日计划
+function todayPlanData(state = [], action) {
+    switch (action.type) {
+        case GET_TODAY_PLAN_LIST:
+            return action.data;
+        default:
+            return state
+    }
+}
 
 
 
@@ -104,7 +135,10 @@ export default combineReducers({
     lyricData,
     cardTest2Data,
     personData,
-    yearPlanData
+    yearPlanData,
+    monthPlanData,
+    weekPlanData,
+    todayPlanData
 })
 
 // redux向外暴露的state结构  { counter:2, comment:[{},{}]  }

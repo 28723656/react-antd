@@ -51,7 +51,6 @@ class Page1 extends Component {
 
 
     handleDelete = (record) => {
-        debugger
         deleteAjax(`/plan/book/${record.id}`)
             .then(json => {
                 if (json.data.flag) {

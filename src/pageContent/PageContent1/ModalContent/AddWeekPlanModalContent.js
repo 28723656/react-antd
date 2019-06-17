@@ -68,6 +68,11 @@ class AddWeekModalContentClass extends React.Component {
         };
         return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+
+                {getFieldDecorator('type',{initialValue:2})(
+                    <Input hidden={true}/>
+                )}
+
                 <Form.Item label="计划名称">
                     {getFieldDecorator('name',{initialValue:'计划：'})(
                        <PlanNameSearch/>

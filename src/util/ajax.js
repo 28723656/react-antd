@@ -23,7 +23,6 @@ export  function getAjax(url) {
 
 // 改
 export  function updateAjax(url,data) {
-    debugger
     console.log(data)
     const options = {
         method: 'put',
@@ -36,8 +35,6 @@ export  function updateAjax(url,data) {
 
 // 增
 export  function addAjax(url,data) {
-    debugger
-    console.log(data)
     const options = {
         method: 'post',
  //   headers: { 'content-type': 'application/x-www-form-urlencoded' },
