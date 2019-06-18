@@ -20,14 +20,28 @@ class AddPlanModalContentClass extends React.Component {
                 const endTime = fieldsValue['endTime']
                 const values ={
                     ...fieldsValue,
-                    'startTime':startTime.format('HH:mm'),
-                    'endTime':endTime.format('HH:mm')
+                    'startTime':startTime,
+                    'endTime':endTime
                 }
 
-                // 这里可以获取所有的值
                 console.log('Received values of form: ', values);
+               // const hourOfStartTime = parseInt(values.startTime.split(':')[0]);
+               // const minutesOfStartTime = parseInt(values.startTime.split(':')[1]);
+               //
+               // const hourOfEndTime = parseInt(values.endTime.split(':')[0]);
+               // const minutesOfEndTime = parseInt(values.endTime.split(':')[1]);
+               //
+               //  // 这里可以获取所有的值
+               //  console.log('开始时间',moment().hour(hourOfStartTime).minute(minutesOfStartTime).format('YYYY-MM-DD HH:mm:SS'));
+               //  console.log('结束时间',moment().hour(hourOfEndTime).minute(minutesOfEndTime).format('YYYY-MM-DD HH:mm:SS'));
+               //
+               //
 
-                // 其实是关闭模态框
+               //  把获得的值传入到data中，还是应该让父界面处理
+                const {addPlan} = this.props
+                addPlan(values);
+
+           //    其实是关闭模态框
                 this.props.handleSubmit();
             }
         });
