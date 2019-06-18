@@ -7,7 +7,7 @@ import LongPlan from "../../pageContent/PageContent1/LongPlan";
 import PlanStatistics from "../../pageContent/PageContent1/PlanStatistics";
 import Rank from "../../components/Rank";
 import {connect} from "react-redux";
-import { initPlanData,addPlan} from "../../redux/actions";
+import { initPlanData,addPlan,finishPlan} from "../../redux/actions";
 
 
 const TabPane = Tabs.TabPane;
@@ -26,7 +26,7 @@ class Page1 extends Component {
 
 
     render() {
-        const {planData,addPlan} = this.props;
+        const {planData,addPlan,finishPlan} = this.props;
         console.log(planData)
 
         return (
@@ -34,7 +34,7 @@ class Page1 extends Component {
                 <TabPane tab="今日任务" key="1">
                     <Row type='flex'>
                         <Col span={16}>
-                            <TodayPlan data={planData} addPlan={addPlan}  />
+                            <TodayPlan data={planData} addPlan={addPlan} finishPlan={finishPlan}  />
                         </Col>
                         <Col span={8}>
                             <Rank first={true}/>
@@ -72,5 +72,5 @@ class Page1 extends Component {
 
 export default connect(
     state =>({planData: state.planData}),
-    {initPlanData,addPlan})
+    {initPlanData,addPlan,finishPlan})
 (Page1)

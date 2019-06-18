@@ -12,7 +12,7 @@ import {
 } from './action-types'
 
 import {weaponData_mock} from "../mock/test01data";
-import {addAjax, getAjax} from "../util/ajax";
+import {addAjax, getAjax, updateAjax} from "../util/ajax";
 
 
 /**
@@ -79,6 +79,23 @@ export const addPlan = (values) => {
     }
 }
 
+// 完成计划
+export const finishPlan = (values) =>{
+    return async dispatch => {
+        const response = await updateAjax('/plan/plan', values);
+        const result = response.data;
+        // 添加成功
+        if (result.flag) {
+            // 初始化数据  第一种：直接查数据库初始化数据
+            const response = await getAjax(`/plan/plan`);
+            const result = response.data;
+            if(result.flag){
+                dispatch(planList(result.data))
+            }
+        }
+    }
+}
+
 
 // 初始化计划
 export const  initPlanData = () =>{
@@ -90,7 +107,6 @@ export const  initPlanData = () =>{
         }
     }
 }
-
 
 
 

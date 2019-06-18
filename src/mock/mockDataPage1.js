@@ -34,9 +34,13 @@ export const columns1_1 = [
         dataIndex: 'startTime',
         width:'32%',
         render:(valaue,row,index) =>{
-            if(row.startTime!== undefined){
-                return row.startTime[3]+':'+row.startTime[4]+" - "+
-                    row.endTime[3]+':'+row.endTime[4];
+            if(row.startTime!== undefined && row.endTime !== undefined){
+                const hour1 = row.startTime[3] <10 ? '0'+row.startTime[3]:row.startTime[3]
+                const minutes1 = row.startTime[4] <10 ? '0'+row.startTime[4]:row.startTime[4]
+                const hour2 = row.endTime[3] <10 ? '0'+row.endTime[3]:row.endTime[3]
+                const minutes2 = row.endTime[4] <10 ? '0'+row.endTime[4]:row.endTime[4]
+                return hour1+':'+minutes1+" - "+
+                    hour2+':'+minutes2;
             }
         }
     },
