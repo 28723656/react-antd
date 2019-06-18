@@ -35,7 +35,7 @@ export const columns1_1 = [
         width:'32%',
         render:(valaue,row,index) =>{
             if(row.startTime!== undefined){
-                return row.startTime[3]+':'+row.startTime[4]+"-"+
+                return row.startTime[3]+':'+row.startTime[4]+" - "+
                     row.endTime[3]+':'+row.endTime[4];
             }
         }

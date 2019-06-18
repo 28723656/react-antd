@@ -20,10 +20,11 @@ class AddPlanModalContentClass extends React.Component {
                 const endTime = fieldsValue['endTime']
                 const values ={
                     ...fieldsValue,
-                    'startTime':startTime,
-                    'endTime':endTime
+                    'startTime':startTime.add(8,'hours'),
+                    'endTime':endTime.add(8,'hours'),
                 }
 
+                console.log('Received time ', values.startTime.format('YYYY-MM-DD HH:mm:SS'));
                 console.log('Received values of form: ', values);
                // const hourOfStartTime = parseInt(values.startTime.split(':')[0]);
                // const minutesOfStartTime = parseInt(values.startTime.split(':')[1]);
