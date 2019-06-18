@@ -15,12 +15,30 @@ export const columns1_1 = [
     {
         title: '任务名称',
         dataIndex: 'name',
-        width:'50%'
+        width:'50%',
+        render:(value,row,index) =>{
+            let nameBefore = '->'+value
+            let nameEnd =''
+            switch (row.rank) {
+                case 1:return 'D'+nameBefore+nameEnd;
+                case 2:return 'C'+nameBefore+nameEnd;
+                case 3:return 'B'+nameBefore+nameEnd;
+                case 4:return 'A'+nameBefore+nameEnd;
+                case 5:return 'S'+nameBefore+nameEnd;
+                default:return 'B'+nameBefore+nameEnd;
+            }
+        }
     },
     {
         title: '时间',
-        dataIndex: 'timeInterval',
-        width:'32%'
+        dataIndex: 'startTime',
+        width:'32%',
+        render:(valaue,row,index) =>{
+            if(row.startTime!== undefined){
+                return row.startTime[3]+':'+row.startTime[4]+"-"+
+                    row.endTime[3]+':'+row.endTime[4];
+            }
+        }
     },
     {
         title: '完成',

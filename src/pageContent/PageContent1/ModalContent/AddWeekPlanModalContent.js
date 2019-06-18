@@ -42,6 +42,9 @@ class AddWeekModalContentClass extends React.Component {
             if (!err) {
                 // 这里可以获取所有的值
                 console.log('Received values of form: ', values);
+                //  把获得的值传入到data中，还是应该让父界面处理
+                const {addPlan} = this.props
+                addPlan(values);
                 // 其实是关闭模态框
                 this.props.handleSubmit();
             }

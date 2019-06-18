@@ -22,6 +22,7 @@ class TodayPlan extends Component{
     render() {
 
         const {todayPlan} = this.props.data;
+        console.log('todayPlan',todayPlan)
         const {addPlan} = this.props;
 
         return (
