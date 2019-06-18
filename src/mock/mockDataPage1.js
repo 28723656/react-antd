@@ -1,4 +1,4 @@
-import {Button, Icon, Switch,Progress} from "antd";
+import {Button, Icon, Switch,Progress,Tag} from "antd";
 import React from "react";
 
 const onChange = (checked,row) => {
@@ -190,15 +190,18 @@ export const columns2_3 = [
         dataIndex: 'name',
         width:'50%',
         render:(value,row,index) =>{
-            let nameBefore = '->'+value
-            let nameEnd =''
+            let topStr ='';
+            if(row.top){
+                topStr ='[置顶] ' ;
+            }
+            let nameAfter = '->'+value
             switch (row.rank) {
-                case 1:return 'D'+nameBefore+nameEnd;
-                case 2:return 'C'+nameBefore+nameEnd;
-                case 3:return 'B'+nameBefore+nameEnd;
-                case 4:return 'A'+nameBefore+nameEnd;
-                case 5:return 'S'+nameBefore+nameEnd;
-                default:return 'B'+nameBefore+nameEnd;
+                case 1:return  <Tag color={row.color}>{topStr}D{nameAfter}</Tag>
+                case 2:return  <Tag color={row.color}>{topStr}C{nameAfter}</Tag>
+                case 3:return  <Tag color={row.color}>{topStr}B{nameAfter}</Tag>
+                case 4:return  <Tag color={row.color}>{topStr}A{nameAfter}</Tag>
+                case 5:return  <Tag color={row.color}>{topStr}S{nameAfter}</Tag>
+                default:return '??'+nameAfter;
             }
         }
     },
@@ -220,7 +223,6 @@ export const columns2_3 = [
 
 export const data2_3 = [
     {
-        key: '1',
         id:1,
         name: '任务一:xx',
         rank:4,
@@ -230,7 +232,6 @@ export const data2_3 = [
         finished: 0,
     },
     {
-        key: '2',
         id:2,
         name: '绝杀任务：',
         rank:5,
@@ -240,7 +241,6 @@ export const data2_3 = [
         finished: 0,
     },
     {
-        key: '3',
         id:3,
         name: '超级简单的洗衣服',
         rank:1,
@@ -250,7 +250,6 @@ export const data2_3 = [
         finished: 1,
     },
     {
-        key: '4',
         id:4,
         name: '一个名字超级超级长的任务，我看你怎么处理，不够，我还要继续增加字数',
         rank:2,

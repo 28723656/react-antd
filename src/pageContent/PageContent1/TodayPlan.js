@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Card, Switch, Table} from "antd";
+import {Card, Switch, Table,Tag} from "antd";
 
 import { columns1_3, data1_1, data1_3} from "../../mock/mockDataPage1";
 import AddPlanModal from "./Common/AddPlanModal";
@@ -47,15 +47,14 @@ class TodayPlan extends Component{
                     if(row.top){
                         topStr ='[置顶] ' ;
                     }
-                    let nameBefore = '->'+value
-                    let nameEnd =''
+                    let nameAfter = '->'+value
                     switch (row.rank) {
-                        case 1:return topStr+'D'+nameBefore+nameEnd;
-                        case 2:return topStr+'C'+nameBefore+nameEnd;
-                        case 3:return topStr+'B'+nameBefore+nameEnd;
-                        case 4:return topStr+'A'+nameBefore+nameEnd;
-                        case 5:return topStr+'S'+nameBefore+nameEnd;
-                        default:return topStr+'B'+nameBefore+nameEnd;
+                        case 1:return  <Tag color={row.color}>{topStr}D{nameAfter}</Tag>
+                        case 2:return  <Tag color={row.color}>{topStr}C{nameAfter}</Tag>
+                        case 3:return  <Tag color={row.color}>{topStr}B{nameAfter}</Tag>
+                        case 4:return  <Tag color={row.color}>{topStr}A{nameAfter}</Tag>
+                        case 5:return  <Tag color={row.color}>{topStr}S{nameAfter}</Tag>
+                        default:return '??'+nameAfter;
                     }
                 }
             },

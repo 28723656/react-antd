@@ -71,13 +71,13 @@ class AddPlanModalContentClass extends React.Component {
                 )}
 
                 <Form.Item label="计划名称">
-                    {getFieldDecorator('name',{initialValue:'计划：'})(
+                    {getFieldDecorator('name',{initialValue:'计划:', rules: [{ required: true, message: '请输入计划名称！' }]})(
                        <PlanNameSearch/>
                         )}
                 </Form.Item>
 
                 <Form.Item label="关联任务">
-                    {getFieldDecorator('parentId',{initialValue:1})(
+                    {getFieldDecorator('parentId',{initialValue:1, rules: [{ required: true, message: '请选择关联任务！' }]})(
                       <PlanSelectOptionList data={data} />
                         )}
                 </Form.Item>
