@@ -3,6 +3,8 @@ import {Card, Table} from "antd";
 
 import {columns1_1, columns1_3, data1_1, data1_3} from "../../mock/mockDataPage1";
 import AddPlanModal from "./Common/AddPlanModal";
+import PropTypes from "prop-types";
+import LongPlan from "../../pages/Page1";
 
 /**
  * page1  今日计划部分
@@ -10,17 +12,27 @@ import AddPlanModal from "./Common/AddPlanModal";
 
 class TodayPlan extends Component{
 
+    static propTypes = {
+        data: PropTypes.object.isRequired,
+        addPlan: PropTypes.func.isRequired,
+    }
+
+
 
     render() {
+
+        const {todayPlan} = this.props.data;
+        const {addPlan} = this.props;
+
         return (
             <div style={{padding:5}} >
                 <Card title='今日计划' bordered={false} bodyStyle={{padding:'8px'}} >
-                    <Table columns={columns1_1}  dataSource={data1_1} showHeader={false} size='small'
+                    <Table rowKey='id' columns={columns1_1}  dataSource={todayPlan} showHeader={false} size='small'
                            pagination ={
                                {hideOnSinglePage :true}
                            }
                     />
-                    <AddPlanModal title='添加今日计划' type={1}/>
+                    <AddPlanModal  addPlan={addPlan}  title='添加今日计划' type={1}/>
                 </Card>
 
 

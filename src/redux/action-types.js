@@ -38,3 +38,9 @@ export const GET_MONTH_PLAN_LIST = 'GET_MONTH_PLAN_LIST'
 export const GET_YEAR_PLAN_LIST = 'GET_YEAR_PLAN_LIST'
 
 
+
+// 初始化计划
+export const INIT_PLAN = 'INIT_PLAN'
+export const ADD_PLAN = 'ADD_PLAN'
+
+

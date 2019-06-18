@@ -1,11 +1,10 @@
-import React,{Component} from 'react'
+import React, {Component} from 'react'
 import {Button, Col, Icon, Modal, Row} from "antd";
 import AddTodayPlanModalContent from "../ModalContent/AddTodayPlanModalContent";
 import AddWeekPlanModalContent from "../ModalContent/AddWeekPlanModalContent";
 import AddMonthPlanModalContent from "../ModalContent/AddMonthPlanModalContent";
 import AddYearPlanModalContent from "../ModalContent/AddYearPlanModalContent";
 import PropTypes from 'prop-types'
-import {addPlan} from "../../../redux/actions";
 
 /**
  *  用于page1 今日计划的modal
@@ -21,7 +20,8 @@ class AddPlanModal extends Component{
     static propTypes ={
         title:PropTypes.string.isRequired,
         type:PropTypes.number.isRequired,
-        data:PropTypes.array
+        data:PropTypes.array,
+        addPlan: PropTypes.func.isRequired,
     }
 
     state = {
@@ -61,7 +61,7 @@ class AddPlanModal extends Component{
     }
 
     render() {
-        let {title,type} = this.props;
+        let {title,type,addPlan} = this.props;
         title = title === undefined?initTitle:title
         type = type ===undefined?initType:type
 
@@ -78,10 +78,10 @@ class AddPlanModal extends Component{
                     footer={null}
                     destroyOnClose={true}
                 >
-                    {type ===1 &&<AddTodayPlanModalContent  addPlan={this.props.addPlan} data={data} handleSubmit={this.handleSubmit} />}
-                    {type ===2 &&<AddWeekPlanModalContent   addPlan={this.props.addPlan} data={data} handleSubmit={this.handleSubmit} />}
-                    {type ===3 &&<AddMonthPlanModalContent  addPlan={this.props.addPlan}  data={data}   handleSubmit={this.handleSubmit} />}
-                    {type ===4 &&<AddYearPlanModalContent   addPlan={this.props.addPlan} handleSubmit={this.handleSubmit} />}
+                    {type ===1 &&<AddTodayPlanModalContent  addPlan={addPlan} data={data} handleSubmit={this.handleSubmit} />}
+                    {type ===2 &&<AddWeekPlanModalContent   addPlan={addPlan} data={data} handleSubmit={this.handleSubmit} />}
+                    {type ===3 &&<AddMonthPlanModalContent  addPlan={addPlan}  data={data}   handleSubmit={this.handleSubmit} />}
+                    {type ===4 &&<AddYearPlanModalContent   addPlan={addPlan} handleSubmit={this.handleSubmit} />}
 
 
                 </Modal>

@@ -87,7 +87,7 @@ class AddMonthModalContentClass extends React.Component {
                 </Form.Item>
 
                 <Form.Item label="置顶">
-                    {getFieldDecorator('switch', { valuePropName: 'checked',initialValue:false })(<Switch />)}
+                    {getFieldDecorator('top', { valuePropName: 'checked',initialValue:false })(<Switch />)}
                 </Form.Item>
 
 

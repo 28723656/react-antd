@@ -6,6 +6,8 @@ import TodayPlan from "../../pageContent/PageContent1/TodayPlan";
 import LongPlan from "../../pageContent/PageContent1/LongPlan";
 import PlanStatistics from "../../pageContent/PageContent1/PlanStatistics";
 import Rank from "../../components/Rank";
+import {connect} from "react-redux";
+import { initPlanData,addPlan} from "../../redux/actions";
 
 
 const TabPane = Tabs.TabPane;
@@ -18,49 +20,21 @@ class Page1 extends Component {
         console.log(key)
     }
 
-
-    //  onChange =(checked,record) => {
-    //      const finished = checked?1:0
-    //      const  url = '/today/save'
-    //     const  data = {'id':record.id,finished} // 一个json
-    //
-    //      updateAjax(url,data)
-    //          .then(response =>{
-    //              console.log(response.data)
-    //          })
-    //          .catch((error) =>{
-    //              alert('出错啦...'+error.message)
-    //          })
-    // }
-
-
-    // ajax获取异步请求
-    // componentWillMount() {
-    //
-    //     const  url = '/today/2'
-    //     getAjax(url)
-    //         .then(response =>{
-    //             const result = response.data
-    //             if(result.code === 20000){
-    //                 console.log(result.data)
-    //                 this.setState({data:result.data})
-    //             }
-    //
-    //         })
-    //         .catch((error) =>{
-    //             alert('出错啦...'+error.message)
-    //         })
-    //
-    // }
+    componentDidMount() {
+        this.props.initPlanData();
+    }
 
 
     render() {
+        const {planData,addPlan} = this.props;
+        console.log(planData)
+
         return (
             <Tabs defaultActiveKey="1" onChange={this.callback}>
                 <TabPane tab="今日任务" key="1">
                     <Row type='flex'>
                         <Col span={16}>
-                            <TodayPlan/>
+                            <TodayPlan data={planData} addPlan={addPlan}  />
                         </Col>
                         <Col span={8}>
                             <Rank first={true}/>
@@ -73,7 +47,7 @@ class Page1 extends Component {
                 </TabPane>
 
                 <TabPane tab="长期计划" key="2">
-                      <LongPlan/>
+                      <LongPlan data={planData} addPlan={addPlan}   />
                 </TabPane>
 
                 <TabPane tab="任务统计" key="3">
@@ -96,4 +70,7 @@ class Page1 extends Component {
 }
 
 
-export default Page1
+export default connect(
+    state =>({planData: state.planData}),
+    {initPlanData,addPlan})
+(Page1)

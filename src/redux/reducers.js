@@ -5,7 +5,7 @@ import {
     RECEIVE_WEAPON_DATA,
     CHANGE_SONG,
     CHANGE_CARD2,
-    BUY_ITEM, ADD_YEAR_PLAN, GET_YEAR_PLAN_LIST, GET_MONTH_PLAN_LIST, GET_WEEK_PLAN_LIST, GET_TODAY_PLAN_LIST
+    BUY_ITEM, ADD_YEAR_PLAN, GET_YEAR_PLAN_LIST, GET_MONTH_PLAN_LIST, GET_WEEK_PLAN_LIST, GET_TODAY_PLAN_LIST, INIT_PLAN
 } from './action-types'
 
 // 练习一的初始数据
@@ -85,46 +85,16 @@ function personData(state = itemData_mock, action) {
  */
 
 // 先测试一波，仅仅测试年计划的数据变化
-function yearPlanData(state = [], action) {
+function planData(state = {}, action) {
     switch (action.type) {
-        case GET_YEAR_PLAN_LIST:
-            console.log('year----', action.data);
+        case INIT_PLAN:
+            console.log('planData----', action.data);
             return action.data;
         default:
             return state
     }
 }
 
-
-// 月计划
-function monthPlanData(state = [], action) {
-    switch (action.type) {
-        case GET_MONTH_PLAN_LIST:
-            return action.data;
-        default:
-            return state
-    }
-}
-
-// 周计划
-function weekPlanData(state = [], action) {
-    switch (action.type) {
-        case GET_WEEK_PLAN_LIST:
-            return action.data;
-        default:
-            return state
-    }
-}
-
-// 日计划
-function todayPlanData(state = [], action) {
-    switch (action.type) {
-        case GET_TODAY_PLAN_LIST:
-            return action.data;
-        default:
-            return state
-    }
-}
 
 
 
@@ -135,10 +105,7 @@ export default combineReducers({
     lyricData,
     cardTest2Data,
     personData,
-    yearPlanData,
-    monthPlanData,
-    weekPlanData,
-    todayPlanData
+    planData
 })
 
 // redux向外暴露的state结构  { counter:2, comment:[{},{}]  }

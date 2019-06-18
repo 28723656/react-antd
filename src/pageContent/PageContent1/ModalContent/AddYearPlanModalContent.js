@@ -1,9 +1,8 @@
 import React from 'react'
-import {Button, Form, Input, Radio, Select, Slider, Switch,} from 'antd';
+import {Button, Form, Input, Select, Switch,} from 'antd';
 import PlanNameSearch from "../Common/PlanNameSearch";
 import PlanRadioGroup from "../Common/PlanRadioGroup";
 import PlanSlider from "../Common/PlanSlider";
-import {addPlan} from "../../../redux/actions";
 
 const { Option } = Select;
 const format = 'HH:mm';

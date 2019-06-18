@@ -8,7 +8,7 @@ import {
     GET_YEAR_PLAN_LIST,
     GET_TODAY_PLAN_LIST,
     GET_WEEK_PLAN_LIST,
-    GET_MONTH_PLAN_LIST
+    GET_MONTH_PLAN_LIST, INIT_PLAN
 } from './action-types'
 
 import {weaponData_mock} from "../mock/test01data";
@@ -57,70 +57,40 @@ export const buyItem = ({id, name}) => ({type: BUY_ITEM, data: {id, name}})
 /**
  * 页面一：计划列表
  */
-const planList = (type,data) => ({type, data});
-
-
+const planList = (data) => ({type:INIT_PLAN, data});
 
 
 /**
- * 页面一：计划
+ * 页面一：添加计划
  */
 export const addPlan = (values) => {
     return async dispatch => {
         const response = await addAjax('/plan/plan', values);
         const result = response.data;
+        // 添加成功
         if (result.flag) {
-            // 每次添加，更新4组数据
-            getPlanList(dispatch,1);
-            getPlanList(dispatch,2);
-            getPlanList(dispatch,3);
-            getPlanList(dispatch,4);
-        }
-    }
-}
-
-
-// 初始化年计划
-export const  initPlanData = (type) =>{
-    return async dispatch =>{
-        const response = await getAjax(`/plan/plan/${type}`);
-        const result = response.data;
-        if(result.flag){
-            switch (type) {
-                case 1: dispatch(planList(GET_TODAY_PLAN_LIST,result.data));
-                case 2: dispatch(planList(GET_WEEK_PLAN_LIST,result.data));
-                case 3: dispatch(planList(GET_MONTH_PLAN_LIST,result.data));
-                case 4: dispatch(planList(GET_YEAR_PLAN_LIST,result.data));
+            // 初始化数据  第一种：直接查数据库初始化数据
+            const response = await getAjax(`/plan/plan`);
+            const result = response.data;
+            if(result.flag){
+                dispatch(planList(result.data))
             }
         }
     }
 }
 
 
-
-
-
-
-
-
-
-
-/**
- * 页面一:获取计划列表
- */
-async function getPlanList (dispatch,type){
-    const response = await getAjax(`/plan/plan/${type}`);
-    const result = response.data;
-    if(result.flag){
-        switch (type) {
-            case 1: dispatch(planList(GET_TODAY_PLAN_LIST,result.data));
-            case 2: dispatch(planList(GET_WEEK_PLAN_LIST,result.data));
-            case 3: dispatch(planList(GET_MONTH_PLAN_LIST,result.data));
-            case 4: dispatch(planList(GET_YEAR_PLAN_LIST,result.data));
+// 初始化计划
+export const  initPlanData = () =>{
+    return async dispatch =>{
+        const response = await getAjax(`/plan/plan`);
+        const result = response.data;
+        if(result.flag){
+           dispatch(planList(result.data))
         }
-
     }
 }
+
 
 
 
