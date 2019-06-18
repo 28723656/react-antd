@@ -21,7 +21,7 @@ class TodayPlan extends Component{
 
     render() {
 
-        const {todayPlan} = this.props.data;
+        const {todayPlan,weekPlan} = this.props.data;
         console.log('todayPlan',todayPlan)
         const {addPlan} = this.props;
 
@@ -33,7 +33,7 @@ class TodayPlan extends Component{
                                {hideOnSinglePage :true}
                            }
                     />
-                    <AddPlanModal  addPlan={addPlan}  title='添加今日计划' type={1}/>
+                    <AddPlanModal data={weekPlan}  addPlan={addPlan}  title='添加今日计划' type={1}/>
                 </Card>
 
 

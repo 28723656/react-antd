@@ -4,6 +4,7 @@ import moment from 'moment';
 import PlanNameSearch from "../Common/PlanNameSearch";
 import PlanRadioGroup from "../Common/PlanRadioGroup";
 import PlanSlider from "../Common/PlanSlider";
+import PlanSelectOptionList from "../Common/PlanSelectOptionList";
 
 const { Option } = Select;
 const format = 'HH:mm';
@@ -50,6 +51,7 @@ class AddPlanModalContentClass extends React.Component {
 
     render() {
         let { getFieldDecorator ,getFieldValue,setFieldsValue} = this.props.form;
+        let {data} = this.props;
 
         const formItemLayout = {
             labelCol: {
@@ -75,13 +77,8 @@ class AddPlanModalContentClass extends React.Component {
                 </Form.Item>
 
                 <Form.Item label="关联任务">
-                    {getFieldDecorator('parentName',{initialValue:0})(
-                        <Select>
-                            <Option value={0}>无</Option>
-                            <Option value={1}>任务一:读书</Option>
-                            <Option value={2}>任务二:学习react</Option>
-                            <Option value={3}>任务三:打架</Option>
-                        </Select>
+                    {getFieldDecorator('parentId',{initialValue:1})(
+                      <PlanSelectOptionList data={data} />
                         )}
                 </Form.Item>
 

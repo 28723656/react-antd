@@ -50,6 +50,7 @@ class PlanSelectOptionList extends Component{
 
         const {data} = this.props
         const {selected} = this.state;
+        debugger
         return (
             <Select onChange={this.handleSelectChange} defaultValue={selected} >
                 {
