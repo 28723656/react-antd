@@ -19,7 +19,7 @@ class TodayPlan extends Component{
     }
 
     state ={
-        record:null
+        record:null,
     }
 
 
@@ -117,7 +117,8 @@ class TodayPlan extends Component{
 
         const {todayPlan,weekPlan} = this.props.data;
         console.log('todayPlan--观测中',todayPlan)
-        const {addPlan,modalData,switchModal,updatePlan} = this.props;
+        const {addPlan,modalData,switchModal,updatePlan,loadingData,loading} = this.props;
+        console.log('loadingData----------',loadingData)
         const {record} = this.state;
 
         return (
@@ -138,12 +139,15 @@ class TodayPlan extends Component{
                                    onMouseLeave: event => {},
                                };
                            }}
+                           loading={loadingData}
                     />
                     }
                     <AddPlanModal data={weekPlan} record={record}
                                   modalData={modalData} switchModal={switchModal}
                                   addPlan={addPlan} updatePlan={updatePlan}
-                                  title='添加今日计划' type={1}/>
+                                  title='添加今日计划' type={1}
+                                  loadingData={loadingData} loading={loading}
+                    />
 
                     <Row>
                         <Col span={6}>

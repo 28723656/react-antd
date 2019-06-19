@@ -46,5 +46,7 @@ export const ADD_PLAN = 'ADD_PLAN'
 
 //关闭和打开模态框
 export const SWITCH_MODAL ='SWITCH_MODAL'
+// LOADING
+export const LOADING ='LOADING'
 
 

@@ -5,6 +5,7 @@ import AddWeekPlanModalContent from "../ModalContent/AddWeekPlanModalContent";
 import AddMonthPlanModalContent from "../ModalContent/AddMonthPlanModalContent";
 import AddYearPlanModalContent from "../ModalContent/AddYearPlanModalContent";
 import PropTypes from 'prop-types'
+import TodayPlan from "../../../pages/Page1";
 
 /**
  *  用于page1 今日计划的modal
@@ -32,7 +33,7 @@ class AddPlanModal extends Component{
         title = title === undefined?initTitle:title
         type = type ===undefined?initType:type
 
-        const {data,modalData,switchModal,record,updatePlan} = this.props;
+        const {data,modalData,switchModal,record,updatePlan,loadingData,loading} = this.props;
 
         if(record !== null){
             title='修改计划'
@@ -49,7 +50,9 @@ class AddPlanModal extends Component{
                     footer={null}
                     destroyOnClose={true}
                 >
-                    {type ===1 &&<AddTodayPlanModalContent record={record} updatePlan={updatePlan}  addPlan={addPlan} data={data} switchModal={switchModal} />}
+                    {type ===1 &&<AddTodayPlanModalContent record={record} updatePlan={updatePlan}  addPlan={addPlan} data={data} switchModal={switchModal}
+                                                           loadingData={loadingData} loading={loading}
+                    />}
                     {type ===2 &&<AddWeekPlanModalContent   addPlan={addPlan} data={data} switchModal={switchModal} />}
                     {type ===3 &&<AddMonthPlanModalContent  addPlan={addPlan}  data={data}  switchModal={switchModal} />}
                     {type ===4 &&<AddYearPlanModalContent   addPlan={addPlan} switchModal={switchModal} />}

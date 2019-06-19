@@ -40,7 +40,8 @@ class AddPlanModalContentClass extends React.Component {
                //
 
                //  把获得的值传入到data中，还是应该让父界面处理
-                const {addPlan,updatePlan,record} = this.props
+                const {addPlan,updatePlan,record,loading} = this.props
+                loading(true)
                 if(record == null){
                     addPlan(values);
                 }else{

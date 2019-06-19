@@ -12,7 +12,7 @@ import {
     GET_WEEK_PLAN_LIST,
     GET_TODAY_PLAN_LIST,
     INIT_PLAN,
-    SWITCH_MODAL
+    SWITCH_MODAL, LOADING
 } from './action-types'
 
 // 练习一的初始数据
@@ -112,7 +112,15 @@ function modalData(state=false,action) {
     }
 }
 
-
+// loading
+function loadingData(state=false,action) {
+    switch (action.type) {
+        case LOADING:
+            return action.data;
+        default:
+            return state
+    }
+}
 
 
 
@@ -123,7 +131,8 @@ export default combineReducers({
     cardTest2Data,
     personData,
     planData,
-    modalData
+    modalData,
+    loadingData
 })
 
 // redux向外暴露的state结构  { counter:2, comment:[{},{}]  }
