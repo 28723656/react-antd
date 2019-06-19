@@ -40,8 +40,12 @@ class AddPlanModalContentClass extends React.Component {
                //
 
                //  把获得的值传入到data中，还是应该让父界面处理
-                const {addPlan} = this.props
-                addPlan(values);
+                const {addPlan,updatePlan,record} = this.props
+                if(record == null){
+                    addPlan(values);
+                }else{
+                    updatePlan(values);
+                }
 
            //    其实是关闭模态框
                 this.props.switchModal(false);
@@ -65,6 +69,10 @@ class AddPlanModalContentClass extends React.Component {
         };
         return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+
+                {getFieldDecorator('id',{initialValue:record !== null?record.id:null})(
+                    <Input hidden={true}/>
+                )}
 
                 {getFieldDecorator('type',{initialValue:record !== null?record.type:1})(
                     <Input hidden={true}/>
@@ -90,11 +98,11 @@ class AddPlanModalContentClass extends React.Component {
                     <Form.Item
                         style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
                     >
-                        {getFieldDecorator('startTime',{ initialValue:moment()})(<TimePicker format={format}  />)}
+                        {getFieldDecorator('startTime',{ initialValue:record !== null? moment(record.startTime):moment()})(<TimePicker format={format}  />)}
                     </Form.Item>
                     <span style={{ display: 'inline-block', width: '24px', textAlign: 'center' }}>-</span>
                     <Form.Item style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}>
-                        {getFieldDecorator('endTime',{initialValue:moment().add(1,'h')})(<TimePicker  format={format}  />)}
+                        {getFieldDecorator('endTime',{initialValue:record !== null? moment(record.endTime):moment().add(1,'h')})(<TimePicker  format={format}  />)}
                     </Form.Item>
                 </Form.Item>
 

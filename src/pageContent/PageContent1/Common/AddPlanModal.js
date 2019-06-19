@@ -32,7 +32,7 @@ class AddPlanModal extends Component{
         title = title === undefined?initTitle:title
         type = type ===undefined?initType:type
 
-        const {data,modalData,switchModal,record} = this.props;
+        const {data,modalData,switchModal,record,updatePlan} = this.props;
 
         if(record !== null){
             title='修改计划'
@@ -49,7 +49,7 @@ class AddPlanModal extends Component{
                     footer={null}
                     destroyOnClose={true}
                 >
-                    {type ===1 &&<AddTodayPlanModalContent record={record}  addPlan={addPlan} data={data} switchModal={switchModal} />}
+                    {type ===1 &&<AddTodayPlanModalContent record={record} updatePlan={updatePlan}  addPlan={addPlan} data={data} switchModal={switchModal} />}
                     {type ===2 &&<AddWeekPlanModalContent   addPlan={addPlan} data={data} switchModal={switchModal} />}
                     {type ===3 &&<AddMonthPlanModalContent  addPlan={addPlan}  data={data}  switchModal={switchModal} />}
                     {type ===4 &&<AddYearPlanModalContent   addPlan={addPlan} switchModal={switchModal} />}

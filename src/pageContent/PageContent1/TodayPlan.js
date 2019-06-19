@@ -117,7 +117,7 @@ class TodayPlan extends Component{
 
         const {todayPlan,weekPlan} = this.props.data;
         console.log('todayPlan--观测中',todayPlan)
-        const {addPlan,modalData,switchModal} = this.props;
+        const {addPlan,modalData,switchModal,updatePlan} = this.props;
         const {record} = this.state;
 
         return (
@@ -140,7 +140,10 @@ class TodayPlan extends Component{
                            }}
                     />
                     }
-                    <AddPlanModal data={weekPlan} record={record} modalData={modalData} switchModal={switchModal}  addPlan={addPlan} title='添加今日计划' type={1}/>
+                    <AddPlanModal data={weekPlan} record={record}
+                                  modalData={modalData} switchModal={switchModal}
+                                  addPlan={addPlan} updatePlan={updatePlan}
+                                  title='添加今日计划' type={1}/>
 
                     <Row>
                         <Col span={6}>
