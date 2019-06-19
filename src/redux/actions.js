@@ -8,7 +8,7 @@ import {
     GET_YEAR_PLAN_LIST,
     GET_TODAY_PLAN_LIST,
     GET_WEEK_PLAN_LIST,
-    GET_MONTH_PLAN_LIST, INIT_PLAN
+    GET_MONTH_PLAN_LIST, INIT_PLAN, SWITCH_MODAL
 } from './action-types'
 
 import {weaponData_mock} from "../mock/test01data";
@@ -95,6 +95,9 @@ export const finishPlan = (values) =>{
         }
     }
 }
+
+// 显示和关闭模态框
+export const switchModal =(value) =>({type:SWITCH_MODAL,data:value})
 
 
 // 初始化计划

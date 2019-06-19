@@ -24,85 +24,38 @@ class AddPlanModal extends Component{
         addPlan: PropTypes.func.isRequired,
     }
 
-    state = {
-        visible: false,
-    };
 
-    showModal = () => {
-        this.setState({
-            visible: true,
-        });
-    };
 
-    handleOk = e => {
-        console.log(e);
-        this.setState({
-            visible: false,
-        });
-    };
-
-    handleCancel = e => {
-        console.log(e);
-        this.setState({
-            visible: false,
-        });
-    };
-
-    // 处理子窗口提交
-    handleSubmit = () =>{
-        this.setState({
-            visible: false,
-        });
-    }
-
-    //显示历史记录  ---->  这个设计不合理，后期改进
-    showHistory =() =>{
-        console.log('显示历史记录')
-    }
 
     render() {
         let {title,type,addPlan} = this.props;
         title = title === undefined?initTitle:title
         type = type ===undefined?initType:type
 
-        const {data} = this.props;
+        const {data,modalData,switchModal,record} = this.props;
+
+        if(record !== null){
+            title='修改计划'
+        }
 
         return (
             <div>
                 <Modal
                     width={650}
                     title={title}
-                    visible={this.state.visible}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
+                    visible={modalData}
+                    onOk={() => switchModal(false)}
+                    onCancel={() => switchModal(false)}
                     footer={null}
                     destroyOnClose={true}
                 >
-                    {type ===1 &&<AddTodayPlanModalContent  addPlan={addPlan} data={data} handleSubmit={this.handleSubmit} />}
-                    {type ===2 &&<AddWeekPlanModalContent   addPlan={addPlan} data={data} handleSubmit={this.handleSubmit} />}
-                    {type ===3 &&<AddMonthPlanModalContent  addPlan={addPlan}  data={data}   handleSubmit={this.handleSubmit} />}
-                    {type ===4 &&<AddYearPlanModalContent   addPlan={addPlan} handleSubmit={this.handleSubmit} />}
+                    {type ===1 &&<AddTodayPlanModalContent record={record}  addPlan={addPlan} data={data} switchModal={switchModal} />}
+                    {type ===2 &&<AddWeekPlanModalContent   addPlan={addPlan} data={data} switchModal={switchModal} />}
+                    {type ===3 &&<AddMonthPlanModalContent  addPlan={addPlan}  data={data}  switchModal={switchModal} />}
+                    {type ===4 &&<AddYearPlanModalContent   addPlan={addPlan} switchModal={switchModal} />}
 
 
                 </Modal>
-
-                <Row>
-                    <Col span={6} >
-                        <Button type="link" onClick={this.showModal}>
-                            <Icon type="plus" /> 添加计划
-                        </Button>
-                    </Col>
-                    {
-                        type !==1 &&
-                        <Col span={6} offset={12}>
-                            <Button type="link" onClick={this.showHistory}>
-                                <Icon type="history" /> 查看历史
-                            </Button>
-                        </Col>
-                    }
-
-                </Row>
-
             </div>
         )
     }

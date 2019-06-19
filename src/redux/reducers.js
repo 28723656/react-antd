@@ -5,7 +5,14 @@ import {
     RECEIVE_WEAPON_DATA,
     CHANGE_SONG,
     CHANGE_CARD2,
-    BUY_ITEM, ADD_YEAR_PLAN, GET_YEAR_PLAN_LIST, GET_MONTH_PLAN_LIST, GET_WEEK_PLAN_LIST, GET_TODAY_PLAN_LIST, INIT_PLAN
+    BUY_ITEM,
+    ADD_YEAR_PLAN,
+    GET_YEAR_PLAN_LIST,
+    GET_MONTH_PLAN_LIST,
+    GET_WEEK_PLAN_LIST,
+    GET_TODAY_PLAN_LIST,
+    INIT_PLAN,
+    SWITCH_MODAL
 } from './action-types'
 
 // 练习一的初始数据
@@ -95,6 +102,16 @@ function planData(state = {}, action) {
     }
 }
 
+// 模态框数据
+function modalData(state=false,action) {
+    switch (action.type) {
+        case SWITCH_MODAL:
+            return action.data;
+        default:
+            return state
+    }
+}
+
 
 
 
@@ -105,7 +122,8 @@ export default combineReducers({
     lyricData,
     cardTest2Data,
     personData,
-    planData
+    planData,
+    modalData
 })
 
 // redux向外暴露的state结构  { counter:2, comment:[{},{}]  }

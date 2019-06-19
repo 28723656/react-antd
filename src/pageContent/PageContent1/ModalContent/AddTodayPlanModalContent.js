@@ -44,14 +44,14 @@ class AddPlanModalContentClass extends React.Component {
                 addPlan(values);
 
            //    其实是关闭模态框
-                this.props.handleSubmit();
+                this.props.switchModal(false);
             }
         });
     };
 
     render() {
         let { getFieldDecorator ,getFieldValue,setFieldsValue} = this.props.form;
-        let {data} = this.props;
+        let {data,record} = this.props;
 
         const formItemLayout = {
             labelCol: {
@@ -66,12 +66,12 @@ class AddPlanModalContentClass extends React.Component {
         return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
 
-                {getFieldDecorator('type',{initialValue:1})(
+                {getFieldDecorator('type',{initialValue:record !== null?record.type:1})(
                     <Input hidden={true}/>
                 )}
 
                 <Form.Item label="计划名称">
-                    {getFieldDecorator('name',{initialValue:'计划:', rules: [{ required: true, message: '请输入计划名称！' }]})(
+                    {getFieldDecorator('name',{initialValue:record !== null?record.name:'计划:', rules: [{ required: true, message: '请输入计划名称！' }]})(
                        <PlanNameSearch/>
                         )}
                 </Form.Item>
@@ -79,7 +79,7 @@ class AddPlanModalContentClass extends React.Component {
 
                 {data &&
                 <Form.Item label="关联任务">
-                    {getFieldDecorator('parentId',{initialValue:1, rules: [{ required: true, message: '请选择关联任务！' }]})(
+                    {getFieldDecorator('parentId',{initialValue:record !== null?record.parentId:1, rules: [{ required: true, message: '请选择关联任务！' }]})(
                         <PlanSelectOptionList data={data} />
                     )}
                 </Form.Item>
@@ -100,20 +100,20 @@ class AddPlanModalContentClass extends React.Component {
 
 
                 <Form.Item label="设定等级（由低到高）">
-                    {getFieldDecorator('rank',{initialValue:4})(
+                    {getFieldDecorator('rank',{initialValue:record !== null?record.rank:4})(
                         <PlanRadioGroup setFieldsValue={setFieldsValue}  rate={2}  />
 
                     )}
                 </Form.Item>
 
                 <Form.Item label="设定得分">
-                    {getFieldDecorator('score',{initialValue:8})(
+                    {getFieldDecorator('score',{initialValue:record !== null?record.score:8})(
                         <PlanSlider max={10} getFieldValue={getFieldValue} />
                     )}
                 </Form.Item>
 
                 <Form.Item label="置顶">
-                    {getFieldDecorator('top', { valuePropName: 'checked',initialValue:false })(<Switch />)}
+                    {getFieldDecorator('top', { valuePropName: 'checked',initialValue:record !== null?record.top:false })(<Switch />)}
                 </Form.Item>
 
 

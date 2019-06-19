@@ -5,7 +5,6 @@ class PlanRadioGroup extends Component {
 
     static getDerivedStateFromProps(nextProps) {
         // Should be a controlled component.
-    //    debugger
         if ('value' in nextProps) {
             return nextProps.value;
         }
@@ -14,7 +13,6 @@ class PlanRadioGroup extends Component {
 
     constructor(props) {
         super(props);
-     //   debugger
         const value = props.value || {};
         this.state = {
             selected: value || 1,
