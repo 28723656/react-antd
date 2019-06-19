@@ -5,7 +5,7 @@ import LongPlan from "../../pageContent/PageContent1/LongPlan";
 import PlanStatistics from "../../pageContent/PageContent1/PlanStatistics";
 import Rank from "../../components/Rank";
 import {connect} from "react-redux";
-import {addPlan, finishPlan, initPlanData, switchModal,updatePlan,loading} from "../../redux/actions";
+import {addPlan, finishPlan,deletePlan, initPlanData, switchModal,updatePlan,loading} from "../../redux/actions";
 
 
 const TabPane = Tabs.TabPane;
@@ -24,7 +24,7 @@ class Page1 extends Component {
 
 
     render() {
-        const {planData,modalData,addPlan,finishPlan,switchModal,updatePlan,loadingData,loading} = this.props;
+        const {planData,modalData,addPlan,finishPlan,deletePlan,switchModal,updatePlan,loadingData,loading} = this.props;
         console.log(planData)
 
         return (
@@ -32,7 +32,7 @@ class Page1 extends Component {
                 <TabPane tab="今日任务" key="1">
                             <TodayPlan data={planData} modalData={modalData} switchModal={switchModal}
                                        addPlan={addPlan} finishPlan={finishPlan} updatePlan={updatePlan}
-                                       loadingData={loadingData} loading={loading}
+                                       loadingData={loadingData} loading={loading} deletePlan={deletePlan}
                             />
                 </TabPane>
 
@@ -62,5 +62,5 @@ class Page1 extends Component {
 
 export default connect(
     state =>({planData: state.planData,modalData:state.modalData,loadingData:state.loadingData}),
-    {initPlanData,addPlan,finishPlan,switchModal,updatePlan,loading})
+    {initPlanData,addPlan,finishPlan,deletePlan,switchModal,updatePlan,loading})
 (Page1)

@@ -33,10 +33,10 @@ class AddPlanModal extends Component{
         title = title === undefined?initTitle:title
         type = type ===undefined?initType:type
 
-        const {data,modalData,switchModal,record,updatePlan,loadingData,loading} = this.props;
+        const {data,modalData,switchModal,record,updatePlan,deletePlan,loadingData,loading} = this.props;
 
         if(record !== null){
-            title='修改计划'
+            title='修改计划 '
         }
 
         return (
@@ -51,7 +51,7 @@ class AddPlanModal extends Component{
                     destroyOnClose={true}
                 >
                     {type ===1 &&<AddTodayPlanModalContent record={record} updatePlan={updatePlan}  addPlan={addPlan} data={data} switchModal={switchModal}
-                                                           loadingData={loadingData} loading={loading}
+                                                           deletePlan={deletePlan}   loadingData={loadingData} loading={loading}
                     />}
                     {type ===2 &&<AddWeekPlanModalContent   addPlan={addPlan} data={data} switchModal={switchModal} />}
                     {type ===3 &&<AddMonthPlanModalContent  addPlan={addPlan}  data={data}  switchModal={switchModal} />}

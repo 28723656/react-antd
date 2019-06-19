@@ -12,7 +12,7 @@ import {
 } from './action-types'
 
 import {weaponData_mock} from "../mock/test01data";
-import {addAjax, getAjax, updateAjax} from "../util/ajax";
+import {addAjax, getAjax, updateAjax,deleteAjax} from "../util/ajax";
 
 
 /**
@@ -98,7 +98,7 @@ export const finishPlan = (values) =>{
 
 
 
-// 完成计划
+// 修改计划
 export const updatePlan = (values) =>{
     return async dispatch => {
         const response = await updateAjax('/plan/plan/update', values);
@@ -114,6 +114,26 @@ export const updatePlan = (values) =>{
         }
     }
 }
+
+
+// 删除计划
+export const deletePlan = (id) =>{
+    return async dispatch => {
+        const response = await deleteAjax(`/plan/plan/${id}`);
+        const result = response.data;
+        // 添加成功
+        if (result.flag) {
+            // 初始化数据  第一种：直接查数据库初始化数据
+            const response = await getAjax(`/plan/plan`);
+            const result = response.data;
+            if(result.flag){
+                dispatch(planList(result.data))
+            }
+        }
+    }
+}
+
+
 
 
 // 显示和关闭模态框

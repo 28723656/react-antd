@@ -117,7 +117,7 @@ class TodayPlan extends Component{
 
         const {todayPlan,weekPlan} = this.props.data;
         console.log('todayPlan--观测中',todayPlan)
-        const {addPlan,modalData,switchModal,updatePlan,loadingData,loading} = this.props;
+        const {addPlan,modalData,switchModal,updatePlan,deletePlan,loadingData,loading} = this.props;
         console.log('loadingData----------',loadingData)
         const {record} = this.state;
 
@@ -147,6 +147,7 @@ class TodayPlan extends Component{
                                   addPlan={addPlan} updatePlan={updatePlan}
                                   title='添加今日计划' type={1}
                                   loadingData={loadingData} loading={loading}
+                                  deletePlan={deletePlan}
                     />
 
                     <Row>

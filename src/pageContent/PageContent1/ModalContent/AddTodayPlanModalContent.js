@@ -40,12 +40,17 @@ class AddPlanModalContentClass extends React.Component {
                //
 
                //  把获得的值传入到data中，还是应该让父界面处理
-                const {addPlan,updatePlan,record,loading} = this.props
-                loading(true)
+                const {addPlan,updatePlan,deletePlan,record,loading} = this.props
+                console.log('delete',values.delete);
                 if(record == null){
                     addPlan(values);
                 }else{
-                    updatePlan(values);
+                    if(values.delete){
+                        deletePlan(values.id)
+                    }else {
+                        updatePlan(values);
+                    }
+
                 }
 
            //    其实是关闭模态框
@@ -53,6 +58,7 @@ class AddPlanModalContentClass extends React.Component {
             }
         });
     };
+
 
     render() {
         let { getFieldDecorator ,getFieldValue,setFieldsValue} = this.props.form;
@@ -70,6 +76,11 @@ class AddPlanModalContentClass extends React.Component {
         };
         return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+
+                {getFieldDecorator('delete',{initialValue:true,trigger:'onClick'})(
+                    <Button shape='circle' type="danger" icon='close' htmlType="submit">
+                    </Button>
+                )}
 
                 {getFieldDecorator('id',{initialValue:record !== null?record.id:null})(
                     <Input hidden={true}/>
@@ -125,17 +136,19 @@ class AddPlanModalContentClass extends React.Component {
                     {getFieldDecorator('top', { valuePropName: 'checked',initialValue:record !== null?record.top:false })(<Switch />)}
                 </Form.Item>
 
-
-                <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
-                    <Button type="primary" htmlType="submit">
+                {getFieldDecorator('delete',{initialValue:false,trigger:'onClick'})(
+                    <Button type="primary" htmlType="submit" block={true}    >
                         完成
                     </Button>
-                </Form.Item>
+                )}
+
+
+
             </Form>
         );
     }
 }
 
-const AddTodayPlanModalContent = Form.create({ name: 'validate_other' })(AddPlanModalContentClass);
+const   AddTodayPlanModalContent = Form.create({ name: 'validate_other' })(AddPlanModalContentClass);
 
 export  default AddTodayPlanModalContent;
