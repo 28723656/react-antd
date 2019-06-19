@@ -32,18 +32,7 @@ class Page1 extends Component {
         return (
             <Tabs defaultActiveKey="1" onChange={this.callback}>
                 <TabPane tab="今日任务" key="1">
-                    <Row type='flex'>
-                        <Col span={16}>
                             <TodayPlan data={planData} addPlan={addPlan} finishPlan={finishPlan}  />
-                        </Col>
-                        <Col span={8}>
-                            <Rank first={true}/>
-                            <Rank/>
-                            <Rank/>
-                            <Rank/>
-                        </Col>
-                    </Row>
-
                 </TabPane>
 
                 <TabPane tab="长期计划" key="2">

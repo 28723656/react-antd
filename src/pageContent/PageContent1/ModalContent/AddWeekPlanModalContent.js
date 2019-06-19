@@ -76,17 +76,21 @@ class AddWeekModalContentClass extends React.Component {
                     <Input hidden={true}/>
                 )}
 
+
                 <Form.Item label="计划名称">
                     {getFieldDecorator('name',{initialValue:'计划：'})(
-                       <PlanNameSearch/>
+                        <PlanNameSearch/>
                     )}
                 </Form.Item>
 
+                {data &&
                 <Form.Item label="关联任务">
                     {getFieldDecorator('parentId',{initialValue:1})(
                         <PlanSelectOptionList data={data} />
                     )}
                 </Form.Item>
+                }
+
 
 
                 <Form.Item label="设定等级（由低到高）">

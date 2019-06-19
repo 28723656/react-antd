@@ -96,17 +96,21 @@ class TodayPlan extends Component{
 
 
         const {todayPlan,weekPlan} = this.props.data;
-        console.log('todayPlan',todayPlan)
+        console.log('todayPlan--观测中',todayPlan)
         const {addPlan} = this.props;
+
 
         return (
             <div style={{padding:5}} >
                 <Card title='今日计划' bordered={false} bodyStyle={{padding:'8px'}} >
+
+                    {todayPlan &&
                     <Table rowKey='id' columns={columnsToday}  dataSource={todayPlan} showHeader={false} size='small'
                            pagination ={
                                {hideOnSinglePage :true}
                            }
                     />
+                    }
                     <AddPlanModal data={weekPlan}  addPlan={addPlan}  title='添加今日计划' type={1}/>
                 </Card>
 

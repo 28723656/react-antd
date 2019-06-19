@@ -22,29 +22,37 @@ class LongPlan extends Component {
         return (
             <div style={{padding: 5}}>
                 <Card title='本周计划' bordered={false} bodyStyle={{padding: '8px'}}>
+                    {weekPlan &&
                     <Table  rowKey='id' columns={columns2_3} dataSource={weekPlan} showHeader={false} size='small'
-                           pagination={
-                               {hideOnSinglePage: true}
-                           }
+                            pagination={
+                                {hideOnSinglePage: true}
+                            }
                     />
+                    }
                     <AddPlanModal title='添加本周计划' data={monthPlan} type={2} addPlan={addPlan} />
                 </Card>
 
                 <Card title='6月计划' style={{marginTop: 20}} bodyStyle={{padding: '8px'}}>
+                    {monthPlan &&
                     <Table rowKey='id' columns={columns2_3} dataSource={monthPlan} showHeader={false} size='small'
                            pagination={
                                {hideOnSinglePage: true}
                            }
                     />
+                    }
+
                     <AddPlanModal  data={yearPlan} title='添加本月计划' type={3} addPlan={addPlan} />
                 </Card>
 
                 <Card title='2019年计划' style={{marginTop: 20}} bodyStyle={{padding: '8px'}}>
+                    {yearPlan &&
                     <Table rowKey='id' columns={columns2_3} dataSource={yearPlan} showHeader={false} size='small'
                            pagination={
                                {hideOnSinglePage: true}
                            }
                     />
+                    }
+
                     <AddPlanModal  title='添加本年度计划' type={4} addPlan={addPlan} />
                 </Card>
 

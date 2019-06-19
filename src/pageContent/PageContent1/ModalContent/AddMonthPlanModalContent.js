@@ -68,11 +68,14 @@ class AddMonthModalContentClass extends React.Component {
                     {getFieldDecorator('name',{initialValue:'计划：'})(<PlanNameSearch/>)}
                 </Form.Item>
 
+                {data &&
                 <Form.Item label="关联任务">
                     {getFieldDecorator('parentId',{initialValue:1})(
                         <PlanSelectOptionList data={data} />
                     )}
                 </Form.Item>
+                }
+
 
                 <Form.Item label="设定等级（由低到高）">
                     {getFieldDecorator('rank',{ initialValue:3 })(
