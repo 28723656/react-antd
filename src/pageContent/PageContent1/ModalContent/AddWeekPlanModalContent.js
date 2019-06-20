@@ -96,7 +96,7 @@ class AddWeekModalContentClass extends React.Component {
                 )}
 
 
-                {getFieldDecorator('type',{initialValue:record !== null?record.type:1})(
+                {getFieldDecorator('type',{initialValue:record !== null?record.type:2})(
                     <Input hidden={true}/>
                 )}
 

@@ -64,8 +64,12 @@ class AddPlanModalContentClass extends React.Component {
     render() {
         let { getFieldDecorator ,getFieldValue,setFieldsValue} = this.props.form;
         let {data,record} = this.props;
-        console.log('record.startTime',record.startTime,moment(record.startTime).subtract(1,'months').format("YYYY-MM-DD HH:mm:SS"))
-        console.log('record.endTime',record.endTime,moment(record.endTime).subtract(1,'months').format("YYYY-MM-DD HH:mm:SS"))
+
+        if(record){
+            console.log('record.startTime',record.startTime,moment(record.startTime).subtract(1,'months').format("YYYY-MM-DD HH:mm:SS"))
+            console.log('record.endTime',record.endTime,moment(record.endTime).subtract(1,'months').format("YYYY-MM-DD HH:mm:SS"))
+
+        }
 
         const formItemLayout = {
             labelCol: {

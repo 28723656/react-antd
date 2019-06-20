@@ -83,7 +83,7 @@ class TodayPlan extends Component{
                 dataIndex: 'startTime',
                 width:'32%',
                 render:(valaue,row,index) =>{
-                    if(row.startTime!== undefined && row.endTime !== undefined){
+                    if(row.startTime && row.endTime ){
                         const hour1 = row.startTime[3] <10 ? '0'+row.startTime[3]:row.startTime[3]
                         const minutes1 = row.startTime[4] <10 ? '0'+row.startTime[4]:row.startTime[4]
                         const hour2 = row.endTime[3] <10 ? '0'+row.endTime[3]:row.endTime[3]
@@ -124,7 +124,7 @@ class TodayPlan extends Component{
             <div style={{padding:5}} >
                 <Card title='今日计划' bordered={false} bodyStyle={{padding:'8px'}} >
 
-                    {todayPlan &&
+                    {todayPlan && todayPlan.length > 0 &&
                     <Table rowKey='id' columns={columnsToday}  dataSource={todayPlan} showHeader={false} size='small'
                            pagination ={
                                {hideOnSinglePage :true}
@@ -165,7 +165,7 @@ class TodayPlan extends Component{
 
 
                 <Card title='未完成' style={{marginTop:15 }} bodyStyle={{padding:'8px'}}  >
-                <Table columns={columnsToday} dataSource={data1_1} showHeader={false} size='small'
+                <Table columns={columns1_3} dataSource={data1_1} showHeader={false} size='small'
                        scroll={{x:true}}
                        pagination ={
                            {hideOnSinglePage :true}

@@ -42,7 +42,7 @@ class LongPlan extends Component {
         return (
             <div style={{padding: 5}}>
                 <Card title='本周计划' bordered={false} bodyStyle={{padding: '8px'}}>
-                    {weekPlan &&
+                    {weekPlan && weekPlan.length > 0 &&
                     <Table rowKey='id' columns={columns2_3} dataSource={weekPlan} showHeader={false} size='small'
                            pagination={
                                {hideOnSinglePage: true}
@@ -88,7 +88,7 @@ class LongPlan extends Component {
                 </Card>
 
                 <Card title='6月计划' style={{marginTop: 20}} bodyStyle={{padding: '8px'}}>
-                    {monthPlan &&
+                    {monthPlan && monthPlan.length > 0 &&
                     <Table rowKey='id' columns={columns2_3} dataSource={monthPlan} showHeader={false} size='small'
                            pagination={
                                {hideOnSinglePage: true}
@@ -135,7 +135,7 @@ class LongPlan extends Component {
                 </Card>
 
                 <Card title='2019年计划' style={{marginTop: 20}} bodyStyle={{padding: '8px'}}>
-                    {yearPlan &&
+                    {yearPlan && yearPlan.length > 0 &&
                     <Table rowKey='id' columns={columns2_3} dataSource={yearPlan} showHeader={false} size='small'
                            pagination={
                                {hideOnSinglePage: true}
