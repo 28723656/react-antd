@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Col, Row, Tabs} from 'antd';
 import TodayPlan from "../../pageContent/PageContent1/TodayPlan";
 import LongPlan from "../../pageContent/PageContent1/LongPlan";
+import TreePlan from "../../pageContent/PageContent1/TreePlan";
 import PlanStatistics from "../../pageContent/PageContent1/PlanStatistics";
 import Rank from "../../components/Rank";
 import {connect} from "react-redux";
@@ -42,7 +43,22 @@ class Page1 extends Component {
                                 deletePlan={deletePlan}  />
                 </TabPane>
 
-                <TabPane tab="任务统计" key="3">
+                <TabPane tab="树状图查看" key="3">
+                    <Row type='flex'>
+                        <Col span={16}>
+                            <TreePlan/>
+                        </Col>
+                        <Col span={8}>
+                            {/*<Rank first={true}/>*/}
+                            {/*<Rank/>*/}
+                            {/*<Rank/>*/}
+                            {/*<Rank/>*/}
+                        </Col>
+                    </Row>
+
+                </TabPane>
+
+                <TabPane tab="任务统计" key="4">
                     <Row type='flex'>
                         <Col span={16}>
                             <PlanStatistics/>
