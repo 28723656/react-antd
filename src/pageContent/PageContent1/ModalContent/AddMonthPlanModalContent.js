@@ -35,17 +35,30 @@ class AddMonthModalContentClass extends React.Component {
             if (!err) {
                 // 这里可以获取所有的值
                 console.log('Received values of form-month ', values);
-                const {addPlan} = this.props
-                addPlan(values);
-                // 其实是关闭模态框
-                this.props.handleSubmit();
+                //  把获得的值传入到data中，还是应该让父界面处理
+                const {addPlan,updatePlan,deletePlan,record} = this.props
+                console.log('delete',values.delete);
+                if(record == null){
+                    addPlan(values);
+                }else{
+                    // 1表示删除  0-表示添加
+                    if(values.delete === '1'){
+                        deletePlan(values.id)
+                    }else if(values.delete === '0') {
+                        updatePlan(values);
+                    }
+
+                }
+
+                //    其实是关闭模态框
+                this.props.switchModal(3,false);
             }
         });
     };
 
     render() {
         let { getFieldDecorator,getFieldValue,setFieldsValue } = this.props.form;
-        const {data} = this.props;
+        let {data,record} = this.props;
 
         const formItemLayout = {
             labelCol: {
@@ -60,17 +73,30 @@ class AddMonthModalContentClass extends React.Component {
         return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
 
+
+
+                {getFieldDecorator('delete',{initialValue:'1',trigger:'onClick'})(
+                    <Button shape='circle' type="danger" icon='close' htmlType="submit">
+                    </Button>
+                )}
+
+                {getFieldDecorator('id',{initialValue:record !== null?record.id:null})(
+                    <Input hidden={true}/>
+                )}
+
                 {getFieldDecorator('type',{initialValue:3})(
                     <Input hidden={true}/>
                 )}
 
                 <Form.Item label="计划名称">
-                    {getFieldDecorator('name',{initialValue:'计划：'})(<PlanNameSearch/>)}
+                    {getFieldDecorator('name',{initialValue:record !== null?record.name:'计划:', rules: [{ required: true, message: '请输入计划名称！' }]})(
+                        <PlanNameSearch/>
+                    )}
                 </Form.Item>
 
                 {data &&
                 <Form.Item label="关联任务">
-                    {getFieldDecorator('parentId',{initialValue:1})(
+                    {getFieldDecorator('parentId',{initialValue:record !== null?record.parentId:1, rules: [{ required: true, message: '请选择关联任务！' }]})(
                         <PlanSelectOptionList data={data} />
                     )}
                 </Form.Item>
@@ -78,27 +104,28 @@ class AddMonthModalContentClass extends React.Component {
 
 
                 <Form.Item label="设定等级（由低到高）">
-                    {getFieldDecorator('rank',{ initialValue:3 })(
-                    <PlanRadioGroup setFieldsValue={setFieldsValue}  rate={40} />
+                    {getFieldDecorator('rank',{initialValue:record !== null?record.rank:3})(
+                        <PlanRadioGroup setFieldsValue={setFieldsValue}  rate={40}  />
+
                     )}
                 </Form.Item>
 
                 <Form.Item label="设定得分">
-                    {getFieldDecorator('score',{ initialValue:120 })(
-                  <PlanSlider max={200} getFieldValue={getFieldValue} />
+                    {getFieldDecorator('score',{initialValue:record !== null?record.score:120})(
+                        <PlanSlider max={200} getFieldValue={getFieldValue} />
                     )}
                 </Form.Item>
 
                 <Form.Item label="置顶">
-                    {getFieldDecorator('top', { valuePropName: 'checked',initialValue:false })(<Switch />)}
+                    {getFieldDecorator('top', { valuePropName: 'checked',initialValue:record !== null?record.top:false })(<Switch />)}
                 </Form.Item>
 
 
-                <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
-                    <Button type="primary" htmlType="submit">
+                {getFieldDecorator('delete',{initialValue:'0',trigger:'onClick'})(
+                    <Button type="primary" htmlType="submit" block={true}    >
                         完成
                     </Button>
-                </Form.Item>
+                )}
             </Form>
         );
     }

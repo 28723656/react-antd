@@ -24,7 +24,7 @@ class Page1 extends Component {
 
 
     render() {
-        const {planData,modalData,addPlan,finishPlan,deletePlan,switchModal,updatePlan,loadingData,loading} = this.props;
+        const {planData,modalData,addPlan,finishPlan,deletePlan,switchModal,updatePlan} = this.props;
         console.log(planData)
 
         return (
@@ -32,12 +32,14 @@ class Page1 extends Component {
                 <TabPane tab="今日任务" key="1">
                             <TodayPlan data={planData} modalData={modalData} switchModal={switchModal}
                                        addPlan={addPlan} finishPlan={finishPlan} updatePlan={updatePlan}
-                                       loadingData={loadingData} loading={loading} deletePlan={deletePlan}
+                                        deletePlan={deletePlan}
                             />
                 </TabPane>
 
                 <TabPane tab="长期计划" key="2">
-                      <LongPlan data={planData} modalData={modalData} switchModal={switchModal} addPlan={addPlan}   />
+                      <LongPlan data={planData} modalData={modalData} switchModal={switchModal}
+                                addPlan={addPlan}   updatePlan={updatePlan}
+                                deletePlan={deletePlan}  />
                 </TabPane>
 
                 <TabPane tab="任务统计" key="3">

@@ -137,7 +137,7 @@ export const deletePlan = (id) =>{
 
 
 // 显示和关闭模态框
-export const switchModal =(value) =>({type:SWITCH_MODAL,data:value})
+export const switchModal =(type,value) =>({type:SWITCH_MODAL,data:{type,value}})
 
 // 加载页面
 export const loading =(value) =>({type:LOADING,data:value})

@@ -40,21 +40,22 @@ class AddPlanModalContentClass extends React.Component {
                //
 
                //  把获得的值传入到data中，还是应该让父界面处理
-                const {addPlan,updatePlan,deletePlan,record,loading} = this.props
+                const {addPlan,updatePlan,deletePlan,record} = this.props
                 console.log('delete',values.delete);
-                if(record == null){
+                if(record === null){
                     addPlan(values);
                 }else{
-                    if(values.delete){
+                    // 1表示删除  0-表示添加
+                    if(values.delete === '1'){
                         deletePlan(values.id)
-                    }else {
+                    }else if(values.delete === '0') {
                         updatePlan(values);
                     }
 
                 }
 
            //    其实是关闭模态框
-                this.props.switchModal(false);
+                this.props.switchModal(1,false);
             }
         });
     };
@@ -63,6 +64,8 @@ class AddPlanModalContentClass extends React.Component {
     render() {
         let { getFieldDecorator ,getFieldValue,setFieldsValue} = this.props.form;
         let {data,record} = this.props;
+        console.log('record.startTime',record.startTime,moment(record.startTime).subtract(1,'months').format("YYYY-MM-DD HH:mm:SS"))
+        console.log('record.endTime',record.endTime,moment(record.endTime).subtract(1,'months').format("YYYY-MM-DD HH:mm:SS"))
 
         const formItemLayout = {
             labelCol: {
@@ -77,7 +80,7 @@ class AddPlanModalContentClass extends React.Component {
         return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
 
-                {getFieldDecorator('delete',{initialValue:true,trigger:'onClick'})(
+                {getFieldDecorator('delete',{initialValue:'1',trigger:'onClick'})(
                     <Button shape='circle' type="danger" icon='close' htmlType="submit">
                     </Button>
                 )}
@@ -110,11 +113,11 @@ class AddPlanModalContentClass extends React.Component {
                     <Form.Item
                         style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
                     >
-                        {getFieldDecorator('startTime',{ initialValue:record !== null? moment(record.startTime):moment()})(<TimePicker format={format}  />)}
+                        {getFieldDecorator('startTime',{ initialValue:record !== null? moment(record.startTime).subtract(1,'months'):moment()})(<TimePicker format={format}  />)}
                     </Form.Item>
                     <span style={{ display: 'inline-block', width: '24px', textAlign: 'center' }}>-</span>
                     <Form.Item style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}>
-                        {getFieldDecorator('endTime',{initialValue:record !== null? moment(record.endTime):moment().add(1,'h')})(<TimePicker  format={format}  />)}
+                        {getFieldDecorator('endTime',{initialValue:record !== null? moment(record.endTime).subtract(1,'months'):moment().add(1,'h')})(<TimePicker  format={format}  />)}
                     </Form.Item>
                 </Form.Item>
 
@@ -136,7 +139,7 @@ class AddPlanModalContentClass extends React.Component {
                     {getFieldDecorator('top', { valuePropName: 'checked',initialValue:record !== null?record.top:false })(<Switch />)}
                 </Form.Item>
 
-                {getFieldDecorator('delete',{initialValue:false,trigger:'onClick'})(
+                {getFieldDecorator('delete',{initialValue:'0',trigger:'onClick'})(
                     <Button type="primary" htmlType="submit" block={true}    >
                         完成
                     </Button>

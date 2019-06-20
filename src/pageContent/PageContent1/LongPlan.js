@@ -3,6 +3,7 @@ import {Button, Card, Col, Icon, Row, Table} from "antd";
 import {columns2_3} from "../../mock/mockDataPage1";
 import AddPlanModal from './Common/AddPlanModal'
 import PropTypes from 'prop-types'
+import TodayPlan from "../../pages/Page1";
 
 /**
  * 长期计划
@@ -14,32 +15,65 @@ class LongPlan extends Component {
         addPlan: PropTypes.func.isRequired,
     }
 
+    state = {
+        record: null,
+    }
+
+
     // 添加计划
-    handleAddPlan = (e) =>{
-        this.props.switchModal(true);
-        this.setState({record:null});
+    handleAddPlan = (type) => {
+        this.props.switchModal(type,true);
+        this.setState({record: null});
+    }
+
+    // 更新
+    updatePlan = (event, record,type) => {
+        console.log('点击的是：', record);
+        this.props.switchModal(type,true);
+        this.setState({record})
     }
 
 
     render() {
-        const {weekPlan,monthPlan,yearPlan} = this.props.data;
-        const {addPlan} = this.props;
+        const {weekPlan, monthPlan, yearPlan} = this.props.data;
+        const {addPlan, modalData, switchModal, updatePlan, deletePlan} = this.props;
+        const {record} = this.state;
 
         return (
             <div style={{padding: 5}}>
                 <Card title='本周计划' bordered={false} bodyStyle={{padding: '8px'}}>
                     {weekPlan &&
-                    <Table  rowKey='id' columns={columns2_3} dataSource={weekPlan} showHeader={false} size='small'
-                            pagination={
-                                {hideOnSinglePage: true}
-                            }
+                    <Table rowKey='id' columns={columns2_3} dataSource={weekPlan} showHeader={false} size='small'
+                           pagination={
+                               {hideOnSinglePage: true}
+                           }
+                           onRow={record => {
+                               return {
+                                   onClick: event => {
+                                   }, // 点击行
+                                   onDoubleClick: event => {
+                                       this.updatePlan(event, record,2)
+                                   },
+                                   onContextMenu: event => {
+                                   },
+                                   onMouseEnter: event => {
+                                   }, // 鼠标移入行
+                                   onMouseLeave: event => {
+                                   },
+                               };
+                           }}
                     />
                     }
-                    <AddPlanModal title='添加本周计划' data={monthPlan} type={2} addPlan={addPlan} />
+                    <AddPlanModal data={monthPlan} record={record}
+                                  modalData={modalData} switchModal={switchModal}
+                                  addPlan={addPlan} updatePlan={updatePlan}
+                                  title='添加本周计划' type={2}
+                                  deletePlan={deletePlan}
+                    />
 
                     <Row>
                         <Col span={6}>
-                            <Button type="link" onClick={this.handleAddPlan}>
+                            <Button type="link" onClick={() =>this.handleAddPlan(2)}>
                                 <Icon type="plus"/> 添加计划
                             </Button>
                         </Col>
@@ -59,14 +93,35 @@ class LongPlan extends Component {
                            pagination={
                                {hideOnSinglePage: true}
                            }
+                           onRow={record => {
+                               return {
+                                   onClick: event => {
+                                   }, // 点击行
+                                   onDoubleClick: event => {
+                                       this.updatePlan(event, record,3)
+                                   },
+                                   onContextMenu: event => {
+                                   },
+                                   onMouseEnter: event => {
+                                   }, // 鼠标移入行
+                                   onMouseLeave: event => {
+                                   },
+                               };
+                           }}
                     />
                     }
 
-                    <AddPlanModal  data={yearPlan} title='添加本月计划' type={3} addPlan={addPlan} />
+                    <AddPlanModal data={yearPlan} record={record}
+                                  modalData={modalData} switchModal={switchModal}
+                                  addPlan={addPlan} updatePlan={updatePlan}
+                                  title='添加本月计划' type={3}
+                                deletePlan={deletePlan}
+                    />
+
 
                     <Row>
                         <Col span={6}>
-                            <Button type="link" onClick={this.handleAddPlan}>
+                            <Button type="link" onClick={() =>this.handleAddPlan(3)}>
                                 <Icon type="plus"/> 添加计划
                             </Button>
                         </Col>
@@ -85,13 +140,33 @@ class LongPlan extends Component {
                            pagination={
                                {hideOnSinglePage: true}
                            }
+                           onRow={record => {
+                               return {
+                                   onClick: event => {
+                                   }, // 点击行
+                                   onDoubleClick: event => {
+                                       this.updatePlan(event, record,4)
+                                   },
+                                   onContextMenu: event => {
+                                   },
+                                   onMouseEnter: event => {
+                                   }, // 鼠标移入行
+                                   onMouseLeave: event => {
+                                   },
+                               };
+                           }}
                     />
                     }
 
-                    <AddPlanModal  title='添加本年度计划' type={4} addPlan={addPlan} />
+                    <AddPlanModal record={record}
+                                  modalData={modalData} switchModal={switchModal}
+                                  addPlan={addPlan} updatePlan={updatePlan}
+                                  title='添加本年度计划' type={4}
+                                  deletePlan={deletePlan}
+                    />
                     <Row>
                         <Col span={6}>
-                            <Button type="link" onClick={this.handleAddPlan}>
+                            <Button type="link" onClick={() =>this.handleAddPlan(4)}>
                                 <Icon type="plus"/> 添加计划
                             </Button>
                         </Col>

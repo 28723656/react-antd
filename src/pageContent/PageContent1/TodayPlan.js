@@ -32,7 +32,7 @@ class TodayPlan extends Component{
     // 更新
     updatePlan = (event,record) =>{
         console.log('点击的是：',record);
-        this.props.switchModal(true);
+        this.props.switchModal(1,true);
         this.setState({record})
     }
 
@@ -48,7 +48,7 @@ class TodayPlan extends Component{
 
     // 添加计划
     handleAddPlan = (e) =>{
-        this.props.switchModal(true);
+        this.props.switchModal(1,true);
         this.setState({record:null});
     }
 
@@ -117,8 +117,7 @@ class TodayPlan extends Component{
 
         const {todayPlan,weekPlan} = this.props.data;
         console.log('todayPlan--观测中',todayPlan)
-        const {addPlan,modalData,switchModal,updatePlan,deletePlan,loadingData,loading} = this.props;
-        console.log('loadingData----------',loadingData)
+        const {addPlan,modalData,switchModal,updatePlan,deletePlan} = this.props;
         const {record} = this.state;
 
         return (
@@ -139,14 +138,12 @@ class TodayPlan extends Component{
                                    onMouseLeave: event => {},
                                };
                            }}
-                           loading={loadingData}
                     />
                     }
                     <AddPlanModal data={weekPlan} record={record}
                                   modalData={modalData} switchModal={switchModal}
                                   addPlan={addPlan} updatePlan={updatePlan}
                                   title='添加今日计划' type={1}
-                                  loadingData={loadingData} loading={loading}
                                   deletePlan={deletePlan}
                     />
 

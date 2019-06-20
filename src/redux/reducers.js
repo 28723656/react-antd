@@ -103,17 +103,25 @@ function planData(state = {}, action) {
 }
 
 // 模态框数据
-function modalData(state=false,action) {
+function modalData(state = {today: false, week: false, month: false, year: false}, action) {
     switch (action.type) {
         case SWITCH_MODAL:
-            return action.data;
+            if (action.data.type === 1) {
+                return {today: action.data.value, week: false, month: false, year: false}
+            } else if (action.data.type === 2) {
+                return {today: false, week: action.data.value, month: false, year: false}
+            } else if (action.data.type === 3) {
+                return {today: false, week: false, month: action.data.value, year: false}
+            } else if (action.data.type === 4) {
+                return {today: false, week: false, month: false, year: action.data.value}
+            }
         default:
             return state
     }
 }
 
 // loading
-function loadingData(state=false,action) {
+function loadingData(state = false, action) {
     switch (action.type) {
         case LOADING:
             return action.data;
@@ -121,7 +129,6 @@ function loadingData(state=false,action) {
             return state
     }
 }
-
 
 
 // 多个的情况

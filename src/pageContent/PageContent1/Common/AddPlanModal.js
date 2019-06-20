@@ -33,10 +33,20 @@ class AddPlanModal extends Component{
         title = title === undefined?initTitle:title
         type = type ===undefined?initType:type
 
-        const {data,modalData,switchModal,record,updatePlan,deletePlan,loadingData,loading} = this.props;
+        const {data,modalData,switchModal,record,updatePlan,deletePlan} = this.props;
 
         if(record !== null){
             title='修改计划 '
+        }
+        let visible = false;
+        if(type === 1){
+            visible = modalData.today
+        }else if(type ===2 ){
+            visible = modalData.week
+        }else if(type ===3 ){
+            visible = modalData.month
+        }else if(type ===4 ){
+            visible = modalData.year
         }
 
         return (
@@ -44,18 +54,24 @@ class AddPlanModal extends Component{
                 <Modal
                     width={650}
                     title={title}
-                    visible={modalData}
-                    onOk={() => switchModal(false)}
-                    onCancel={() => switchModal(false)}
+                    visible={visible}
+                    onOk={() => switchModal(type,false)}
+                    onCancel={() => switchModal(type,false)}
                     footer={null}
                     destroyOnClose={true}
                 >
-                    {type ===1 &&<AddTodayPlanModalContent record={record} updatePlan={updatePlan}  addPlan={addPlan} data={data} switchModal={switchModal}
-                                                           deletePlan={deletePlan}   loadingData={loadingData} loading={loading}
+                    {type ===1 &&<AddTodayPlanModalContent  addPlan={addPlan} data={data} switchModal={switchModal}
+                                                            record={record}     updatePlan={updatePlan} deletePlan={deletePlan}
                     />}
-                    {type ===2 &&<AddWeekPlanModalContent   addPlan={addPlan} data={data} switchModal={switchModal} />}
-                    {type ===3 &&<AddMonthPlanModalContent  addPlan={addPlan}  data={data}  switchModal={switchModal} />}
-                    {type ===4 &&<AddYearPlanModalContent   addPlan={addPlan} switchModal={switchModal} />}
+                    {type ===2 &&<AddWeekPlanModalContent   addPlan={addPlan} data={data} switchModal={switchModal}
+                                                            record={record}     updatePlan={updatePlan} deletePlan={deletePlan}
+                    />}
+                    {type ===3 &&<AddMonthPlanModalContent  addPlan={addPlan}  data={data}  switchModal={switchModal}
+                                                            record={record}     updatePlan={updatePlan} deletePlan={deletePlan}
+                    />}
+                    {type ===4 &&<AddYearPlanModalContent   addPlan={addPlan} switchModal={switchModal}
+                                                            record={record}    updatePlan={updatePlan} deletePlan={deletePlan}
+                    />}
 
 
                 </Modal>
