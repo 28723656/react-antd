@@ -12,6 +12,7 @@ const gData = [];
 
 
 const generateData = (_level, _preKey, _tns) => {
+    debugger
     const preKey = _preKey || '0';
     const tns = _tns || gData;
 
@@ -124,6 +125,9 @@ class TreePlan extends Component{
             });
 
         console.log('gData',gData);
+        console.log('dataList',dataList);
+
+
         return (
             <div>
                 <Search style={{ marginBottom: 8 }} placeholder="Search" onChange={this.onChange} />
