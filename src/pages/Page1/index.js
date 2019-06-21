@@ -3,11 +3,10 @@ import {Col, Row, Tabs} from 'antd';
 import TodayPlan from "../../pageContent/PageContent1/TodayPlan";
 import LongPlan from "../../pageContent/PageContent1/LongPlan";
 import TreePlan from "../../pageContent/PageContent1/TreePlan";
-import TreePlanTemp from "../../pageContent/PageContent1/TreePlanTemp";
 import PlanStatistics from "../../pageContent/PageContent1/PlanStatistics";
 import Rank from "../../components/Rank";
 import {connect} from "react-redux";
-import {addPlan, finishPlan,deletePlan, initPlanData, switchModal,updatePlan,loading} from "../../redux/actions";
+import {addPlan, deletePlan, finishPlan, initPlanData, loading, switchModal, updatePlan} from "../../redux/actions";
 
 
 const TabPane = Tabs.TabPane;
@@ -48,7 +47,7 @@ class Page1 extends Component {
                     <Row type='flex'>
                         <Col span={16}>
                             {/*<TreePlan/>*/}
-                            <TreePlanTemp/>
+                            <TreePlan/>
                         </Col>
                         <Col span={8}>
                             {/*<Rank first={true}/>*/}

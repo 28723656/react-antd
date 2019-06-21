@@ -109,7 +109,7 @@ class AddWeekModalContentClass extends React.Component {
 
                 {data &&
                 <Form.Item label="关联任务">
-                    {getFieldDecorator('parentId',{initialValue:record !== null?record.parentId:1, rules: [{ required: true, message: '请选择关联任务！' }]})(
+                    {getFieldDecorator('parentId',{initialValue:record !== null?record.parentId:119, rules: [{ required: true, message: '请选择关联任务！' }]})(
                         <PlanSelectOptionList data={data} />
                     )}
                 </Form.Item>

@@ -1,7 +1,6 @@
 import React,{Component} from 'react'
 
 import { Tree, Input } from 'antd';
-import {getAjax} from "../../util/ajax";
 
 const { TreeNode } = Tree;
 const Search = Input.Search;
@@ -65,13 +64,12 @@ const getParentKey = (key, tree) => {
 
 
 
-class TreePlan extends Component{
+class TreePlanTemp extends Component{
 
     state = {
         expandedKeys: [],
         searchValue: '',
         autoExpandParent: true,
-        initData:[]
     };
 
     onExpand = expandedKeys => {
@@ -83,11 +81,10 @@ class TreePlan extends Component{
 
     onChange = e => {
         const value = e.target.value;
-        const {initData} = this.state;
         const expandedKeys = dataList
             .map(item => {
                 if (item.title.indexOf(value) > -1) {
-                    return getParentKey(item.key, initData);
+                    return getParentKey(item.key, gData);
                 }
                 return null;
             })
@@ -98,14 +95,6 @@ class TreePlan extends Component{
             autoExpandParent: true,
         });
     };
-
-    componentDidMount() {
-        getAjax('/plan/plan/tree/-1').then((response) =>{
-            if(response.data.flag){
-                this.setState({initData:response.data.data});
-            }
-        })
-    }
 
     render() {
         const { searchValue, expandedKeys, autoExpandParent } = this.state;
@@ -135,12 +124,6 @@ class TreePlan extends Component{
             });
 
         console.log('gData',gData);
-        console.log('dataList',dataList);
-
-
-        const {initData} = this.state;
-        console.log('initData',initData);
-
         return (
             <div>
                 <Search style={{ marginBottom: 8 }} placeholder="Search" onChange={this.onChange} />
@@ -149,11 +132,11 @@ class TreePlan extends Component{
                     expandedKeys={expandedKeys}
                     autoExpandParent={autoExpandParent}
                 >
-                    {loop(initData)}
+                    {loop(gData)}
                 </Tree>
             </div>
         );
     }
 }
 
-export  default TreePlan
+export  default TreePlanTemp
