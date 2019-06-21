@@ -56,18 +56,22 @@ class TodayPlan extends Component{
 
     render() {
 
-// 1-今日计划   2-长期计划
+// 1-今日计划
          const columnsToday = [
             {
                 title: '任务名称',
                 dataIndex: 'name',
-                width:'50%',
+                width:'35%',
                 render:(value,row,index) =>{
                     let topStr ='';
                     if(row.top){
                         topStr ='[置顶] ' ;
                     }
-                    let nameAfter = '->'+value
+                    let nameAfter =value
+                    console.log('名字的长度：',(nameAfter+topStr).length);
+                    if((nameAfter+topStr).length >17){
+                        nameAfter = nameAfter.substring(0,16)+"...";
+                    }
                     switch (row.rank) {
                         case 1:return  <Tag color={row.color}>{topStr}D{nameAfter}</Tag>
                         case 2:return  <Tag color={row.color}>{topStr}C{nameAfter}</Tag>
@@ -81,21 +85,21 @@ class TodayPlan extends Component{
             {
                 title: '时间',
                 dataIndex: 'startTime',
-                width:'32%',
+                width:'35%',
                 render:(valaue,row,index) =>{
                     if(row.startTime && row.endTime ){
                         const hour1 = row.startTime[3] <10 ? '0'+row.startTime[3]:row.startTime[3]
-                        const minutes1 = row.startTime[4] <10 ? '0'+row.startTime[4]:row.startTime[4]
+                       // const minutes1 = row.startTime[4] <10 ? '0'+row.startTime[4]:row.startTime[4]
                         const hour2 = row.endTime[3] <10 ? '0'+row.endTime[3]:row.endTime[3]
-                        const minutes2 = row.endTime[4] <10 ? '0'+row.endTime[4]:row.endTime[4]
-                        return hour1+':'+minutes1+" - "+
-                            hour2+':'+minutes2;
+                      //  const minutes2 = row.endTime[4] <10 ? '0'+row.endTime[4]:row.endTime[4]
+                        return hour1 +'-'+ hour2
                     }
                 }
             },
             {
                 title: '完成',
                 dataIndex: 'finished',
+                width:'30%',
                 render: (value,row,index) =>{
                     console.log( value)
                     if(value === 1){
@@ -136,6 +140,8 @@ class TodayPlan extends Component{
                                    onContextMenu: event => {},
                                    onMouseEnter: event => {}, // 鼠标移入行
                                    onMouseLeave: event => {},
+                                   onTouchEndCapture:event =>{this.updatePlan(event,record)},
+                                 //  onClickCapture:event =>{this.updatePlan(event,record)},
                                };
                            }}
                     />

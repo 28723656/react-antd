@@ -75,7 +75,7 @@ class AddMonthModalContentClass extends React.Component {
 
 
 
-                { record.id !== 119 && getFieldDecorator('delete',{initialValue:'1',trigger:'onClick'})(
+                {record &&  record.id !== 119 && getFieldDecorator('delete',{initialValue:'1',trigger:'onClick'})(
                     <Button shape='circle' type="danger" icon='close' htmlType="submit">
                     </Button>
                 )}
