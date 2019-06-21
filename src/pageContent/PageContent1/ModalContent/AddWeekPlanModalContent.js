@@ -86,11 +86,10 @@ class AddWeekModalContentClass extends React.Component {
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
 
 
-            {/*    {getFieldDecorator('delete',{initialValue:'1',trigger:'onClick'})(
+               {record.id !== 120 && getFieldDecorator('delete',{initialValue:'1',trigger:'onClick'})(
                     <Button shape='circle' type="danger" icon='close' htmlType="submit">
                     </Button>
                 )}
-*/}
                 {getFieldDecorator('id',{initialValue:record !== null?record.id:null})(
                     <Input hidden={true}/>
                 )}

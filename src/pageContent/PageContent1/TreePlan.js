@@ -135,12 +135,12 @@ class TreePlan extends Component{
                 if (item.children) {
                     return (
 
-                        <TreeNode key={item.key} title={ <Tag color={item.color}>{item.percent>=100? <Text delete>{item.rank}-> {item.title}</Text>:item.rank+'->'+item.title}</Tag>}>
+                        <TreeNode key={item.key} title={ <Tag color={item.color}>{item.percent>=100? <Text delete>{item.rank}-> {item.title}</Text>:item.rank+'->'+item.title+' ('+item.percent+'%)'}</Tag>}>
                             {loop(item.children)}
                         </TreeNode>
                     );
                 }
-                return <TreeNode key={item.key} title={<Tag color={item.color}>{item.percent>=100? <Text delete>{item.rank}-> {item.title}</Text>:item.rank+'->'+item.title}</Tag>} />;
+                return <TreeNode key={item.key} title={<Tag color={item.color}>{item.percent>=100? <Text delete>{item.rank}-> {item.title}</Text>:item.rank+'->'+item.title+' ('+item.percent+'%)'}</Tag>} />;
             });
 
 

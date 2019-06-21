@@ -8,11 +8,12 @@ import {
     GET_YEAR_PLAN_LIST,
     GET_TODAY_PLAN_LIST,
     GET_WEEK_PLAN_LIST,
-    GET_MONTH_PLAN_LIST, INIT_PLAN, SWITCH_MODAL,LOADING
+    GET_MONTH_PLAN_LIST, INIT_PLAN, SWITCH_MODAL, LOADING
 } from './action-types'
 
 import {weaponData_mock} from "../mock/test01data";
-import {addAjax, getAjax, updateAjax,deleteAjax} from "../util/ajax";
+import {addAjax, getAjax, updateAjax, deleteAjax} from "../util/ajax";
+import {message} from 'antd'
 
 
 /**
@@ -57,7 +58,7 @@ export const buyItem = ({id, name}) => ({type: BUY_ITEM, data: {id, name}})
 /**
  * 页面一：计划列表
  */
-const planList = (data) => ({type:INIT_PLAN, data});
+const planList = (data) => ({type: INIT_PLAN, data});
 
 
 /**
@@ -72,15 +73,13 @@ export const addPlan = (values) => {
             // 初始化数据  第一种：直接查数据库初始化数据
             const response = await getAjax(`/plan/plan`);
             const result = response.data;
-            if(result.flag){
-                dispatch(planList(result.data))
-            }
+            dispatch(planList(result.data))
         }
     }
 }
 
 // 完成计划
-export const finishPlan = (values) =>{
+export const finishPlan = (values) => {
     return async dispatch => {
         const response = await updateAjax('/plan/plan', values);
         const result = response.data;
@@ -89,17 +88,14 @@ export const finishPlan = (values) =>{
             // 初始化数据  第一种：直接查数据库初始化数据
             const response = await getAjax(`/plan/plan`);
             const result = response.data;
-            if(result.flag){
-                dispatch(planList(result.data))
-            }
+            dispatch(planList(result.data))
         }
     }
 }
 
 
-
 // 修改计划
-export const updatePlan = (values) =>{
+export const updatePlan = (values) => {
     return async dispatch => {
         const response = await updateAjax('/plan/plan/update', values);
         const result = response.data;
@@ -108,7 +104,7 @@ export const updatePlan = (values) =>{
             // 初始化数据  第一种：直接查数据库初始化数据
             const response = await getAjax(`/plan/plan`);
             const result = response.data;
-            if(result.flag){
+            if (result.flag) {
                 dispatch(planList(result.data))
             }
         }
@@ -117,7 +113,7 @@ export const updatePlan = (values) =>{
 
 
 // 删除计划
-export const deletePlan = (id) =>{
+export const deletePlan = (id) => {
     return async dispatch => {
         const response = await deleteAjax(`/plan/plan/${id}`);
         const result = response.data;
@@ -126,31 +122,28 @@ export const deletePlan = (id) =>{
             // 初始化数据  第一种：直接查数据库初始化数据
             const response = await getAjax(`/plan/plan`);
             const result = response.data;
-            if(result.flag){
                 dispatch(planList(result.data))
-            }
+        }else {
+            message.error("不能删除带有子计划的！")
         }
     }
 }
 
 
-
-
 // 显示和关闭模态框
-export const switchModal =(type,value) =>({type:SWITCH_MODAL,data:{type,value}})
+export const switchModal = (type, value) => ({type: SWITCH_MODAL, data: {type, value}})
 
 // 加载页面
-export const loading =(value) =>({type:LOADING,data:value})
-
+export const loading = (value) => ({type: LOADING, data: value})
 
 
 // 初始化计划
-export const  initPlanData = () =>{
-    return async dispatch =>{
+export const initPlanData = () => {
+    return async dispatch => {
         const response = await getAjax(`/plan/plan`);
         const result = response.data;
-        if(result.flag){
-           dispatch(planList(result.data))
+        if (result.flag) {
+            dispatch(planList(result.data))
         }
     }
 }
