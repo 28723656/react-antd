@@ -1,21 +1,5 @@
-import React,{Component} from 'react'
-import {
-    Form,
-    Select,
-    InputNumber,
-    Switch,
-    Radio,
-    Slider,
-    Button,
-    Upload,
-    Icon,
-    Rate,
-    Checkbox,
-    Row,
-    Col,
-    Input,
-    TimePicker, AutoComplete,
-} from 'antd';
+import React from 'react'
+import {Button, Form, Input, Switch,} from 'antd';
 import PlanNameSearch from "../Common/PlanNameSearch";
 import PlanSelectOptionList from "../Common/PlanSelectOptionList";
 import PlanRadioGroup from "../Common/PlanRadioGroup";

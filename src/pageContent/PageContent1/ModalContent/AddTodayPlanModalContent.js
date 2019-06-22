@@ -1,5 +1,5 @@
 import React from 'react'
-import {Button, Form, Input, Select, Switch, TimePicker} from 'antd';
+import {Button,Row, Col, Form, Input, Select, Switch, TimePicker,Modal} from 'antd';
 import moment from 'moment';
 import PlanNameSearch from "../Common/PlanNameSearch";
 import PlanRadioGroup from "../Common/PlanRadioGroup";
@@ -8,6 +8,7 @@ import PlanSelectOptionList from "../Common/PlanSelectOptionList";
 
 const { Option } = Select;
 const format = 'HH:mm';
+const {confirm} = Modal
 
 
 class AddPlanModalContentClass extends React.Component {
@@ -41,13 +42,25 @@ class AddPlanModalContentClass extends React.Component {
 
                //  把获得的值传入到data中，还是应该让父界面处理
                 const {addPlan,updatePlan,deletePlan,record} = this.props
-                console.log('delete',values.delete);
+                console.log('delete',typeof values.delete);
                 if(record === null){
                     addPlan(values);
                 }else{
+                    debugger
                     // 1表示删除  0-表示添加
                     if(values.delete === '1'){
-                        deletePlan(values.id)
+                        confirm({
+                            title: '确定删除?',
+                            content: '删就删呗！',
+                            okText:'确定',
+                            cancelText:'取消',
+                            onOk() {
+                                deletePlan(values.id)
+                            },
+                            onCancel() {
+                                console.log('Cancel');
+                            },
+                        });
                     }else if(values.delete === '0') {
                         updatePlan(values);
                     }
@@ -84,11 +97,13 @@ class AddPlanModalContentClass extends React.Component {
         return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
 
-                {getFieldDecorator('delete',{initialValue:'1',trigger:'onClick'})(
-                    <Button shape='circle' type="danger" icon='close' htmlType="submit">
-                    </Button>
-                )}
 
+
+                {record && getFieldDecorator('delete',{initialValue:'1',trigger:'onClick'})(
+                            <Button shape='circle' type="danger" icon='close'  htmlType="submit">
+                            </Button>
+
+                )}
                 {getFieldDecorator('id',{initialValue:record !== null?record.id:null})(
                     <Input hidden={true}/>
                 )}

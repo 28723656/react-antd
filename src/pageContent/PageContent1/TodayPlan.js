@@ -20,20 +20,27 @@ class TodayPlan extends Component{
 
     state ={
         record:null,
+        stopOpen:false,
     }
 
 
      onChange = (checked,row) => {
         console.log(`switch to ${checked},and data is :`,row);
          const {finishPlan} = this.props;
+         this.setState({stopOpen:true});
          finishPlan(row);
+
     }
 
     // 更新
     updatePlan = (event,record) =>{
-        console.log('点击的是：',record);
-        this.props.switchModal(1,true);
-        this.setState({record})
+        const {stopOpen} = this.state;
+        if(!stopOpen){
+            console.log('点击的是：',event,record);
+            this.props.switchModal(1,true);
+            this.setState({record})
+        }
+
     }
 
     //显示历史记录  ---->  这个设计不合理，后期改进
@@ -52,6 +59,11 @@ class TodayPlan extends Component{
         this.setState({record:null});
     }
 
+    // 允许弹出框
+    allowUpdatePlan =(e) =>{
+        this.setState({stopOpen:false});
+    }
+
 
 
     render() {
@@ -68,9 +80,8 @@ class TodayPlan extends Component{
                         topStr ='[置顶] ' ;
                     }
                     let nameAfter =value
-                    console.log('名字的长度：',(nameAfter+topStr).length);
-                    if((nameAfter+topStr).length >17){
-                        nameAfter = nameAfter.substring(0,16)+"...";
+                    if((nameAfter+topStr).length >10){
+                        nameAfter = nameAfter.substring(0,9)+"...";
                     }
                     switch (row.rank) {
                         case 1:return  <Tag color={row.color}>{topStr}D{nameAfter}</Tag>
@@ -89,10 +100,10 @@ class TodayPlan extends Component{
                 render:(valaue,row,index) =>{
                     if(row.startTime && row.endTime ){
                         const hour1 = row.startTime[3] <10 ? '0'+row.startTime[3]:row.startTime[3]
-                       // const minutes1 = row.startTime[4] <10 ? '0'+row.startTime[4]:row.startTime[4]
+                        const minutes1 = row.startTime[4] <10 ? '0'+row.startTime[4]:row.startTime[4]
                         const hour2 = row.endTime[3] <10 ? '0'+row.endTime[3]:row.endTime[3]
-                      //  const minutes2 = row.endTime[4] <10 ? '0'+row.endTime[4]:row.endTime[4]
-                        return hour1 +'-'+ hour2
+                        const minutes2 = row.endTime[4] <10 ? '0'+row.endTime[4]:row.endTime[4]
+                        return `${hour1}:${minutes1}-${hour2}:${minutes2}`;
                     }
                 }
             },
@@ -137,9 +148,7 @@ class TodayPlan extends Component{
                                return {
                                    onClick: event => {}, // 点击行
                                    onDoubleClick: event =>{this.updatePlan(event,record)},
-                                   onContextMenu: event => {},
-                                   onMouseEnter: event => {}, // 鼠标移入行
-                                   onMouseLeave: event => {},
+                                   onTouchStart:event =>{this.allowUpdatePlan(event)},
                                    onTouchEndCapture:event =>{this.updatePlan(event,record)},
                                  //  onClickCapture:event =>{this.updatePlan(event,record)},
                                };

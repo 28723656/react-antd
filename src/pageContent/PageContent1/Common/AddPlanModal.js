@@ -57,6 +57,7 @@ class AddPlanModal extends Component{
                     visible={visible}
                     onOk={() => switchModal(type,false)}
                     onCancel={() => switchModal(type,false)}
+                    maskClosable={false}
                     footer={null}
                     destroyOnClose={true}
                 >

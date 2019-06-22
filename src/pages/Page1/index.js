@@ -61,10 +61,10 @@ class Page1 extends Component {
 
                 <TabPane tab="任务统计" key="4">
                     <Row type='flex'>
-                        <Col span={16}>
+                        <Col xs={24} xl={16}>
                             <PlanStatistics/>
                         </Col>
-                        <Col span={8}>
+                        <Col  xs={24} xl={8}>
                             <Rank first={true}/>
                             <Rank/>
                             <Rank/>

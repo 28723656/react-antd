@@ -108,11 +108,20 @@ class TreePlan extends Component{
             }
         });
 
+        let initExpandedKeys = []
+
         getAjax('/plan/plan/tree').then((response) =>{
             if(response.data.flag){
-                this.setState({treeList:response.data.data});
+                const treeList = response.data.data;
+                treeList.map((record,index) =>{
+                    initExpandedKeys.push(record.key)
+                })
+                this.setState({treeList,expandedKeys:initExpandedKeys});
             }
         });
+
+        // 为了开始的时候默认展开全部
+
     }
 
     render() {
