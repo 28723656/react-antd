@@ -46,7 +46,6 @@ class AddPlanModalContentClass extends React.Component {
                 if(record === null){
                     addPlan(values);
                 }else{
-                    debugger
                     // 1表示删除  0-表示添加
                     if(values.delete === '1'){
                         confirm({
@@ -81,7 +80,6 @@ class AddPlanModalContentClass extends React.Component {
         if(record){
             console.log('record.startTime',record.startTime,moment(record.startTime).subtract(1,'months').format("YYYY-MM-DD HH:mm:SS"))
             console.log('record.endTime',record.endTime,moment(record.endTime).subtract(1,'months').format("YYYY-MM-DD HH:mm:SS"))
-
         }
 
         const formItemLayout = {

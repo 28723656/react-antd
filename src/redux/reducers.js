@@ -12,7 +12,7 @@ import {
     GET_WEEK_PLAN_LIST,
     GET_TODAY_PLAN_LIST,
     INIT_PLAN,
-    SWITCH_MODAL, LOADING
+    SWITCH_MODAL, LOADING, SET_RECORD, SET_STOP_OPEN
 } from './action-types'
 
 // 练习一的初始数据
@@ -130,6 +130,32 @@ function loadingData(state = false, action) {
     }
 }
 
+// 设置record
+
+function recordData(state = null ,action) {
+    switch (action.type) {
+        case SET_RECORD:
+            return action.data
+        default:
+            return state
+    }
+}
+
+
+
+// 设置stopOpen
+
+function stopOpenData(state = false ,action) {
+    switch (action.type) {
+        case SET_STOP_OPEN:
+            return action.data
+        default:
+            return state
+    }
+}
+
+
+
 
 // 多个的情况
 export default combineReducers({
@@ -139,7 +165,9 @@ export default combineReducers({
     personData,
     planData,
     modalData,
-    loadingData
+    loadingData,
+    recordData,
+    stopOpenData,
 })
 
 // redux向外暴露的state结构  { counter:2, comment:[{},{}]  }

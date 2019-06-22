@@ -4,6 +4,7 @@ import {Button, Card, Col, Icon, Row, Switch, Table, Tag} from "antd";
 import {columns1_3, data1_1, data1_3} from "../../mock/mockDataPage1";
 import AddPlanModal from "./Common/AddPlanModal";
 import PropTypes from "prop-types";
+import TablePlan from "./Common/TablePlan";
 
 /**
  * page1  今日计划部分
@@ -18,28 +19,14 @@ class TodayPlan extends Component{
         finishPlan: PropTypes.func.isRequired,
     }
 
-    state ={
-        record:null,
-        stopOpen:false,
-    }
-
 
      onChange = (checked,row) => {
-        console.log(`switch to ${checked},and data is :`,row);
-         const {finishPlan} = this.props;
-         this.setState({stopOpen:true});
+         console.log("-------2222222------");
+         console.log(`switch to ${checked},and data is :`,row);
+         const {finishPlan,setStopOpen,switchModal} = this.props;
+         setStopOpen(true);
+         switchModal(1, false);
          finishPlan(row);
-
-    }
-
-    // 更新
-    updatePlan = (event,record) =>{
-        const {stopOpen} = this.state;
-        if(!stopOpen){
-            console.log('点击的是：',event,record);
-            this.props.switchModal(1,true);
-            this.setState({record})
-        }
 
     }
 
@@ -55,14 +42,11 @@ class TodayPlan extends Component{
 
     // 添加计划
     handleAddPlan = (e) =>{
-        this.props.switchModal(1,true);
-        this.setState({record:null});
+        const {switchModal,setRecord} = this.props;
+        setRecord(null);
+        switchModal(1,true);
     }
 
-    // 允许弹出框
-    allowUpdatePlan =(e) =>{
-        this.setState({stopOpen:false});
-    }
 
 
 
@@ -77,10 +61,10 @@ class TodayPlan extends Component{
                 render:(value,row,index) =>{
                     let topStr ='';
                     if(row.top){
-                        topStr ='[置顶] ' ;
+                        topStr ='[置顶]' ;
                     }
-                    let nameAfter =value
-                    if((nameAfter+topStr).length >10){
+                    let nameAfter ='->'+value
+                    if((nameAfter+topStr).length >12){
                         nameAfter = nameAfter.substring(0,9)+"...";
                     }
                     switch (row.rank) {
@@ -132,30 +116,14 @@ class TodayPlan extends Component{
 
         const {todayPlan,weekPlan} = this.props.data;
         console.log('todayPlan--观测中',todayPlan)
-        const {addPlan,modalData,switchModal,updatePlan,deletePlan} = this.props;
-        const {record} = this.state;
+        const {addPlan,modalData,switchModal,updatePlan,deletePlan,setRecord,recordData,setStopOpen,stopOpenData} = this.props;
 
         return (
             <div style={{padding:5}} >
                 <Card title='今日计划' bordered={false} bodyStyle={{padding:'8px'}} >
 
-                    {todayPlan && todayPlan.length > 0 &&
-                    <Table rowKey='id' columns={columnsToday}  dataSource={todayPlan} showHeader={false} size='small'
-                           pagination ={
-                               {hideOnSinglePage :true}
-                           }
-                           onRow={record => {
-                               return {
-                                   onClick: event => {}, // 点击行
-                                   onDoubleClick: event =>{this.updatePlan(event,record)},
-                                   onTouchStart:event =>{this.allowUpdatePlan(event)},
-                                   onTouchEndCapture:event =>{this.updatePlan(event,record)},
-                                 //  onClickCapture:event =>{this.updatePlan(event,record)},
-                               };
-                           }}
-                    />
-                    }
-                    <AddPlanModal data={weekPlan} record={record}
+                 <TablePlan data={todayPlan} columns={columnsToday} type={1} switchModal={switchModal} setRecord={setRecord} setStopOpen={setStopOpen} stopOpenData={stopOpenData} />
+                    <AddPlanModal data={weekPlan} record={recordData}
                                   modalData={modalData} switchModal={switchModal}
                                   addPlan={addPlan} updatePlan={updatePlan}
                                   title='添加今日计划' type={1}

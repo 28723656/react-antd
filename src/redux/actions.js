@@ -8,7 +8,8 @@ import {
     GET_YEAR_PLAN_LIST,
     GET_TODAY_PLAN_LIST,
     GET_WEEK_PLAN_LIST,
-    GET_MONTH_PLAN_LIST, INIT_PLAN, SWITCH_MODAL, LOADING
+    GET_MONTH_PLAN_LIST, INIT_PLAN, SWITCH_MODAL, LOADING,SET_STOP_OPEN,
+    SET_RECORD
 } from './action-types'
 
 import {weaponData_mock} from "../mock/test01data";
@@ -148,6 +149,12 @@ export const initPlanData = () => {
     }
 }
 
+// STOP OPEN
+export const setStopOpen =(data) =>({type:SET_STOP_OPEN,data})
+
+
+// 修改计划的时候的record
+export const setRecord =(record) =>({type:SET_RECORD,data:record})
 
 
 

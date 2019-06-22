@@ -1,9 +1,11 @@
 import React from 'react'
-import {Button, Form, Input, Switch,} from 'antd';
+import {Button, Form, Input, Switch,Modal} from 'antd';
 import PlanNameSearch from "../Common/PlanNameSearch";
 import PlanSelectOptionList from "../Common/PlanSelectOptionList";
 import PlanRadioGroup from "../Common/PlanRadioGroup";
 import PlanSlider from "../Common/PlanSlider";
+
+const {confirm} = Modal
 
 
 class AddWeekModalContentClass extends React.Component {
@@ -35,7 +37,18 @@ class AddWeekModalContentClass extends React.Component {
                 }else{
                     // 1表示删除  0-表示添加
                     if(values.delete === '1'){
-                        deletePlan(values.id)
+                        confirm({
+                            title: '确定删除?',
+                            content: '删就删呗！',
+                            okText:'确定',
+                            cancelText:'取消',
+                            onOk() {
+                                deletePlan(values.id)
+                            },
+                            onCancel() {
+                                console.log('Cancel');
+                            },
+                        });
                     }else if(values.delete === '0') {
                         updatePlan(values);
                     }

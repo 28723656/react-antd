@@ -10,6 +10,7 @@ import {
 import { Layout, Menu, Breadcrumb ,Avatar} from 'antd';
 import Page1 from "../../pages/Page1";
 import Page2 from "../../pages/Page2";
+import PlanStat from "../../pages/PlanStat";
 import Page3 from "../../pages/Page3";
 import Page4 from "../../pages/Page4";
 import Page5 from "../../pages/Page5";
@@ -41,43 +42,49 @@ class Menus extends Component {
                             <NavLink to='/'  >今日任务</NavLink>
                         </Menu.Item>
                         <Menu.Item key="2">
+                            <NavLink to='/planStat'  >任务统计</NavLink>
+                        </Menu.Item>
+                 {/*       <Menu.Item key="30">
+                            <NavLink to='/page3'  >巨人专场</NavLink>
+                        </Menu.Item>*/}
+                        <Menu.Item key="20">
+                            <NavLink to='/page4'  >动漫(施工中)</NavLink>
+                        </Menu.Item>
+                        <Menu.Item key="40">
                             <NavLink to='/page2'  >作业界面</NavLink>
                         </Menu.Item>
-                        <Menu.Item key="3">
-                            <NavLink to='/page3'  >巨人专场</NavLink>
-                        </Menu.Item>
-                        <Menu.Item key="4">
-                            <NavLink to='/page4'  >排行榜</NavLink>
-                        </Menu.Item>
-                        <Menu.Item key="5">
+                   {/*     <Menu.Item key="50">
                             <NavLink to='/page5'  >测试页面</NavLink>
                         </Menu.Item>
-                        <Menu.Item key="6">
+                        <Menu.Item key="60">
                             <NavLink to='/test01'  > 练习一：模块化练习 </NavLink>
                         </Menu.Item>
-                        <Menu.Item key="7">
+                        <Menu.Item key="70">
                             <NavLink to='/test02'  > 练习二：数字排列 </NavLink>
                         </Menu.Item>
-                        <Menu.Item key="8">
+                        <Menu.Item key="80">
                             <NavLink to='/page7'  >幸运7</NavLink>
                         </Menu.Item>
-                        <Menu.Item key="9">
+                        <Menu.Item key="90">
                             <NavLink to='/page8'  >  我的信息</NavLink>
-                        </Menu.Item>
+                        </Menu.Item>*/}
                     </Menu>
                 </Header>
                 <Content style={{ padding: '0 0px', marginTop: 64 }}>
 
                     <div style={{padding: '24 0px', minHeight: '90vh'}}>
                             <Route exact path="/" component={Page1}/>
+
+                            <Route path="/planStat" component={PlanStat}/>
+                             <Route path="/page4" component={Page4}/>
                             <Route path="/page2" component={Page2}/>
-                            <Route path="/page3" component={Page3}/>
-                            <Route path="/page4" component={Page4}/>
-                            <Route path="/page5" component={Page5}/>
+                          {/*
+                           <Route path="/page3" component={Page3}/>
+                           <Route path="/page5" component={Page5}/>
                             <Route path="/test01" component={Test01}/>
                             <Route path="/test02" component={Test02}/>
                             <Route path="/page7" component={Page7}/>
-                            <Route path="/page8" component={Page8}/>
+                            <Route path="/page8" component={Page8}/>*/}
                     </div>
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>Ant Design ©2019 Created 风往西边吹丶</Footer>

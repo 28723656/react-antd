@@ -49,4 +49,10 @@ export const SWITCH_MODAL ='SWITCH_MODAL'
 // LOADING
 export const LOADING ='LOADING'
 
+// 设置record
+export const SET_RECORD ='SET_RECORD'
+
+// 设置禁止打开窗口
+export const SET_STOP_OPEN='SET_STOP_OPEN'
+
 

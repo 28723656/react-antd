@@ -1,59 +1,71 @@
-import React,{Component} from 'react'
-import {Card, Table} from "antd";
+import React, {Component} from 'react'
+import {Table} from "antd";
 import PropTypes from "prop-types";
 
-class TablePlan extends Component{
-
-
+/**
+ * 所有的 表格，日计划、周、月、年
+ */
+class TablePlan extends Component {
     static propTypes = {
-        data: PropTypes.array.isRequired,
+        data: PropTypes.isRequired,
         columns: PropTypes.array.isRequired,
-        type:PropTypes.number.isRequired,
-        switchModal:PropTypes.func.isRequired,
+        type: PropTypes.number.isRequired,
+        switchModal: PropTypes.func.isRequired,
+        setRecord: PropTypes.func.isRequired,
+        stopOpenData: PropTypes.bool,
+        setStopOpen: PropTypes.func,
     }
 
-
-
-    state ={
-        stopOpen:false,
-    }
 
     // 更新
-    updatePlan = (event,record) =>{
-        const {stopOpen} = this.state;
-        if(!stopOpen){
-            console.log('点击的是：',event,record);
-            this.props.switchModal(1,true);
-            this.setState({record})
+    openUpdatePlanModal = (event, record, type) => {
+        console.log("-------3333333------");
+        // 如果是今日计划
+        if (type === 1) {
+            const {stopOpenData} = this.props;
+            if (!stopOpenData) {
+                console.log('点击的是：', event, record);
+                const {switchModal, setRecord} = this.props;
+                switchModal(type, true);
+                setRecord(record);
+            }
+        } else {
+            console.log('点击的是：', event, record);
+            const {switchModal, setRecord} = this.props;
+            switchModal(type, true);
+            setRecord(record);
         }
 
     }
 
 
     // 允许弹出框
-    allowUpdatePlan =(e) =>{
-        this.setState({stopOpen:false});
+    allowOpenUpdatePlanModal = (e, type) => {
+        console.log("开始点击了  ----- 111111----  ");
+        if (type === 1) {
+            this.props.setStopOpen(false);
+        }
     }
-
 
     render() {
 
-        const {columns,data,type} = this.props
+        const {columns, data, type} = this.props
+
 
         return (
             <div>
                 {data && data.length > 0 &&
-                <Table rowKey='id' columns={columns}  dataSource={data} showHeader={false} size='small'
-                       pagination ={
-                           {hideOnSinglePage :true}
+                <Table rowKey='id' columns={columns} dataSource={data} showHeader={false} size='small'
+                       pagination={
+                           {hideOnSinglePage: true}
                        }
                        onRow={record => {
                            return {
-                               onClick: event => {}, // 点击行
-                               onDoubleClick: event =>{this.updatePlan(event,record,type)},
-                               onTouchStart:event =>{this.allowUpdatePlan(event)},
-                               onTouchEndCapture:event =>{this.updatePlan(event,record,type)},
-                               //  onClickCapture:event =>{this.updatePlan(event,record)},
+                                onClick: event =>{},
+                              // onDoubleClick: event => { this.openUpdatePlanModal(event, record, type) },
+                               onTouchStart: event => { this.allowOpenUpdatePlanModal(event, type) },
+                           //    onTouchEndCapture: event => { this.openUpdatePlanModal(event, record, type) },
+                                 onClickCapture:event =>{this.openUpdatePlanModal(event,record,type)},
                            };
                        }}
                 />

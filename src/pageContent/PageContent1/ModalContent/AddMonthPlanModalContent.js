@@ -1,29 +1,13 @@
-import React,{Component} from 'react'
-import {
-    Form,
-    Select,
-    InputNumber,
-    Switch,
-    Radio,
-    Slider,
-    Button,
-    Upload,
-    Icon,
-    Rate,
-    Checkbox,
-    Row,
-    Col,
-    Input,
-    TimePicker,
-} from 'antd';
+import React from 'react'
+import {Button, Form, Input, Modal, Select, Switch,} from 'antd';
 import PlanSelectOptionList from "../Common/PlanSelectOptionList";
-import JustForTest2 from "../Common/JustForTest2";
 import PlanNameSearch from "../Common/PlanNameSearch";
 import PlanRadioGroup from "../Common/PlanRadioGroup";
 import PlanSlider from "../Common/PlanSlider";
 
 const { Option } = Select;
 const format = 'HH:mm';
+const {confirm} = Modal
 
 class AddMonthModalContentClass extends React.Component {
 
@@ -43,7 +27,18 @@ class AddMonthModalContentClass extends React.Component {
                 }else{
                     // 1表示删除  0-表示添加
                     if(values.delete === '1'){
-                        deletePlan(values.id)
+                        confirm({
+                            title: '确定删除?',
+                            content: '删就删呗！',
+                            okText:'确定',
+                            cancelText:'取消',
+                            onOk() {
+                                deletePlan(values.id)
+                            },
+                            onCancel() {
+                                console.log('Cancel');
+                            },
+                        });
                     }else if(values.delete === '0') {
                         updatePlan(values);
                     }
