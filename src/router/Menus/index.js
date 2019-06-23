@@ -18,6 +18,8 @@ import Test01 from "../../pages/Test01";
 import Test02 from "../../pages/Test02";
 import Page7 from "../../pages/Page7";
 import Page8 from "../../pages/Page8";
+import Log from "../../pages/Log";
+import Admin from "../../pages/Admin";
 
 require('./style.css')
 
@@ -48,10 +50,16 @@ class Menus extends Component {
                             <NavLink to='/page3'  >巨人专场</NavLink>
                         </Menu.Item>*/}
                         <Menu.Item key="20">
-                            <NavLink to='/page4'  >动漫(施工中)</NavLink>
+                            <NavLink to='/page4'  >动漫</NavLink>
                         </Menu.Item>
                         <Menu.Item key="40">
                             <NavLink to='/page2'  >作业界面</NavLink>
+                        </Menu.Item>
+                        <Menu.Item key="100">
+                            <NavLink to='/log'  >更新日志</NavLink>
+                        </Menu.Item>
+                        <Menu.Item key="1001">
+                            <NavLink to='/admin'  >系统管理</NavLink>
                         </Menu.Item>
                    {/*     <Menu.Item key="50">
                             <NavLink to='/page5'  >测试页面</NavLink>
@@ -78,6 +86,8 @@ class Menus extends Component {
                             <Route path="/planStat" component={PlanStat}/>
                              <Route path="/page4" component={Page4}/>
                             <Route path="/page2" component={Page2}/>
+                            <Route path="/log" component={Log}/>
+                        <Route path="/admin" component={Admin}/>
                           {/*
                            <Route path="/page3" component={Page3}/>
                            <Route path="/page5" component={Page5}/>
@@ -87,7 +97,7 @@ class Menus extends Component {
                             <Route path="/page8" component={Page8}/>*/}
                     </div>
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>Ant Design ©2019 Created 风往西边吹丶</Footer>
+                <Footer style={{ textAlign: 'center' }}>©2019 Created 风往西边吹丶</Footer>
             </Layout>
 
         );

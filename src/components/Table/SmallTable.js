@@ -1,5 +1,6 @@
 import { Table } from 'antd';
 import React,{Component} from 'react'
+import PropTypes from 'prop-types'
 
 
 const initColumns = [
@@ -39,9 +40,16 @@ const initData = [
 
 const initTitle='表格标题'
 
+
+
+
 class SmallTable extends Component{
 
-
+    static propTypes = {
+        title:PropTypes,
+        columns: PropTypes.array,
+        dataSource: PropTypes.array,
+    }
 
 
     render() {
