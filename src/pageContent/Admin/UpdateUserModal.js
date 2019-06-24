@@ -60,7 +60,6 @@ class UpdateUserModalClass extends Component {
                 id: data.id,
                 phone: data.phone,
                 nickName: data.nickName,
-                password: data.password,
                 description:data.description,
                 roleId:data.roleId,
             });
@@ -71,7 +70,8 @@ class UpdateUserModalClass extends Component {
 
     render() {
         let {getFieldDecorator} = this.props.form;
-        const {type} = this.state;
+        const {roleList} = this.props;
+        console.log('roleList --->',roleList)
 
         const formItemLayout = {
             labelCol: {
@@ -119,9 +119,7 @@ class UpdateUserModalClass extends Component {
                         <Select
                             placeholder="选择一个角色"
                         >
-                            <Option value={1}>管理员</Option>
-                            <Option value={2}>普通用户</Option>
-                            <Option value={3}>高级用户</Option>
+                            { roleList && roleList.length>0 && roleList.map((record,index) =>  <Option value={record.id}>{record.name}</Option> )}
                         </Select>
                     )}
                 </Form.Item>

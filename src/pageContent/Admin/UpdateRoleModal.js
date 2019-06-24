@@ -18,6 +18,32 @@ class UpdateUserModalClass extends Component {
             if (!err) {
                 // 这里可以获取所有的值
                 console.log('Received values of form: ', fieldsValue);
+                const {type} = this.state;
+                // 添加
+                if(type === 1){
+                    addAjax('/admin/role',fieldsValue)
+                        .then(json =>{
+                            if(json.data.flag){
+                                message.success(json.data.message);
+                            }else{
+                                message.warn(json.data.message);
+                            }
+                            // 其实是关闭模态框
+                            this.props.handleCancel(2);
+                        })
+                }else {
+                    updateAjax('/admin/role',fieldsValue)
+                        .then(json =>{
+                            if(json.data.flag){
+                                message.success(json.data.message);
+                            }else{
+                                message.warn(json.data.message);
+                            }
+                            // 其实是关闭模态框
+                            this.props.handleCancel(2);
+                        })
+                }
+
             }
         });
     };
@@ -42,6 +68,7 @@ class UpdateUserModalClass extends Component {
 
     render() {
         let {getFieldDecorator} = this.props.form;
+        const {menuList} = this.props;
 
         const formItemLayout = {
             labelCol: {
@@ -75,11 +102,7 @@ class UpdateUserModalClass extends Component {
                             mode="multiple"
                             placeholder="选择权限菜单"
                         >
-                            <Option value={1}>今日计划</Option>
-                            <Option value={2}>动漫</Option>
-                            <Option value={3}>更新日志</Option>
-                            <Option value={4}>计划统计</Option>
-                            <Option value={5}>系统管理</Option>
+                            {menuList && menuList.length>0 && menuList.map((record,index) =>  <Option value={record.id}>{record.description}</Option>  )}
                         </Select>
                     )}
                 </Form.Item>

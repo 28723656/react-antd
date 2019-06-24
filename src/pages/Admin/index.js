@@ -27,6 +27,9 @@ class Admin extends Component {
         userData:[],
         roleData:[],
         menuData:[],
+
+        roleList:[],
+        menuList:[],
     }
 
 
@@ -117,7 +120,16 @@ class Admin extends Component {
             .then(response =>{
                 const  result = response.data;
                 if(result.flag){
-                    this.setState({menuData:result.data})
+                    this.setState({menuData:result.data,menuList:result.data})
+                }
+            });
+
+        // 获取role列表
+        getAjax('/admin/role/list')
+            .then(response =>{
+                const  result = response.data;
+                if(result.flag){
+                    this.setState({roleList:result.data})
                 }
             });
     }
@@ -265,7 +277,8 @@ class Admin extends Component {
         const {userEntity,roleEntity,menuEntity,
             visibleUser,visibleRole,visibleMenu,
             titleUser,titleRole,titleMenu,
-        userData,roleData,menuData} = this.state;
+        userData,roleData,menuData,
+        roleList,menuList} = this.state;
 
         console.log('userData',userData)
         console.log('roleData',roleData)
@@ -286,7 +299,7 @@ class Admin extends Component {
                         footer={null}
                         destroyOnClose={true}
                     >
-                        <UpdateUserModal handleCancel={() => this.handleCancel('user')} data={userEntity} />
+                        <UpdateUserModal handleCancel={() => this.handleCancel('user')} data={userEntity} roleList={roleList} />
                     </Modal>
                 </TabPane>
                 <TabPane tab="角色管理" key="2" style={{margin:5}} >
@@ -300,7 +313,7 @@ class Admin extends Component {
                         footer={null}
                         destroyOnClose={true}
                     >
-                        <UpdateRoleModal handleCancel={() => this.handleCancel('role')} data={roleEntity} />
+                        <UpdateRoleModal handleCancel={() => this.handleCancel('role')} data={roleEntity} menuList={menuList} />
                     </Modal>
                 </TabPane>
                 <TabPane tab="权限菜单" key="3">
