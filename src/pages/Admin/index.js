@@ -1,10 +1,11 @@
 import React, {Component} from 'react'
-import {Button, Card, List, Modal, Tabs, Typography,Row,Col} from "antd";
+import {Button, Card, List, Modal, Tabs, Typography,Row,Col,message} from "antd";
 import SmallTable from "../../components/Table/SmallTable";
 import UpdateUserModal from '../../pageContent/Admin/UpdateUserModal'
 import UpdateRoleModal from '../../pageContent/Admin/UpdateRoleModal'
 import UpdateMenuModal from '../../pageContent/Admin/UpdateMenuModal'
 import ModalContent from "../Page2";
+import {deleteAjax, getAjax} from "../../util/ajax";
 
 const {TabPane} = Tabs;
 const {confirm} = Modal
@@ -22,6 +23,10 @@ class Admin extends Component {
         titleUser:'修改用户',
         titleRole:'修改角色',
         titleMenu:'修改菜单',
+
+        userData:[],
+        roleData:[],
+        menuData:[],
     }
 
 
@@ -79,12 +84,46 @@ class Admin extends Component {
             okText:'确定',
             cancelText:'取消',
             onOk() {
-               console.log('url:',url)
+                deleteAjax(url)
+                    .then(response =>{
+                        const  result = response.data;
+                        if(!result.flag){
+                           message.error(result.message);
+                        }
+                    });
             },
             onCancel() {
                 console.log('取消');
             },
         });
+    }
+
+    initValue =() =>{
+        getAjax('/admin/user')
+            .then(response =>{
+                const  result = response.data;
+                if(result.flag){
+                    this.setState({userData:result.data})
+                }
+            });
+        getAjax('/admin/role')
+            .then(response =>{
+                const  result = response.data;
+                if(result.flag){
+                    this.setState({roleData:result.data})
+                }
+            });
+        getAjax('/admin/menu')
+            .then(response =>{
+                const  result = response.data;
+                if(result.flag){
+                    this.setState({menuData:result.data})
+                }
+            });
+    }
+
+    componentDidMount() {
+        this.initValue();
     }
 
 
@@ -114,26 +153,26 @@ class Admin extends Component {
                 }
             },
         ];
-        const userData = [
-            {
-                id: 1,
-                phone: '13232323232',
-                nickName: '风往西边吹丶',
-                roleId:1
-            },
-            {
-                id: 2,
-                phone: '13456789087',
-                nickName: '普通用户丶',
-                roleId:2
-            },
-            {
-                id: 3,
-                phone: '13456474578',
-                nickName: '我是高级用户',
-                roleId:3
-            },
-        ];
+        // const userData = [
+        //     {
+        //         id: 1,
+        //         phone: '13232323232',
+        //         nickName: '风往西边吹丶',
+        //         roleId:1
+        //     },
+        //     {
+        //         id: 2,
+        //         phone: '13456789087',
+        //         nickName: '普通用户丶',
+        //         roleId:2
+        //     },
+        //     {
+        //         id: 3,
+        //         phone: '13456474578',
+        //         nickName: '我是高级用户',
+        //         roleId:3
+        //     },
+        // ];
 
         // 角色 数据
         const roleColumns = [
@@ -155,26 +194,26 @@ class Admin extends Component {
                 }
             },
         ];
-        const roleData = [
-            {
-                id: 1,
-                name: '管理员',
-                description: '这是管理员的',
-                menuId:[1,2,3,4]
-            },
-            {
-                id: 2,
-                name: '普通用户',
-                description: '这是普通用户的',
-                menuId:[1,4]
-            },
-            {
-                id: 3,
-                name: '高级用户',
-                description: '这是高级用户的',
-                menuId:[1,2,4]
-            },
-        ];
+        // const roleData = [
+        //     {
+        //         id: 1,
+        //         name: '管理员',
+        //         description: '这是管理员的',
+        //         menuId:[1,2,3,4]
+        //     },
+        //     {
+        //         id: 2,
+        //         name: '普通用户',
+        //         description: '这是普通用户的',
+        //         menuId:[1,4]
+        //     },
+        //     {
+        //         id: 3,
+        //         name: '高级用户',
+        //         description: '这是高级用户的',
+        //         menuId:[1,2,4]
+        //     },
+        // ];
         // 角色 数据
         const menuColumns = [
             {
@@ -195,43 +234,50 @@ class Admin extends Component {
                 }
             },
         ];
-        const menuData = [
-            {
-                id: 1,
-                name: 'plan',
-                description: '计划界面',
-            },
-            {
-                id: 2,
-                name: 'TV',
-                description: '动漫界面',
-            },
-            {
-                id: 3,
-                name: 'log',
-                description: '开发日志',
-            },
-            {
-                id: 4,
-                name: 'statistics',
-                description: '计划统计',
-            },
-            {
-                id: 5,
-                name: 'admin',
-                description: '系统管理',
-            },
-        ];
+        // const menuData = [
+        //     {
+        //         id: 1,
+        //         name: 'plan',
+        //         description: '计划界面',
+        //     },
+        //     {
+        //         id: 2,
+        //         name: 'TV',
+        //         description: '动漫界面',
+        //     },
+        //     {
+        //         id: 3,
+        //         name: 'log',
+        //         description: '开发日志',
+        //     },
+        //     {
+        //         id: 4,
+        //         name: 'statistics',
+        //         description: '计划统计',
+        //     },
+        //     {
+        //         id: 5,
+        //         name: 'admin',
+        //         description: '系统管理',
+        //     },
+        // ];
 
         const {userEntity,roleEntity,menuEntity,
             visibleUser,visibleRole,visibleMenu,
-            titleUser,titleRole,titleMenu} = this.state;
+            titleUser,titleRole,titleMenu,
+        userData,roleData,menuData} = this.state;
+
+        console.log('userData',userData)
+        console.log('roleData',roleData)
+        console.log('menuData',menuData)
 
         return (
             <Tabs defaultActiveKey="1" onChange={this.callback}>
                 <TabPane tab="用户管理" key="1">
                       <Button type='primary' onClick={() =>this.handleAdd('user')}  >+添加</Button>
+                    {userData && userData.length > 0 &&
                     <SmallTable columns={userColumns} dataSource={userData}/>
+                    }
                     <Modal
                         title={titleUser}
                         visible={visibleUser}

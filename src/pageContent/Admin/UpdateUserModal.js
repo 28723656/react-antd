@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
-import {Button, Form, Input, message,Select} from 'antd';
+import {Button, Form, Input, message, Select} from 'antd';
 import {addAjax, updateAjax} from "../../util/ajax";
+import TextArea from "antd/lib/input/TextArea";
+
 const { Option } = Select;
 
 class UpdateUserModalClass extends Component {
@@ -17,6 +19,32 @@ class UpdateUserModalClass extends Component {
             if (!err) {
                 // 这里可以获取所有的值
                 console.log('Received values of form: ', fieldsValue);
+                const {type} = this.state;
+                // 添加
+                if(type === 1){
+                    addAjax('/admin/user',fieldsValue)
+                        .then(json =>{
+                            if(json.data.flag){
+                                message.success(json.data.message);
+                            }else{
+                                message.warn(json.data.message);
+                            }
+                            // 其实是关闭模态框
+                            this.props.handleCancel(1);
+                        })
+                }else {
+                    updateAjax('/admin/user',fieldsValue)
+                        .then(json =>{
+                            if(json.data.flag){
+                                message.success(json.data.message);
+                            }else{
+                                message.warn(json.data.message);
+                            }
+                            // 其实是关闭模态框
+                            this.props.handleCancel(1);
+                        })
+                }
+
             }
         });
     };
@@ -32,6 +60,8 @@ class UpdateUserModalClass extends Component {
                 id: data.id,
                 phone: data.phone,
                 nickName: data.nickName,
+                password: data.password,
+                description:data.description,
                 roleId:data.roleId,
             });
         }
@@ -41,6 +71,7 @@ class UpdateUserModalClass extends Component {
 
     render() {
         let {getFieldDecorator} = this.props.form;
+        const {type} = this.state;
 
         const formItemLayout = {
             labelCol: {
@@ -58,16 +89,31 @@ class UpdateUserModalClass extends Component {
                 {getFieldDecorator('id')(
                     <Input hidden={true}/>
                 )}
-                <Form.Item label="用户名">
+                <Form.Item label="用户名(手机号)">
                     {getFieldDecorator('phone')(
                         <Input/>
                     )}
                 </Form.Item>
+
+                <Form.Item label="密码">
+                    {getFieldDecorator('password')(
+                        <Input/>
+                    )}
+                </Form.Item>
+
                 <Form.Item label="昵称">
                     {getFieldDecorator('nickName')(
                         <Input/>
                     )}
                 </Form.Item>
+
+                <Form.Item label="备注">
+                    {getFieldDecorator('description')(
+                       <TextArea/>
+                    )}
+                </Form.Item>
+
+
                 <Form.Item label="角色">
                     {getFieldDecorator('roleId')(
                         <Select
