@@ -234,7 +234,7 @@ class Admin extends Component {
             },
             {
                 title: '菜单名称',
-                dataIndex: 'name',
+                dataIndex: 'description',
             },
             {
                 title: '操作',

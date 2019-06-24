@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
-import {Button, Form, Input, message,Select} from 'antd';
+import {Button, Form, Input, message, Select} from 'antd';
 import {addAjax, updateAjax} from "../../util/ajax";
+
 const { Option } = Select;
 
 class UpdateMenuModalClass extends Component {
@@ -17,6 +18,32 @@ class UpdateMenuModalClass extends Component {
             if (!err) {
                 // 这里可以获取所有的值
                 console.log('Received values of form: ', fieldsValue);
+                const {type} = this.state;
+                // 添加
+                if(type === 1){
+                    addAjax('/admin/menu',fieldsValue)
+                        .then(json =>{
+                            if(json.data.flag){
+                                message.success(json.data.message);
+                            }else{
+                                message.warn(json.data.message);
+                            }
+                            // 其实是关闭模态框
+                            this.props.handleCancel(3);
+                        })
+                }else {
+                    updateAjax('/admin/menu',fieldsValue)
+                        .then(json =>{
+                            if(json.data.flag){
+                                message.success(json.data.message);
+                            }else{
+                                message.warn(json.data.message);
+                            }
+                            // 其实是关闭模态框
+                            this.props.handleCancel(3);
+                        })
+                }
+
             }
         });
     };
@@ -57,12 +84,12 @@ class UpdateMenuModalClass extends Component {
                 {getFieldDecorator('id')(
                     <Input hidden={true}/>
                 )}
-                <Form.Item label="菜单">
+                <Form.Item label="菜单(路径名)">
                     {getFieldDecorator('name')(
                         <Input/>
                     )}
                 </Form.Item>
-                <Form.Item label="描述">
+                <Form.Item label="菜单(中文名)">
                     {getFieldDecorator('description')(
                         <Input/>
                     )}
