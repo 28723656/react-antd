@@ -1,14 +1,11 @@
 import React, {Component} from 'react'
-import {Button, Form, Input, message,Select} from 'antd';
+import {Button, Form, Input, message, Select} from 'antd';
 import {addAjax, updateAjax} from "../../util/ajax";
 import TextArea from "antd/es/input/TextArea";
-const { Option } = Select;
+
+const {Option} = Select;
 
 class UpdateUserModalClass extends Component {
-
-    state ={
-        type:0   // 0-修改  1-添加
-    }
 
 
     // 提交
@@ -18,27 +15,28 @@ class UpdateUserModalClass extends Component {
             if (!err) {
                 // 这里可以获取所有的值
                 console.log('Received values of form: ', fieldsValue);
-                const {type} = this.state;
+                const {type} = this.props;
                 // 添加
-                if(type === 1){
-                    addAjax('/admin/role',fieldsValue)
-                        .then(json =>{
-                            if(json.data.flag){
+                if (type === 2) {
+                    addAjax('/admin/role', fieldsValue)
+                        .then(json => {
+                            if (json.data.flag) {
                                 this.props.initValue();
                                 message.success(json.data.message);
-                            }else{
+                            } else {
                                 message.warn(json.data.message);
                             }
                             // 其实是关闭模态框
                             this.props.handleCancel(2);
                         })
-                }else {
-                    updateAjax('/admin/role',fieldsValue)
-                        .then(json =>{
-                            if(json.data.flag){
+                } else if (type === 1) {
+                    // 修改
+                    updateAjax('/admin/role', fieldsValue)
+                        .then(json => {
+                            if (json.data.flag) {
                                 this.props.initValue();
                                 message.success(json.data.message);
-                            }else{
+                            } else {
                                 message.warn(json.data.message);
                             }
                             // 其实是关闭模态框
@@ -51,17 +49,14 @@ class UpdateUserModalClass extends Component {
     };
 
     componentDidMount() {
-        const {data} = this.props;
-        if(data === null){
-            console.log('新增')
-            this.setState({type:1});
-        }else{
+        const {data, type} = this.props;
+        if (type === 1) {
             let {setFieldsValue} = this.props.form;
             setFieldsValue({
                 id: data.id,
                 name: data.name,
                 description: data.description,
-                menuId:data.menuId,
+                menuId: data.menuId,
             });
         }
 
@@ -70,7 +65,7 @@ class UpdateUserModalClass extends Component {
 
     render() {
         let {getFieldDecorator} = this.props.form;
-        const {menuList} = this.props;
+        const {menuList, userListByRoleId, type, data} = this.props;
 
         const formItemLayout = {
             labelCol: {
@@ -83,40 +78,51 @@ class UpdateUserModalClass extends Component {
             },
         };
         return (
-            <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+            <div>
+                {type !== 3 && <Form {...formItemLayout} onSubmit={this.handleSubmit}>
 
-                {getFieldDecorator('id')(
-                    <Input hidden={true}/>
-                )}
-                <Form.Item label="角色名">
-                    {getFieldDecorator('name')(
-                        <Input/>
+                    {getFieldDecorator('id')(
+                        <Input hidden={true}/>
                     )}
-                </Form.Item>
-                <Form.Item label="描述">
-                    {getFieldDecorator('description')(
-                       <TextArea/>
-                    )}
-                </Form.Item>
-                <Form.Item label="权限菜单">
-                    {getFieldDecorator('menuId')(
-                        <Select
-                            mode="multiple"
-                            placeholder="选择权限菜单"
-                        >
-                            {menuList && menuList.length>0 && menuList.map((record,index) =>  <Option key={record.id} value={record.id}>{record.description}</Option>  )}
-                        </Select>
-                    )}
-                </Form.Item>
+                    <Form.Item label="角色名">
+                        {getFieldDecorator('name')(
+                            <Input/>
+                        )}
+                    </Form.Item>
+                    <Form.Item label="描述">
+                        {getFieldDecorator('description')(
+                            <TextArea/>
+                        )}
+                    </Form.Item>
+                    <Form.Item label="权限菜单">
+                        {getFieldDecorator('menuId')(
+                            <Select
+                                mode="multiple"
+                                placeholder="选择权限菜单"
+                            >
+                                {menuList && menuList.length > 0 && menuList.map((record, index) => <Option
+                                    key={record.id} value={record.id}>{record.description}</Option>)}
+                            </Select>
+                        )}
+                    </Form.Item>
 
 
-
-                <Form.Item>
-                    <Button block type="primary" htmlType="submit">
-                        提交
-                    </Button>
-                </Form.Item>
-            </Form>
+                    <Form.Item>
+                        <Button block type="primary" htmlType="submit">
+                            提交
+                        </Button>
+                    </Form.Item>
+                </Form>}
+                {type === 3 && <div>
+                    <p>用户列表：</p>
+                    {userListByRoleId.map((record, index) => {
+                        if (record.roleId === data.id) {
+                            return <p key={record.id} style={{marginLeft: '20%'}}>{record.nickName}</p>
+                        }
+                    })
+                    }
+                </div>}
+            </div>
         );
     }
 }

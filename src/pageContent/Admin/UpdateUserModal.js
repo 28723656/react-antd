@@ -7,11 +7,6 @@ const { Option } = Select;
 
 class UpdateUserModalClass extends Component {
 
-    state ={
-        type:0   // 0-修改  1-添加
-    }
-
-
     // 提交
     handleSubmit = e => {
         e.preventDefault();
@@ -19,9 +14,9 @@ class UpdateUserModalClass extends Component {
             if (!err) {
                 // 这里可以获取所有的值
                 console.log('Received values of form: ', fieldsValue);
-                const {type} = this.state;
-                // 添加
-                if(type === 1){
+                const {type} = this.props;
+                // 添加   // 1-修改  2-添加  3-查看
+                if(type === 2){
                     addAjax('/admin/user',fieldsValue)
                         .then(json =>{
                             if(json.data.flag){
@@ -33,7 +28,7 @@ class UpdateUserModalClass extends Component {
                             // 其实是关闭模态框
                             this.props.handleCancel(1);
                         })
-                }else {
+                }else if(type === 1) {
                     updateAjax('/admin/user',fieldsValue)
                         .then(json =>{
                             if(json.data.flag){
@@ -51,11 +46,9 @@ class UpdateUserModalClass extends Component {
     };
 
     componentDidMount() {
-        const {data} = this.props;
-        if(data === null){
-            console.log('新增')
-            this.setState({type:1});
-        }else{
+        const {data,type} = this.props;
+        // 如果是修改
+        if(type === 1){
             let {setFieldsValue} = this.props.form;
             setFieldsValue({
                 id: data.id,

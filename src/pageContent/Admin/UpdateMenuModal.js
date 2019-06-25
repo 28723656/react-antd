@@ -6,10 +6,6 @@ const { Option } = Select;
 
 class UpdateMenuModalClass extends Component {
 
-    state ={
-        type:0   // 0-修改  1-添加
-    }
-
 
     // 提交
     handleSubmit = e => {
@@ -18,9 +14,9 @@ class UpdateMenuModalClass extends Component {
             if (!err) {
                 // 这里可以获取所有的值
                 console.log('Received values of form: ', fieldsValue);
-                const {type} = this.state;
+                const {type} = this.props;
                 // 添加
-                if(type === 1){
+                if(type === 2){
                     addAjax('/admin/menu',fieldsValue)
                         .then(json =>{
                             if(json.data.flag){
@@ -32,7 +28,8 @@ class UpdateMenuModalClass extends Component {
                             // 其实是关闭模态框
                             this.props.handleCancel(3);
                         })
-                }else {
+                }else if(type === 1) {
+                    // 修改
                     updateAjax('/admin/menu',fieldsValue)
                         .then(json =>{
                             if(json.data.flag){
@@ -51,11 +48,8 @@ class UpdateMenuModalClass extends Component {
     };
 
     componentDidMount() {
-        const {data} = this.props;
-        if(data === null){
-            console.log('新增')
-            this.setState({type:1});
-        }else{
+        const {data,type} = this.props;
+        if(type === 1){
             let {setFieldsValue} = this.props.form;
             setFieldsValue({
                 id: data.id,
@@ -69,6 +63,7 @@ class UpdateMenuModalClass extends Component {
 
     render() {
         let {getFieldDecorator} = this.props.form;
+        const {type,roleListByMenuId,data} = this.props;
 
         const formItemLayout = {
             labelCol: {
@@ -81,28 +76,42 @@ class UpdateMenuModalClass extends Component {
             },
         };
         return (
-            <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+            <div>
+                {type !== 3 &&  <Form {...formItemLayout} onSubmit={this.handleSubmit}>
 
-                {getFieldDecorator('id')(
-                    <Input hidden={true}/>
-                )}
-                <Form.Item label="菜单(路径名)">
-                    {getFieldDecorator('name')(
-                        <Input/>
+                    {getFieldDecorator('id')(
+                        <Input hidden={true}/>
                     )}
-                </Form.Item>
-                <Form.Item label="菜单(中文名)">
-                    {getFieldDecorator('description')(
-                        <Input/>
-                    )}
-                </Form.Item>
+                    <Form.Item label="菜单(路径名)">
+                        {getFieldDecorator('name')(
+                            <Input/>
+                        )}
+                    </Form.Item>
+                    <Form.Item label="菜单(中文名)">
+                        {getFieldDecorator('description')(
+                            <Input/>
+                        )}
+                    </Form.Item>
 
-                <Form.Item>
-                    <Button block type="primary" htmlType="submit">
-                        提交
-                    </Button>
-                </Form.Item>
-            </Form>
+                    <Form.Item>
+                        <Button block type="primary" htmlType="submit">
+                            提交
+                        </Button>
+                    </Form.Item>
+                </Form>}
+                {type === 3 &&
+                <div>
+                    <p>角色列表：</p>
+                    {roleListByMenuId.map((record,index) =>{
+                        if(record.tempMenuId === data.id){
+                            return  <p key={record.id} style={{marginLeft:'20%'}} >{record.name}</p>
+                        }
+                    })}
+                </div>
+                }
+
+            </div>
+
         );
     }
 }
