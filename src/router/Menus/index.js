@@ -7,7 +7,7 @@ import {
     Redirect,
     Switch,
 } from 'react-router-dom';
-import { Layout, Menu, Breadcrumb ,Avatar} from 'antd';
+import {Layout, Menu, Breadcrumb, Avatar} from 'antd';
 import Page1 from "../../pages/Page1";
 import Page2 from "../../pages/Page2";
 import PlanStat from "../../pages/PlanStat";
@@ -20,12 +20,54 @@ import Page7 from "../../pages/Page7";
 import Page8 from "../../pages/Page8";
 import Log from "../../pages/Log";
 import Admin from "../../pages/Admin";
-import Login from "../../pages/Login";
 
 require('./style.css')
 
 
-const { Header, Content, Footer } = Layout;
+const {Header, Content, Footer} = Layout;
+
+
+const linkList = [{
+    menu: 'plan', link: <Menu.Item key="1">
+        <NavLink to='/plan'>今日任务</NavLink>
+    </Menu.Item>
+},
+    {
+        menu: 'statistics', link: <Menu.Item key="2">
+            <NavLink to='/statistics'>任务统计</NavLink>
+        </Menu.Item>
+    },
+    {
+        menu: 'TV', link: <Menu.Item key="20">
+            <NavLink to='/TV'>动漫</NavLink>
+        </Menu.Item>
+    },
+    {
+        menu: 'homework', link: <Menu.Item key="40">
+            <NavLink to='/homework'>作业界面</NavLink>
+        </Menu.Item>
+    },
+    {
+        menu: 'log', link: <Menu.Item key="100">
+            <NavLink to='/log'>更新日志</NavLink>
+        </Menu.Item>
+    },
+    {
+        menu: 'system', link: <Menu.Item key="1001">
+            <NavLink to='/system'>系统管理</NavLink>
+        </Menu.Item>
+    }]
+
+const routerList = [{menu:'plan',route: <Route exact path="/plan" component={Page1}/>},
+    {menu:'statistics',route:<Route path="/statistics" component={PlanStat}/>},
+    {menu:'TV',route: <Route path="/TV" component={Page4}/>},
+    {menu:'homework',route: <Route path="/homework" component={Page2}/>},
+    {menu:'log',route:<Route path="/log" component={Log}/>},
+    {menu:'system',route:<Route path="/system" component={Admin}/>},
+]
+
+
+const menuId=['plan','statistics','system'];
 
 class Menus extends Component {
 
@@ -33,78 +75,52 @@ class Menus extends Component {
     render() {
         return (
             <Layout>
-                <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-                    <div className='logo' />
+                <Header style={{position: 'fixed', zIndex: 1, width: '100%'}}>
+                    <div className='logo'/>
                     <Menu
                         theme="dark"
                         mode="horizontal"
                         defaultSelectedKeys={['1']}
-                        style={{ lineHeight: '64px' }}
+                        style={{lineHeight: '64px'}}
                     >
+                        {/*<Menu.Item key="1">*/}
+                        {/*<NavLink to='/plan'>今日任务</NavLink>*/}
+                        {/*</Menu.Item>*/}
+                        {/*<Menu.Item key="2">*/}
+                        {/*<NavLink to='/planStat'>任务统计</NavLink>*/}
+                        {/*</Menu.Item>*/}
+                        {/*<Menu.Item key="20">*/}
+                        {/*<NavLink to='/page4'>动漫</NavLink>*/}
+                        {/*</Menu.Item>*/}
+                        {/*<Menu.Item key="40">*/}
+                        {/*<NavLink to='/page2'>作业界面</NavLink>*/}
+                        {/*</Menu.Item>*/}
+                        {/*<Menu.Item key="100">*/}
+                        {/*<NavLink to='/log'>更新日志</NavLink>*/}
+                        {/*</Menu.Item>*/}
+                        {/*<Menu.Item key="1001">*/}
+                        {/*<NavLink to='/admin'>系统管理</NavLink>*/}
+                        {/*</Menu.Item>*/}
+                        {linkList.map((record, index) => {
+                            if (menuId.indexOf(record.menu)!== -1){
+                                return record.link;
+                            }
+                                })}
 
-                        <Menu.Item key="0">
-                            <NavLink to='/login' >登陆</NavLink>
-                        </Menu.Item>
-
-                        <Menu.Item key="1">
-                            <NavLink to='/plan'  >今日任务</NavLink>
-                        </Menu.Item>
-                        <Menu.Item key="2">
-                            <NavLink to='/planStat'  >任务统计</NavLink>
-                        </Menu.Item>
-                 {/*       <Menu.Item key="30">
-                            <NavLink to='/page3'  >巨人专场</NavLink>
-                        </Menu.Item>*/}
-                        <Menu.Item key="20">
-                            <NavLink to='/page4'  >动漫</NavLink>
-                        </Menu.Item>
-                        <Menu.Item key="40">
-                            <NavLink to='/page2'  >作业界面</NavLink>
-                        </Menu.Item>
-                        <Menu.Item key="100">
-                            <NavLink to='/log'  >更新日志</NavLink>
-                        </Menu.Item>
-                        <Menu.Item key="1001">
-                            <NavLink to='/admin'  >系统管理</NavLink>
-                        </Menu.Item>
-                   {/*     <Menu.Item key="50">
-                            <NavLink to='/page5'  >测试页面</NavLink>
-                        </Menu.Item>
-                        <Menu.Item key="60">
-                            <NavLink to='/test01'  > 练习一：模块化练习 </NavLink>
-                        </Menu.Item>
-                        <Menu.Item key="70">
-                            <NavLink to='/test02'  > 练习二：数字排列 </NavLink>
-                        </Menu.Item>
-                        <Menu.Item key="80">
-                            <NavLink to='/page7'  >幸运7</NavLink>
-                        </Menu.Item>
-                        <Menu.Item key="90">
-                            <NavLink to='/page8'  >  我的信息</NavLink>
-                        </Menu.Item>*/}
                     </Menu>
                 </Header>
-                <Content style={{ padding: '0 0px', marginTop: 64 }}>
+                <Content style={{padding: '0 0px', marginTop: 64}}>
 
                     <div style={{padding: '24 0px', minHeight: '90vh'}}>
-                        <Route path="/login" component={Login}/>
-                        <Route  path="/plan" component={Page1}/>
-
-                            <Route path="/planStat" component={PlanStat}/>
-                             <Route path="/page4" component={Page4}/>
-                            <Route path="/page2" component={Page2}/>
-                            <Route path="/log" component={Log}/>
-                        <Route path="/admin" component={Admin}/>
-                          {/*
-                           <Route path="/page3" component={Page3}/>
-                           <Route path="/page5" component={Page5}/>
-                            <Route path="/test01" component={Test01}/>
-                            <Route path="/test02" component={Test02}/>
-                            <Route path="/page7" component={Page7}/>
-                            <Route path="/page8" component={Page8}/>*/}
+                        {routerList.map((record,index) =>{
+                            if(menuId.indexOf(record.menu) !== -1){
+                                return record.route;
+                            }
+                        })}
+                        <Route exact path="/" component={Page1}/>
                     </div>
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>©2019 Created 风往西边吹丶</Footer>
+                <Footer style={{textAlign: 'center'}}>©2019 Created 风往西边吹丶</Footer>
             </Layout>
 
         );
