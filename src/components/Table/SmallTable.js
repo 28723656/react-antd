@@ -46,7 +46,7 @@ const initTitle='表格标题'
 class SmallTable extends Component{
 
     static propTypes = {
-        title:PropTypes,
+        title:PropTypes.string,
         columns: PropTypes.array,
         dataSource: PropTypes.array,
     }

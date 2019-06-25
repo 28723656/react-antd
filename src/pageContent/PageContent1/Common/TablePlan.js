@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
  */
 class TablePlan extends Component {
     static propTypes = {
-        data: PropTypes.isRequired,
+        data: PropTypes.array,
         columns: PropTypes.array.isRequired,
         type: PropTypes.number.isRequired,
         switchModal: PropTypes.func.isRequired,

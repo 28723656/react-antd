@@ -24,6 +24,7 @@ class UpdateMenuModalClass extends Component {
                     addAjax('/admin/menu',fieldsValue)
                         .then(json =>{
                             if(json.data.flag){
+                                this.props.initValue();
                                 message.success(json.data.message);
                             }else{
                                 message.warn(json.data.message);
@@ -35,6 +36,7 @@ class UpdateMenuModalClass extends Component {
                     updateAjax('/admin/menu',fieldsValue)
                         .then(json =>{
                             if(json.data.flag){
+                                this.props.initValue();
                                 message.success(json.data.message);
                             }else{
                                 message.warn(json.data.message);

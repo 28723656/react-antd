@@ -24,6 +24,7 @@ class UpdateUserModalClass extends Component {
                     addAjax('/admin/role',fieldsValue)
                         .then(json =>{
                             if(json.data.flag){
+                                this.props.initValue();
                                 message.success(json.data.message);
                             }else{
                                 message.warn(json.data.message);
@@ -35,6 +36,7 @@ class UpdateUserModalClass extends Component {
                     updateAjax('/admin/role',fieldsValue)
                         .then(json =>{
                             if(json.data.flag){
+                                this.props.initValue();
                                 message.success(json.data.message);
                             }else{
                                 message.warn(json.data.message);
@@ -102,7 +104,7 @@ class UpdateUserModalClass extends Component {
                             mode="multiple"
                             placeholder="选择权限菜单"
                         >
-                            {menuList && menuList.length>0 && menuList.map((record,index) =>  <Option value={record.id}>{record.description}</Option>  )}
+                            {menuList && menuList.length>0 && menuList.map((record,index) =>  <Option key={record.id} value={record.id}>{record.description}</Option>  )}
                         </Select>
                     )}
                 </Form.Item>

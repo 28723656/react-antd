@@ -25,6 +25,7 @@ class UpdateUserModalClass extends Component {
                     addAjax('/admin/user',fieldsValue)
                         .then(json =>{
                             if(json.data.flag){
+                                this.props.initValue();
                                 message.success(json.data.message);
                             }else{
                                 message.warn(json.data.message);
@@ -36,6 +37,7 @@ class UpdateUserModalClass extends Component {
                     updateAjax('/admin/user',fieldsValue)
                         .then(json =>{
                             if(json.data.flag){
+                                this.props.initValue();
                                 message.success(json.data.message);
                             }else{
                                 message.warn(json.data.message);
@@ -44,7 +46,6 @@ class UpdateUserModalClass extends Component {
                             this.props.handleCancel(1);
                         })
                 }
-
             }
         });
     };
@@ -119,7 +120,7 @@ class UpdateUserModalClass extends Component {
                         <Select
                             placeholder="选择一个角色"
                         >
-                            { roleList && roleList.length>0 && roleList.map((record,index) =>  <Option value={record.id}>{record.name}</Option> )}
+                            { roleList && roleList.length>0 && roleList.map((record,index) =>  <Option key={record.id} value={record.id}>{record.name}</Option> )}
                         </Select>
                     )}
                 </Form.Item>

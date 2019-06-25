@@ -92,6 +92,8 @@ class Admin extends Component {
                         const  result = response.data;
                         if(!result.flag){
                            message.error(result.message);
+                        }else {
+                            this.initValue();
                         }
                     });
             },
@@ -299,7 +301,7 @@ class Admin extends Component {
                         footer={null}
                         destroyOnClose={true}
                     >
-                        <UpdateUserModal handleCancel={() => this.handleCancel('user')} data={userEntity} roleList={roleList} />
+                        <UpdateUserModal handleCancel={() => this.handleCancel('user')} data={userEntity} roleList={roleList} initValue={this.initValue} />
                     </Modal>
                 </TabPane>
                 <TabPane tab="角色管理" key="2" style={{margin:5}} >
@@ -313,7 +315,7 @@ class Admin extends Component {
                         footer={null}
                         destroyOnClose={true}
                     >
-                        <UpdateRoleModal handleCancel={() => this.handleCancel('role')} data={roleEntity} menuList={menuList} />
+                        <UpdateRoleModal handleCancel={() => this.handleCancel('role')} data={roleEntity} menuList={menuList} initValue={this.initValue} />
                     </Modal>
                 </TabPane>
                 <TabPane tab="权限菜单" key="3">
@@ -326,7 +328,7 @@ class Admin extends Component {
                         footer={null}
                         destroyOnClose={true}
                     >
-                        <UpdateMenuModal handleCancel={() =>this.handleCancel('menu')} data={menuEntity} />
+                        <UpdateMenuModal handleCancel={() =>this.handleCancel('menu')} data={menuEntity} initValue={this.initValue} />
                     </Modal>
                 </TabPane>
             </Tabs>
