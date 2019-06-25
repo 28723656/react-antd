@@ -30,7 +30,6 @@ class PlanSlider extends Component{
         for(let i=0;i<max/interval+1;i++){
             marks[i*interval] = pushArr[i];
         }
-        console.log( marks)
 
 
 

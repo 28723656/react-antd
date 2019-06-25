@@ -29,7 +29,6 @@ class JustForTest extends Component{
 
     handleNumberChange = e => {
         const text = e.target.value ;
-        console.log(text)
 
         if (!('value' in this.props)) {
             this.setState({ text });

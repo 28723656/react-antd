@@ -19,18 +19,15 @@ class TablePlan extends Component {
 
     // 更新
     openUpdatePlanModal = (event, record, type) => {
-        console.log("-------3333333------");
         // 如果是今日计划
         if (type === 1) {
             const {stopOpenData} = this.props;
             if (!stopOpenData) {
-                console.log('点击的是：', event, record);
                 const {switchModal, setRecord} = this.props;
                 switchModal(type, true);
                 setRecord(record);
             }
         } else {
-            console.log('点击的是：', event, record);
             const {switchModal, setRecord} = this.props;
             switchModal(type, true);
             setRecord(record);
@@ -41,7 +38,6 @@ class TablePlan extends Component {
 
     // 允许弹出框
     allowOpenUpdatePlanModal = (e, type) => {
-        console.log("开始点击了  ----- 111111----  ");
         if (type === 1) {
             this.props.setStopOpen(false);
         }

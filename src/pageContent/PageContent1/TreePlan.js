@@ -154,8 +154,6 @@ class TreePlan extends Component{
 
 
         const {initData} = this.state;
-        console.log('initData',initData);
-        console.log('initData.length > 0 ',initData.length > 0 )
 
         // 记住   default这种东西，只在第一次渲染的时候有效，所以，开始的时候initData为空，渲染了一次，浪费了这个机会
 

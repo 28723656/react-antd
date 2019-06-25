@@ -9,11 +9,12 @@ const dataLog = [
     {id: 2, updateDay: '6-10', content: '完成了基本的项目搭建'},
     {id: 3, updateDay: '6-15', content: '设计了计划管理的构思'},
     {id: 4, updateDay: '6-23', content: '把项目前后台运行在服务器上'},
+    {id: 5, updateDay: '6-25', content: '完成用户角色权限系统'},
 ];
 
 const dataFuture= [
-    {id: 1,  content: '完成计划内容'},
-    {id: 2,  content: '添加用户角色权限'},
+    {id: 1,  content: '完成计划内容 (进行中...)'},
+    {id: 2,  content: '添加用户角色权限(进行中...) '},
     {id: 3,  content: '设计动漫界面'},
     {id: 4,  content: '后续再看... ...'},
 ];

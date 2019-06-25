@@ -31,7 +31,6 @@ class Page1 extends Component {
 
     onTabChange = (key, type) => {
         const {change_card2} = this.props
-        console.log("tab->", key)
         change_card2(key)
     };
 

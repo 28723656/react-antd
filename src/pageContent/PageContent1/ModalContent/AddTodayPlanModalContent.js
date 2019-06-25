@@ -26,8 +26,8 @@ class AddPlanModalContentClass extends React.Component {
                     'endTime':endTime.add(8,'hours'),
                 }
 
-                console.log('Received time ', values.startTime.format('YYYY-MM-DD HH:mm:SS'));
-                console.log('Received values of form: ', values);
+                // console.log('Received time ', values.startTime.format('YYYY-MM-DD HH:mm:SS'));
+                // console.log('Received values of form: ', values);
                // const hourOfStartTime = parseInt(values.startTime.split(':')[0]);
                // const minutesOfStartTime = parseInt(values.startTime.split(':')[1]);
                //
@@ -42,7 +42,6 @@ class AddPlanModalContentClass extends React.Component {
 
                //  把获得的值传入到data中，还是应该让父界面处理
                 const {addPlan,updatePlan,deletePlan,record} = this.props
-                console.log('delete',typeof values.delete);
                 if(record === null){
                     addPlan(values);
                 }else{
@@ -57,7 +56,7 @@ class AddPlanModalContentClass extends React.Component {
                                 deletePlan(values.id)
                             },
                             onCancel() {
-                                console.log('Cancel');
+                                // console.log('Cancel');
                             },
                         });
                     }else if(values.delete === '0') {
@@ -78,8 +77,8 @@ class AddPlanModalContentClass extends React.Component {
         let {data,record} = this.props;
 
         if(record){
-            console.log('record.startTime',record.startTime,moment(record.startTime).subtract(1,'months').format("YYYY-MM-DD HH:mm:SS"))
-            console.log('record.endTime',record.endTime,moment(record.endTime).subtract(1,'months').format("YYYY-MM-DD HH:mm:SS"))
+           // console.log('record.startTime',record.startTime,moment(record.startTime).subtract(1,'months').format("YYYY-MM-DD HH:mm:SS"))
+          //  console.log('record.endTime',record.endTime,moment(record.endTime).subtract(1,'months').format("YYYY-MM-DD HH:mm:SS"))
         }
 
         const formItemLayout = {

@@ -10,15 +10,6 @@ const {confirm} = Modal
 
 class AddWeekModalContentClass extends React.Component {
 
-    // 处理等级的改变
-  /*  handleRankChange = (e) =>{
-        console.log(e.target.value);
-        const resultValue = e.target.value *10
-        console.log(resultValue)
-        this.props.form.setFieldsValue({
-            score:resultValue
-        });
-    }*/
 
 
     // 提交
@@ -31,7 +22,6 @@ class AddWeekModalContentClass extends React.Component {
                 //  把获得的值传入到data中，还是应该让父界面处理
                 //  把获得的值传入到data中，还是应该让父界面处理
                 const {addPlan,updatePlan,deletePlan,record} = this.props
-                console.log('delete',values.delete);
                 if(record == null){
                     addPlan(values);
                 }else{
@@ -46,7 +36,7 @@ class AddWeekModalContentClass extends React.Component {
                                 deletePlan(values.id)
                             },
                             onCancel() {
-                                console.log('Cancel');
+                        //        console.log('Cancel');
                             },
                         });
                     }else if(values.delete === '0') {

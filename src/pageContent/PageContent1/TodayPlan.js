@@ -21,8 +21,6 @@ class TodayPlan extends Component{
 
 
      onChange = (checked,row) => {
-         console.log("-------2222222------");
-         console.log(`switch to ${checked},and data is :`,row);
          const {finishPlan,setStopOpen,switchModal} = this.props;
          setStopOpen(true);
          switchModal(1, false);
@@ -32,12 +30,12 @@ class TodayPlan extends Component{
 
     //显示历史记录  ---->  这个设计不合理，后期改进
     showHistory =() =>{
-        console.log('显示历史记录')
+      //  console.log('显示历史记录')
     }
 
 
      addToTodayList = (value) =>{
-        console.log("添加到任务列表",value);
+        // console.log("添加到任务列表",value);
     }
 
     // 添加计划
@@ -88,7 +86,6 @@ class TodayPlan extends Component{
                         topStr ='[置顶]' ;
                     }
                     let nameAfter ='->'+value
-                    console.log('名字的长度：',(nameAfter+topStr).length);
                     if(this.browserRedirect() === 'phone' && (nameAfter+topStr).length >14){
                         nameAfter = nameAfter.substring(0,12)+"...";
                     }
@@ -121,7 +118,6 @@ class TodayPlan extends Component{
                 dataIndex: 'finished',
                 width:'30%',
                 render: (value,row,index) =>{
-                    console.log( value)
                     if(value === 1){
                         return <div>
                             {row.score}分 &nbsp;
@@ -140,7 +136,6 @@ class TodayPlan extends Component{
 
 
         const {todayPlan,weekPlan} = this.props.data;
-        console.log('todayPlan--观测中',todayPlan)
         const {addPlan,modalData,switchModal,updatePlan,deletePlan,setRecord,recordData,setStopOpen,stopOpenData} = this.props;
 
         return (

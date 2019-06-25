@@ -95,7 +95,6 @@ function personData(state = itemData_mock, action) {
 function planData(state = {}, action) {
     switch (action.type) {
         case INIT_PLAN:
-            console.log('planData----', action.data);
             return action.data;
         default:
             return state

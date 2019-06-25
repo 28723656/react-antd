@@ -123,7 +123,6 @@ class TreePlanTemp extends Component{
                 return <TreeNode key={item.key} title={title} />;
             });
 
-        console.log('gData',gData);
         return (
             <div>
                 <Search style={{ marginBottom: 8 }} placeholder="Search" onChange={this.onChange} />

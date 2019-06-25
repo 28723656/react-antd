@@ -96,7 +96,6 @@ class PlanStatistics extends Component{
 
     // 选择月份发生变化的时候
     handleMonthChange =(value) =>{
-        console.log(`选择了${value}月`)
         // 随机一个data percent  31个数
         let dataPercentArr=[]
         let dataScoreArr=[]
@@ -110,7 +109,6 @@ class PlanStatistics extends Component{
         optionPercent.series[0].data=dataPercentArr;
         optionScore.series[0].data=dataScoreArr;
 
-        console.log(optionScore)
 
         // 这里有点坑，通过ref引用来操作setOption改变数据,不需要setState
       //  this.setState({optionScore,optionPercent})
@@ -126,7 +124,6 @@ class PlanStatistics extends Component{
 
     render() {
         const {optionPercent,optionScore} = this.state;
-        console.log(optionScore)
 
         return (
             <div>

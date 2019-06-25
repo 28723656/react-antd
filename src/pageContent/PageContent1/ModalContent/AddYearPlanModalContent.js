@@ -20,7 +20,6 @@ class AddYearModalContentClass extends React.Component {
 
                 //  把获得的值传入到data中，还是应该让父界面处理
                 const {addPlan,updatePlan,deletePlan,record} = this.props
-                console.log('delete',values.delete);
                 if(record == null){
                     addPlan(values);
                 }else{
@@ -35,7 +34,7 @@ class AddYearModalContentClass extends React.Component {
                                 deletePlan(values.id)
                             },
                             onCancel() {
-                                console.log('Cancel');
+                                // console.log('Cancel');
                             },
                         });
                     }else if(values.delete === '0') {

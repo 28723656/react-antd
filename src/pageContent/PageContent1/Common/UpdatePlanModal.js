@@ -35,14 +35,12 @@ class AddPlanModal extends Component{
     };
 
     handleOk = e => {
-        console.log(e);
         this.setState({
             visible: false,
         });
     };
 
     handleCancel = e => {
-        console.log(e);
         this.setState({
             visible: false,
         });
@@ -57,7 +55,6 @@ class AddPlanModal extends Component{
 
     //显示历史记录  ---->  这个设计不合理，后期改进
     showHistory =() =>{
-        console.log('显示历史记录')
     }
 
     render() {
