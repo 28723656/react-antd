@@ -1,14 +1,18 @@
 import React from 'react'
-import {Button,Row, Col, Form, Input, Select, Switch, TimePicker,Modal} from 'antd';
+import {Button,Row, Col, Form, Input, Select, Switch, TimePicker,Modal,DatePicker} from 'antd';
 import moment from 'moment';
 import PlanNameSearch from "../Common/PlanNameSearch";
 import PlanRadioGroup from "../Common/PlanRadioGroup";
 import PlanSlider from "../Common/PlanSlider";
 import PlanSelectOptionList from "../Common/PlanSelectOptionList";
+import locale from 'antd/lib/date-picker/locale/zh_CN';
+import 'moment/locale/zh-cn';
 
 const { Option } = Select;
-const format = 'HH:mm';
+//const format = 'HH:mm';
+const format = 'YYYY-MM-DD HH:mm';
 const {confirm} = Modal
+moment.locale('zh-cn');
 
 
 class AddPlanModalContentClass extends React.Component {
@@ -125,17 +129,26 @@ class AddPlanModalContentClass extends React.Component {
                 }
 
 
-                <Form.Item label="时间" style={{ marginBottom: 0 }}>
-                    <Form.Item
-                        style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
+                {/*<Form.Item label="开始时间" style={{ marginBottom: 0 }}>*/}
+                    {/*<Form.Item*/}
+                        {/*style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}*/}
+                    {/*>*/}
+                        {/*{getFieldDecorator('startTime',{ initialValue:record !== null? moment(record.startTime).subtract(1,'months'):moment()})(<DatePicker format={format}  />)}*/}
+                    {/*</Form.Item>*/}
+                    {/*<span style={{ display: 'inline-block', width: '24px', textAlign: 'center' }}>-</span>*/}
+                    {/*<Form.Item style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}>*/}
+                        {/*{getFieldDecorator('endTime',{initialValue:record !== null? moment(record.endTime).subtract(1,'months'):moment().add(1,'h')})(<DatePicker  format={format}  />)}*/}
+                    {/*</Form.Item>*/}
+                {/*</Form.Item>*/}
+
+
+                    <Form.Item label='开始时间'
                     >
-                        {getFieldDecorator('startTime',{ initialValue:record !== null? moment(record.startTime).subtract(1,'months'):moment()})(<TimePicker format={format}  />)}
+                        {getFieldDecorator('startTime',{ initialValue:record !== null? moment(record.startTime).subtract(1,'months'):moment()})(<DatePicker locale={locale} showTime format={format}  />)}
                     </Form.Item>
-                    <span style={{ display: 'inline-block', width: '24px', textAlign: 'center' }}>-</span>
-                    <Form.Item style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}>
-                        {getFieldDecorator('endTime',{initialValue:record !== null? moment(record.endTime).subtract(1,'months'):moment().add(1,'h')})(<TimePicker  format={format}  />)}
+                    <Form.Item  label='结束时间'>
+                        {getFieldDecorator('endTime',{initialValue:record !== null? moment(record.endTime).subtract(1,'months'):moment().add(1,'h')})(<DatePicker locale={locale} showTime  format={format}  />)}
                     </Form.Item>
-                </Form.Item>
 
 
                 <Form.Item label="设定等级（由低到高）">

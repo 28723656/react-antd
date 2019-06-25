@@ -20,6 +20,7 @@ import Page7 from "../../pages/Page7";
 import Page8 from "../../pages/Page8";
 import Log from "../../pages/Log";
 import Admin from "../../pages/Admin";
+import Login from "../../pages/Login";
 
 require('./style.css')
 
@@ -40,8 +41,13 @@ class Menus extends Component {
                         defaultSelectedKeys={['1']}
                         style={{ lineHeight: '64px' }}
                     >
+
+                        <Menu.Item key="0">
+                            <NavLink to='/login' >登陆</NavLink>
+                        </Menu.Item>
+
                         <Menu.Item key="1">
-                            <NavLink to='/'  >今日任务</NavLink>
+                            <NavLink to='/plan'  >今日任务</NavLink>
                         </Menu.Item>
                         <Menu.Item key="2">
                             <NavLink to='/planStat'  >任务统计</NavLink>
@@ -81,7 +87,8 @@ class Menus extends Component {
                 <Content style={{ padding: '0 0px', marginTop: 64 }}>
 
                     <div style={{padding: '24 0px', minHeight: '90vh'}}>
-                            <Route exact path="/" component={Page1}/>
+                        <Route path="/login" component={Login}/>
+                        <Route  path="/plan" component={Page1}/>
 
                             <Route path="/planStat" component={PlanStat}/>
                              <Route path="/page4" component={Page4}/>
