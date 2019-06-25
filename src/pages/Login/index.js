@@ -1,10 +1,18 @@
 import React,{Component} from 'react'
 import { Form, Icon, Input, Button, Checkbox,Row,Col } from 'antd';
 
+import bgImage from './bg.png'
+import bgImage2 from './bg2.png'
 
 /**
  * 登陆界面
  */
+
+const homeImage ={
+    background: `url(${ bgImage2})` ,
+
+}
+
 class LoginClass extends Component{
 
     handleSubmit = e => {
@@ -33,6 +41,7 @@ class LoginClass extends Component{
         };
 
         return (
+            <div style={homeImage} >
             <Row>
                 <Col><h1 style={{marginTop:'15%',textAlign:'center',color:'#323eee'}} >用户登陆</h1></Col>
                 <Col>
@@ -78,6 +87,7 @@ class LoginClass extends Component{
                 </Col>
 
             </Row>
+            </div>
         )
     }
 }
