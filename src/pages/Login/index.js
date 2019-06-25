@@ -1,17 +1,12 @@
-import React,{Component} from 'react'
-import { Form, Icon, Input, Button, Checkbox,Row,Col } from 'antd';
+import React, {Component} from 'react'
+import {Button, Checkbox, Col, Form, Icon, Input, Row,message} from 'antd';
+import {addAjax, getAjax} from "../../util/ajax";
 
-import bgImage from './bg.png'
-import bgImage2 from './bg2.png'
 
 /**
  * 登陆界面
  */
 
-const homeImage ={
-    background: `url(${ bgImage2})` ,
-
-}
 
 class LoginClass extends Component{
 
@@ -20,7 +15,20 @@ class LoginClass extends Component{
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
-
+                addAjax('/admin/user/login',values)
+                    .then(response =>{
+                        const result = response.data;
+                        if(result.flag){
+                            message.success(result.message);
+                            localStorage.setItem("user",result.data);
+                            // 由于我是登录后再加载出路由，所以，登录后，页面木有跳转
+                           //  this.props.history.replace("/plan");
+                           // console.log('this.props.history',this.props.history);
+                            window.location="/plan"
+                        }else {
+                            message.error(result.message);
+                        }
+                    })
             }
         });
     };
@@ -41,19 +49,19 @@ class LoginClass extends Component{
         };
 
         return (
-            <div style={homeImage} >
+            <div >
             <Row>
                 <Col><h1 style={{marginTop:'15%',textAlign:'center',color:'#323eee'}} >用户登陆</h1></Col>
                 <Col>
                     <div style={{textAlign:'center'}} >
                     <Form {...formItemLayout} onSubmit={this.handleSubmit} className="login-form">
                         <Form.Item>
-                            {getFieldDecorator('username', {
+                            {getFieldDecorator('phone', {
                                 rules: [{ required: true, message: 'Please input your username!' }],
                             })(
                                 <Input style={{width:'80%'}}
                                     prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)'}} />}
-                                    placeholder="Username"
+                                    placeholder="phone"
                                 />,
                             )}
                         </Form.Item>
