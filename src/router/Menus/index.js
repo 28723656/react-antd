@@ -27,11 +27,12 @@ require('./style.css')
 const {Header, Content, Footer} = Layout;
 
 
-const linkList = [{
-    menu: 'plan', link: <Menu.Item key="1">
-        <NavLink to='/plan'>今日任务</NavLink>
-    </Menu.Item>
-},
+const linkList = [
+    {
+        menu: 'plan', link: <Menu.Item key="1">
+            <NavLink to='/plan'>今日任务</NavLink>
+        </Menu.Item>
+    },
     {
         menu: 'statistics', link: <Menu.Item key="2">
             <NavLink to='/statistics'>任务统计</NavLink>
@@ -58,12 +59,12 @@ const linkList = [{
         </Menu.Item>
     }]
 
-const routerList = [{menu:'plan',route: <Route exact path="/plan" component={Page1}/>},
-    {menu:'statistics',route:<Route path="/statistics" component={PlanStat}/>},
-    {menu:'TV',route: <Route path="/TV" component={Page4}/>},
-    {menu:'homework',route: <Route path="/homework" component={Page2}/>},
-    {menu:'log',route:<Route path="/log" component={Log}/>},
-    {menu:'system',route:<Route path="/system" component={Admin}/>},
+const routerList = [{menu:'plan',route: <Route exact key={6} path="/plan" component={Page1}/>},
+    {menu:'statistics',route:<Route key={1} path="/statistics" component={PlanStat}/>},
+    {menu:'TV',route: <Route key={2} path="/TV" component={Page4}/>},
+    {menu:'homework',route: <Route key={3} path="/homework" component={Page2}/>},
+    {menu:'log',route:<Route key={4} path="/log" component={Log}/>},
+    {menu:'system',route:<Route key={5} path="/system" component={Admin}/>},
 ]
 
 
@@ -83,24 +84,6 @@ class Menus extends Component {
                         defaultSelectedKeys={['1']}
                         style={{lineHeight: '64px'}}
                     >
-                        {/*<Menu.Item key="1">*/}
-                        {/*<NavLink to='/plan'>今日任务</NavLink>*/}
-                        {/*</Menu.Item>*/}
-                        {/*<Menu.Item key="2">*/}
-                        {/*<NavLink to='/planStat'>任务统计</NavLink>*/}
-                        {/*</Menu.Item>*/}
-                        {/*<Menu.Item key="20">*/}
-                        {/*<NavLink to='/page4'>动漫</NavLink>*/}
-                        {/*</Menu.Item>*/}
-                        {/*<Menu.Item key="40">*/}
-                        {/*<NavLink to='/page2'>作业界面</NavLink>*/}
-                        {/*</Menu.Item>*/}
-                        {/*<Menu.Item key="100">*/}
-                        {/*<NavLink to='/log'>更新日志</NavLink>*/}
-                        {/*</Menu.Item>*/}
-                        {/*<Menu.Item key="1001">*/}
-                        {/*<NavLink to='/admin'>系统管理</NavLink>*/}
-                        {/*</Menu.Item>*/}
                         {linkList.map((record, index) => {
                             if (menuId.indexOf(record.menu)!== -1){
                                 return record.link;

@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox,Row,Col } from 'antd';
 
 
 /**
@@ -33,47 +33,51 @@ class LoginClass extends Component{
         };
 
         return (
-            <div>
-                <h1 style={{marginTop:'15%',textAlign:'center',color:'#323eee'}} >用户登陆</h1>
-                <Form  {...formItemLayout} onSubmit={this.handleSubmit} className="login-form">
-                    <Form.Item>
-                        {getFieldDecorator('username', {
-                            rules: [{ required: true, message: 'Please input your username!' }],
-                        })(
-                            <Input
-                                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                placeholder="Username"
-                            />,
-                        )}
-                    </Form.Item>
-                    <Form.Item>
-                        {getFieldDecorator('password', {
-                            rules: [{ required: true, message: 'Please input your Password!' }],
-                        })(
-                            <Input
-                                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                type="password"
-                                placeholder="Password"
-                            />,
-                        )}
-                    </Form.Item>
-                    <Form.Item>
-                        {getFieldDecorator('remember', {
-                            valuePropName: 'checked',
-                            initialValue: true,
-                        })(<Checkbox>记住我</Checkbox>)}
-                        <a className="login-form-forgot" href="">
-                            忘记密码？
-                        </a>
-                        <a style={{float:'right',marginRight:'20%'}} href="">注册</a>
-                        <Button block type="primary" htmlType="submit" className="login-form-button">
-                            登陆
-                        </Button>
+            <Row>
+                <Col><h1 style={{marginTop:'15%',textAlign:'center',color:'#323eee'}} >用户登陆</h1></Col>
+                <Col>
+                    <div style={{textAlign:'center'}} >
+                    <Form {...formItemLayout} onSubmit={this.handleSubmit} className="login-form">
+                        <Form.Item>
+                            {getFieldDecorator('username', {
+                                rules: [{ required: true, message: 'Please input your username!' }],
+                            })(
+                                <Input style={{width:'80%'}}
+                                    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)'}} />}
+                                    placeholder="Username"
+                                />,
+                            )}
+                        </Form.Item>
+                        <Form.Item>
+                            {getFieldDecorator('password', {
+                                rules: [{ required: true, message: 'Please input your Password!' }],
+                            })(
+                                <Input style={{width:'80%'}}
+                                    prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                    type="password"
+                                    placeholder="Password"
+                                />,
+                            )}
+                        </Form.Item>
+                        <Form.Item>
+                            {getFieldDecorator('remember', {
+                                valuePropName: 'checked',
+                                initialValue: true,
+                            })(<Checkbox>记住我</Checkbox>)}
+                            <a className="login-form-forgot" href="">
+                                忘记密码？
+                            </a>
+                            <a style={{float:'right',marginRight:'20%'}} href="">注册</a>
+                            <Button style={{width:'80%'}} block type="primary" htmlType="submit" className="login-form-button">
+                                登陆
+                            </Button>
 
-                    </Form.Item>
-                </Form>
-            </div>
+                        </Form.Item>
+                    </Form>
+                    </div>
+                </Col>
 
+            </Row>
         )
     }
 }

@@ -2,14 +2,20 @@ import React, {Component} from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import Menus from './Menus';
-
+import Login from '../pages/Login'
 
 class Router extends Component {
     render() {
         return (
-            <BrowserRouter>
-                <Menus/>
-            </BrowserRouter>
+            <div>
+                {true && <Login/>}
+                {false &&
+                <BrowserRouter>
+                    <Menus/>
+                </BrowserRouter> }
+
+            </div>
+
         );
     }
 }
