@@ -5,11 +5,12 @@ const {TabPane} = Tabs;
 
 
 const dataLog = [
-    {id: 1, updateDay: '6-05', content: '项目初始动工'},
-    {id: 2, updateDay: '6-10', content: '完成了基本的项目搭建'},
-    {id: 3, updateDay: '6-15', content: '设计了计划管理的构思'},
-    {id: 4, updateDay: '6-23', content: '把项目前后台运行在服务器上'},
-    {id: 5, updateDay: '6-25', content: '完成用户角色权限系统'},
+    {id: 1, updateDay: '2019-6-05', content: '项目初始动工'},
+    {id: 2, updateDay: '2019-6-10', content: '完成了基本的项目搭建'},
+    {id: 3, updateDay: '2019-6-15', content: '设计了计划管理的构思'},
+    {id: 4, updateDay: '2019-6-23', content: '把项目前后台运行在服务器上'},
+    {id: 5, updateDay: '2019-6-25', content: '完成用户角色权限系统'},
+    {id: 5, updateDay: '2019-6-26', content: '完成角色登陆后显示对应的权限菜单'},
 ];
 
 const dataFuture= [

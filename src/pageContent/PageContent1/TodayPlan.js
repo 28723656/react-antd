@@ -30,9 +30,7 @@ class TodayPlan extends Component{
 
     //显示历史记录  ---->  这个设计不合理，后期改进
     showHistory =() =>{
-      //  console.log('显示历史记录')
-        localStorage.removeItem("user");
-        window.location="/";
+       console.log('显示历史记录')
     }
 
 
@@ -160,7 +158,7 @@ class TodayPlan extends Component{
                         </Col>
                         <Col span={6} offset={12}>
                             <Button type="link" onClick={this.showHistory}>
-                                <Icon type="history"/> 清除(测试)
+                                <Icon type="history"/> 查看历史
                             </Button>
                         </Col>
 

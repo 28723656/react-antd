@@ -20,11 +20,12 @@ class LoginClass extends Component{
                         const result = response.data;
                         if(result.flag){
                             message.success(result.message);
-                            localStorage.setItem("user",result.data);
+                            localStorage.setItem("user",JSON.stringify(result.data));
                             // 由于我是登录后再加载出路由，所以，登录后，页面木有跳转
                            //  this.props.history.replace("/plan");
                            // console.log('this.props.history',this.props.history);
-                            window.location="/plan"
+
+                            window.location="/"
                         }else {
                             message.error(result.message);
                         }
@@ -61,7 +62,7 @@ class LoginClass extends Component{
                             })(
                                 <Input style={{width:'80%'}}
                                     prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)'}} />}
-                                    placeholder="phone"
+                                    placeholder="账号（手机号）"
                                 />,
                             )}
                         </Form.Item>
@@ -72,7 +73,7 @@ class LoginClass extends Component{
                                 <Input style={{width:'80%'}}
                                     prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                     type="password"
-                                    placeholder="Password"
+                                    placeholder="密码"
                                 />,
                             )}
                         </Form.Item>
@@ -90,6 +91,8 @@ class LoginClass extends Component{
                             </Button>
 
                         </Form.Item>
+                        <p>测试用户账号：123  密码：123</p>
+                        <p>测试管理员账号：admin  密码：123456</p>
                     </Form>
                     </div>
                 </Col>
