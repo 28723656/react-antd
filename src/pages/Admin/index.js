@@ -55,9 +55,9 @@ class Admin extends Component {
         if(type === 'user'){
             this.setState({ visibleUser: true,userEntity:record,titleUser:'修改用户',type:1});
         }else if(type === 'role'){
-            this.setState({ visibleRole: true,roleEntity:record,titleRole:'修改用户',type:1});
+            this.setState({ visibleRole: true,roleEntity:record,titleRole:'修改角色',type:1});
         }else if(type === 'menu'){
-            this.setState({ visibleMenu: true,menuEntity:record,titleMenu:'修改用户',type:1});
+            this.setState({ visibleMenu: true,menuEntity:record,titleMenu:'修改权限',type:1});
         }
     }
 
