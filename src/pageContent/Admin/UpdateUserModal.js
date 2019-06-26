@@ -22,11 +22,12 @@ class UpdateUserModalClass extends Component {
                             if(json.data.flag){
                                 this.props.initValue();
                                 message.success(json.data.message);
+                                // 其实是关闭模态框
+                                this.props.handleCancel(1);
                             }else{
                                 message.warn(json.data.message);
                             }
-                            // 其实是关闭模态框
-                            this.props.handleCancel(1);
+
                         })
                 }else if(type === 1) {
                     updateAjax('/admin/user',fieldsValue)
@@ -34,16 +35,39 @@ class UpdateUserModalClass extends Component {
                             if(json.data.flag){
                                 this.props.initValue();
                                 message.success(json.data.message);
+                                // 其实是关闭模态框
+                                this.props.handleCancel(1);
                             }else{
                                 message.warn(json.data.message);
                             }
-                            // 其实是关闭模态框
-                            this.props.handleCancel(1);
+
                         })
                 }
             }
         });
     };
+
+    // 验证手机
+    validatePhone = (rule, value, callback) => {
+        const { form } = this.props;
+        if (value && value.startsWith('1') && value.length === 11) {
+            callback();
+        }else {
+            callback('请输入正确的手机号码！');
+        }
+
+    };
+    // 验证密码
+    validatePassword = (rule, value, callback) => {
+        const { form } = this.props;
+        if (value && value.length >=6 && value.length <=16) {
+                callback();
+        }else {
+            callback('密码的长度6-16');
+        }
+
+    };
+
 
     componentDidMount() {
         const {data,type} = this.props;
@@ -64,7 +88,7 @@ class UpdateUserModalClass extends Component {
 
     render() {
         let {getFieldDecorator} = this.props.form;
-        const {roleList} = this.props;
+        const {roleList,type} = this.props;
         console.log('roleList --->',roleList)
 
         const formItemLayout = {
@@ -84,19 +108,49 @@ class UpdateUserModalClass extends Component {
                     <Input hidden={true}/>
                 )}
                 <Form.Item label="用户名(手机号)">
-                    {getFieldDecorator('phone')(
+                    {getFieldDecorator('phone',{
+                        rules: [
+                            {
+                                required: true,
+                                message: '输入合法的手机号!',
+                            },
+                            {
+                                validator: this.validatePhone,
+                            },
+                        ],
+                    })(
                         <Input/>
                     )}
                 </Form.Item>
 
+                {type !== 1 &&
                 <Form.Item label="密码">
-                    {getFieldDecorator('password')(
+                    {getFieldDecorator('password', {
+                        rules: [
+                            {
+                                required: true,
+                                message: '密码在6-16位之间',
+                            },
+                            {
+                                validator: this.validatePassword,
+                            },
+                        ],
+                    })(
                         <Input/>
                     )}
                 </Form.Item>
+                }
+
 
                 <Form.Item label="昵称">
-                    {getFieldDecorator('nickName')(
+                    {getFieldDecorator('nickName',{
+                        rules: [
+                            {
+                                required: true,
+                                message: '名字随便取',
+                            },
+                        ],
+                    })(
                         <Input/>
                     )}
                 </Form.Item>
@@ -109,7 +163,14 @@ class UpdateUserModalClass extends Component {
 
 
                 <Form.Item label="角色">
-                    {getFieldDecorator('roleId')(
+                    {getFieldDecorator('roleId',{
+                        rules: [
+                            {
+                                required: true,
+                                message: '选一个角色吧',
+                            },
+                        ],
+                    })(
                         <Select
                             placeholder="选择一个角色"
                         >

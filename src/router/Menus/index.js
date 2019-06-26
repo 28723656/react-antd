@@ -89,7 +89,7 @@ class Menus extends Component {
     initMenu = () =>{
         console.log('------lalala-------')
       const user = JSON.parse(localStorage.getItem('user'));
-      if(user!== null){
+      if(user!== null && !user.offLine){
           getAjax(`/admin/user/menu/${user.id}`)
               .then(response =>{
                   const result = response.data;
@@ -103,6 +103,9 @@ class Menus extends Component {
                       message.error('没有权限，请联系管理员');
                   }
               })
+      } else {
+          // 离线登录，给他几个菜单显示吧
+          this.setState({menuList:['person','log']});
       }
     }
 

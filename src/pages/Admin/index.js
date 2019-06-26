@@ -14,28 +14,36 @@ const {confirm} = Modal
 
 class Admin extends Component {
 
-    state = {
-        visibleMenu: false,
-        visibleRole: false,
-        visibleUser: false,
-        userEntity:null,
-        roleEntity:null,
-        titleUser:'修改用户',
-        titleRole:'修改角色',
-        titleMenu:'修改菜单',
+    constructor(props){
+        super(props)
 
-        userData:[],
-        roleData:[],
-        menuData:[],
+        this.initValue = this.initValue.bind(this)
 
-        roleList:[],
-        menuList:[],
+        this.state = {
+            visibleMenu: false,
+            visibleRole: false,
+            visibleUser: false,
+            userEntity:null,
+            roleEntity:null,
+            titleUser:'修改用户',
+            titleRole:'修改角色',
+            titleMenu:'修改菜单',
 
-        userListByRoleId:[],
-        roleListByMenuId:[],
+            userData:[],
+            roleData:[],
+            menuData:[],
 
-        type:1   // 1-修改  2-添加  3-查看
+            roleList:[],
+            menuList:[],
+
+            userListByRoleId:[],
+            roleListByMenuId:[],
+
+            type:1   // 1-修改  2-添加  3-查看
+        }
     }
+
+
 
 
 

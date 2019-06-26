@@ -32,11 +32,18 @@ class LoginClass extends Component {
                     .catch((error) =>{
                         if ((values.phone === '123' && values.password === '123') ||
                             (values.phone === 'admin' && values.password === '123456')) {
+                            console.log(values,typeof  values);
+                            if(values.phone === '123'){
+                                values.nickName='离线用户'
+                            }else if(values.phone==='admin'){
+                                values.nickName ='离线管理员'
+                            }
+                            values.offLine=true
                             localStorage.setItem("user", JSON.stringify(values));
                             window.location = "/"
                             message.warning("正在使用离线登陆");
                         }else{
-                            message.error('用户名或密码错误');
+                            message.error('离线模式下：用户名或密码错误');
                         }
 
                     })
