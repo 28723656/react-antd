@@ -13,11 +13,18 @@ const dataLog = [
     {id: 5, updateDay: '2019-6-26', content: '完成角色登陆后显示对应的权限菜单'},
 ];
 
-const dataFuture= [
+const dataFuture6= [
     {id: 1,  content: '完成计划内容 (进行中...)'},
     {id: 2,  content: '添加用户角色权限(进行中...) '},
     {id: 3,  content: '设计动漫界面'},
     {id: 4,  content: '后续再看... ...'},
+];
+
+const dataFuture7= [
+    {id: 1,  content: '收录动漫网站'},
+    {id: 2,  content: '收录电影网站'},
+    {id: 3,  content: '设计用户积分，逐步开放权限'},
+    {id: 4,  content: '加强系统安全性'},
 ];
 
 class Log extends Component {
@@ -47,13 +54,27 @@ class Log extends Component {
                             header={<div>简单介绍</div>}
                             footer={<div>我是小尾巴~~~</div>}
                             bordered
-                            dataSource={dataFuture}
+                            dataSource={dataFuture6}
                             renderItem={item => (
                                 <List.Item>
                                     <Typography.Text strong>{item.id}</Typography.Text> {item.content}
                                 </List.Item>
                             )}
                         />
+
+                        <h3 style={{margin: 8}}>7月</h3>
+                        <List
+                            header={<div>简单介绍</div>}
+                            footer={<div>我是小尾巴~~~</div>}
+                            bordered
+                            dataSource={dataFuture7}
+                            renderItem={item => (
+                                <List.Item>
+                                    <Typography.Text strong>{item.id}</Typography.Text> {item.content}
+                                </List.Item>
+                            )}
+                        />
+
                     </Card>
                 </TabPane>
             </Tabs>
