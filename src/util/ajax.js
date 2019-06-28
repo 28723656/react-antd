@@ -10,7 +10,8 @@ export const API_ROOT = process.env.NODE_ENV === 'production'
 
 axios.defaults.baseURL=API_ROOT
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-
+// 解决跨域请求获取不到session的情况
+axios.defaults.withCredentials =true;
 
 // 查
 export  function getAjax(url) {
