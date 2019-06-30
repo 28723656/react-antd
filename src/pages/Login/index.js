@@ -39,6 +39,9 @@ class LoginClass extends Component {
         });
     };
 
+    handleRegister = () =>{
+        this.props.history.push("/register");
+    }
 
     render() {
         const {getFieldDecorator} = this.props.form;
@@ -90,7 +93,7 @@ class LoginClass extends Component {
                                     <a className="login-form-forgot" href="">
                                         忘记密码？
                                     </a>
-                                    <a style={{float: 'right', marginRight: '20%'}} href="/register">注册</a>
+                                    <a style={{float: 'right', marginRight: '20%'}} onClick={this.handleRegister}>注册</a>
                                     <Button style={{width: '80%'}} block type="primary" htmlType="submit"
                                             className="login-form-button">
                                         登陆

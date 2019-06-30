@@ -15,7 +15,7 @@ class RegisterClass extends Component {
                     .then(json => {
                         if (json.data.flag) {
                             message.success('注册成功,正在跳转... ...');
-                            setTimeout(()=>{window.location='/'},1500);
+                            setTimeout(()=>{this.props.history.push('/')},1500);
                         } else {
                             message.warn(json.data.message);
                         }
@@ -24,6 +24,10 @@ class RegisterClass extends Component {
             }
         });
     };
+
+    handleBack= e =>{
+        this.props.history.push('/')
+    }
 
     // 验证手机
     validatePhone = (rule, value, callback) => {
@@ -65,7 +69,7 @@ class RegisterClass extends Component {
             <div>
                 <Row>
                     <Col span={2}  >
-                        <a href='/'><Button type="primary" style={{marginTop:'59%'}}>
+                        <a onClick={this.handleBack}><Button type="primary" style={{marginTop:'59%'}}>
                             <Icon type="left"/>
                             back
                         </Button></a></Col>
