@@ -105,7 +105,6 @@ class Menus extends Component {
               })
       } else {
           // 离线登录，给他几个菜单显示吧
-          this.setState({menuList:['person','log']});
       }
     }
 
@@ -145,7 +144,7 @@ class Menus extends Component {
                         <Route exact path="/" component={Person}/>
                     </div>
                 </Content>
-                <Footer style={{textAlign: 'center'}}>©2019 Created 风往西边吹丶</Footer>
+                <Footer style={{textAlign: 'center'}}>©2019 Created 风往西边吹丶 &nbsp;&nbsp;  QQ:28723656</Footer>
             </Layout>
 
         );

@@ -51,7 +51,7 @@ class UpdateUserModalClass extends Component {
     componentDidMount() {
         const {data, type} = this.props;
         if (type === 1) {
-            let {setFieldsValue} = this.props.form;
+            const {setFieldsValue} = this.props.form;
             setFieldsValue({
                 id: data.id,
                 name: data.name,

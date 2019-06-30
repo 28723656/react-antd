@@ -66,13 +66,14 @@ const planList = (data) => ({type: INIT_PLAN, data});
  * 页面一：添加计划
  */
 export const addPlan = (values) => {
+    const user = JSON.parse(localStorage.getItem('user'));
     return async dispatch => {
-        const response = await addAjax('/plan/plan', values);
+        const response = await addAjax(`/plan/plan/${user.id}`, values);
         const result = response.data;
         // 添加成功
         if (result.flag) {
             // 初始化数据  第一种：直接查数据库初始化数据
-            const response = await getAjax(`/plan/plan`);
+            const response = await getAjax(`/plan/plan/${user.id}`);
             const result = response.data;
             dispatch(planList(result.data))
         }
@@ -81,13 +82,14 @@ export const addPlan = (values) => {
 
 // 完成计划
 export const finishPlan = (values) => {
+    const user = JSON.parse(localStorage.getItem('user'));
     return async dispatch => {
-        const response = await updateAjax('/plan/plan', values);
+        const response = await updateAjax(`/plan/plan/${user.id}`, values);
         const result = response.data;
         // 添加成功
         if (result.flag) {
             // 初始化数据  第一种：直接查数据库初始化数据
-            const response = await getAjax(`/plan/plan`);
+            const response = await getAjax(`/plan/plan/${user.id}`);
             const result = response.data;
             dispatch(planList(result.data))
         }
@@ -97,13 +99,14 @@ export const finishPlan = (values) => {
 
 // 修改计划
 export const updatePlan = (values) => {
+    const user = JSON.parse(localStorage.getItem('user'));
     return async dispatch => {
-        const response = await updateAjax('/plan/plan/update', values);
+        const response = await updateAjax(`/plan/plan/update/${user.id}`, values);
         const result = response.data;
         // 添加成功
         if (result.flag) {
             // 初始化数据  第一种：直接查数据库初始化数据
-            const response = await getAjax(`/plan/plan`);
+            const response = await getAjax(`/plan/plan/${user.id}`);
             const result = response.data;
             if (result.flag) {
                 dispatch(planList(result.data))
@@ -115,13 +118,14 @@ export const updatePlan = (values) => {
 
 // 删除计划
 export const deletePlan = (id) => {
+    const user = JSON.parse(localStorage.getItem('user'));
     return async dispatch => {
-        const response = await deleteAjax(`/plan/plan/${id}`);
+        const response = await deleteAjax(`/plan/plan/${id}/${user.id}`);
         const result = response.data;
         // 添加成功
         if (result.flag) {
             // 初始化数据  第一种：直接查数据库初始化数据
-            const response = await getAjax(`/plan/plan`);
+            const response = await getAjax(`/plan/plan/${user.id}`);
             const result = response.data;
                 dispatch(planList(result.data))
         }else {
@@ -140,8 +144,9 @@ export const loading = (value) => ({type: LOADING, data: value})
 
 // 初始化计划
 export const initPlanData = () => {
+    const user = JSON.parse(localStorage.getItem('user'));
     return async dispatch => {
-        const response = await getAjax(`/plan/plan`);
+        const response = await getAjax(`/plan/plan/${user.id}`);
         const result = response.data;
         if (result.flag) {
             dispatch(planList(result.data))

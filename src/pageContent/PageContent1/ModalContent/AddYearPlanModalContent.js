@@ -1,12 +1,14 @@
 import React from 'react'
-import {Button, Form, Input, Modal, Select, Switch,} from 'antd';
+import {Button, DatePicker, Form, Input, Modal, Select, Switch,} from 'antd';
 import PlanNameSearch from "../Common/PlanNameSearch";
 import PlanRadioGroup from "../Common/PlanRadioGroup";
 import PlanSlider from "../Common/PlanSlider";
+import moment from 'moment';
+import locale from "antd/lib/date-picker/locale/zh_CN";
 
-const { Option } = Select;
-const format = 'HH:mm';
 const {confirm} = Modal
+const { MonthPicker } = DatePicker;
+moment.locale('zh-cn');
 
 class AddYearModalContentClass extends React.Component {
 
@@ -49,10 +51,42 @@ class AddYearModalContentClass extends React.Component {
         });
     };
 
+    // componentDidMount() {
+    //     //  初始化数据信息
+    //     let {record} = this.props;
+    //     const {setFieldsValue} = this.props.form;
+    //     if(record !== null){
+    //         setFieldsValue(
+    //             {
+    //                 id:record.id,
+    //                 type:4,
+    //                 name:record.name,
+    //                 startTime:moment(record.startTime).subtract(1,'months'),
+    //                 rank:record.rank,
+    //                 score:record.score,
+    //                 top:record.top
+    //             }
+    //         );
+    //     }else {
+    //         setFieldsValue(
+    //             {
+    //                 id:record.id,
+    //                 type:4,
+    //                 name:record.name,
+    //                 startTime:moment(record.startTime).subtract(1,'months'),
+    //                 rank:record.rank,
+    //                 score:record.score,
+    //                 top:record.top
+    //             }
+    //         );
+    //     }
+    // }
 
     render() {
         let {getFieldDecorator,getFieldValue,setFieldsValue  } = this.props.form;
         let {record} = this.props;
+
+
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
@@ -85,6 +119,13 @@ class AddYearModalContentClass extends React.Component {
                     {getFieldDecorator('name',{initialValue:record !== null?record.name:'计划:', rules: [{ required: true, message: '请输入计划名称！' }]})(
                         <PlanNameSearch/>
                     )}
+                </Form.Item>
+
+                <Form.Item label='选择年份'
+                >
+                    {getFieldDecorator('startTime',{ initialValue:record !== null? moment(record.startTime).subtract(1,'months'):moment()})(
+                        <MonthPicker locale={locale}   placeholder="选择年份" />
+                        )}
                 </Form.Item>
 
                 <Form.Item label="设定等级（由低到高）">

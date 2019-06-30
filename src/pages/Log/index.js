@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
-import {Card, List, Tabs, Typography} from "antd";
+import {Card, DatePicker, List, Tabs, Typography} from "antd";
 
 const {TabPane} = Tabs;
+const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 
 
 const dataLog = [
@@ -10,7 +11,8 @@ const dataLog = [
     {id: 3, updateDay: '2019-6-15', content: '设计了计划管理的构思'},
     {id: 4, updateDay: '2019-6-23', content: '把项目前后台运行在服务器上'},
     {id: 5, updateDay: '2019-6-25', content: '完成用户角色权限系统'},
-    {id: 5, updateDay: '2019-6-26', content: '完成角色登陆后显示对应的权限菜单'},
+    {id: 6, updateDay: '2019-6-26', content: '完成角色登陆后显示对应的权限菜单'},
+    {id: 7, updateDay: '2019-6-30', content: '新增了用户注册和登录，计划管理也和用户账号对应'},
 ];
 
 const dataFuture6= [
@@ -28,6 +30,11 @@ const dataFuture7= [
 ];
 
 class Log extends Component {
+
+     onChange = (date, dateString) => {
+        console.log(date, dateString);
+    }
+
     render() {
         return (
             <Tabs defaultActiveKey="1" onChange={this.callback}>
@@ -77,6 +84,9 @@ class Log extends Component {
 
                     </Card>
                 </TabPane>
+
+
+
             </Tabs>
         )
     }

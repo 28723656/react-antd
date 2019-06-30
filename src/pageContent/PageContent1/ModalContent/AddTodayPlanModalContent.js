@@ -79,6 +79,15 @@ class AddPlanModalContentClass extends React.Component {
     render() {
         let { getFieldDecorator ,getFieldValue,setFieldsValue} = this.props.form;
         let {data,record} = this.props;
+        const basePlanList = JSON.parse(localStorage.getItem('basePlanList'));
+        let  parent_id = 0
+        basePlanList.map((record,index) =>{
+            if(record.type === 2){
+                parent_id = record.id;
+                console.log("parent_id",parent_id)
+                return parent_id;
+            }
+        })
 
         if(record){
            // console.log('record.startTime',record.startTime,moment(record.startTime).subtract(1,'months').format("YYYY-MM-DD HH:mm:SS"))
@@ -95,6 +104,7 @@ class AddPlanModalContentClass extends React.Component {
                 sm: { span: 16 },
             },
         };
+
         return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
 
@@ -122,7 +132,7 @@ class AddPlanModalContentClass extends React.Component {
 
                 {data &&
                 <Form.Item label="关联任务">
-                    {getFieldDecorator('parentId',{initialValue:record !== null?record.parentId:120, rules: [{ required: true, message: '请选择关联任务！' }]})(
+                    {getFieldDecorator('parentId',{initialValue:record !== null?record.parentId:parent_id, rules: [{ required: true, message: '请选择关联任务！' }]})(
                         <PlanSelectOptionList data={data} />
                     )}
                 </Form.Item>

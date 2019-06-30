@@ -19,8 +19,11 @@ class LoginClass extends Component {
                     .then(response => {
                         const result = response.data;
                         if (result.flag) {
+
+                            //找出通用计划
                             message.success(result.message);
-                            localStorage.setItem("user", JSON.stringify(result.data));
+                            localStorage.setItem("user", JSON.stringify(result.data.user));
+                            localStorage.setItem("basePlanList", JSON.stringify(result.data.basePlanList));
                             // 由于我是登录后再加载出路由，所以，登录后，页面木有跳转
                             //  this.props.history.replace("/plan");
                             // console.log('this.props.history',this.props.history);
@@ -30,22 +33,7 @@ class LoginClass extends Component {
                         }
                     })
                     .catch((error) =>{
-                        if ((values.phone === '123' && values.password === '123') ||
-                            (values.phone === 'admin' && values.password === '123456')) {
-                            console.log(values,typeof  values);
-                            if(values.phone === '123'){
-                                values.nickName='离线用户'
-                            }else if(values.phone==='admin'){
-                                values.nickName ='离线管理员'
-                            }
-                            values.offLine=true
-                            localStorage.setItem("user", JSON.stringify(values));
-                            window.location = "/"
-                            message.warning("正在使用离线登陆");
-                        }else{
-                            message.error('离线模式下：用户名或密码错误');
-                        }
-
+                         message.error('请检查网络连接！');
                     })
             }
         });
@@ -58,11 +46,11 @@ class LoginClass extends Component {
         const formItemLayout = {
             labelCol: {
                 xs: {span: 24},
-                sm: {span: 4},
+                sm: {span: 20},
             },
             wrapperCol: {
                 xs: {span: 24},
-                sm: {span: 16},
+                sm: {span: 22},
             },
         };
 
@@ -102,7 +90,7 @@ class LoginClass extends Component {
                                     <a className="login-form-forgot" href="">
                                         忘记密码？
                                     </a>
-                                    <a style={{float: 'right', marginRight: '20%'}} href="">注册</a>
+                                    <a style={{float: 'right', marginRight: '20%'}} href="/register">注册</a>
                                     <Button style={{width: '80%'}} block type="primary" htmlType="submit"
                                             className="login-form-button">
                                         登陆

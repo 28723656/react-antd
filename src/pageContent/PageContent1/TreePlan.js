@@ -102,7 +102,8 @@ class TreePlan extends Component{
     };
 
     componentDidMount() {
-        getAjax('/plan/plan/tree/-1').then((response) =>{
+        const user = JSON.parse(localStorage.getItem('user'));
+        getAjax(`/plan/plan/tree/-1/${user.id}`).then((response) =>{
             if(response.data.flag){
                 this.setState({initData:response.data.data});
             }
@@ -110,7 +111,7 @@ class TreePlan extends Component{
 
         let initExpandedKeys = []
 
-        getAjax('/plan/plan/tree').then((response) =>{
+        getAjax(`/plan/plan/tree/${user.id}`).then((response) =>{
             if(response.data.flag){
                 const treeList = response.data.data;
                 treeList.map((record,index) =>{

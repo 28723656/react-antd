@@ -1,13 +1,15 @@
 import React from 'react'
-import {Button, Form, Input, Modal, Select, Switch,} from 'antd';
+import {Button, Form, Input, Modal, Select, Switch,DatePicker} from 'antd';
 import PlanSelectOptionList from "../Common/PlanSelectOptionList";
 import PlanNameSearch from "../Common/PlanNameSearch";
 import PlanRadioGroup from "../Common/PlanRadioGroup";
 import PlanSlider from "../Common/PlanSlider";
+import moment from 'moment';
+import locale from "antd/lib/date-picker/locale/zh_CN";
 
-const { Option } = Select;
-const format = 'HH:mm';
 const {confirm} = Modal
+const { MonthPicker } = DatePicker;
+moment.locale('zh-cn');
 
 class AddMonthModalContentClass extends React.Component {
 
@@ -54,6 +56,16 @@ class AddMonthModalContentClass extends React.Component {
         let { getFieldDecorator,getFieldValue,setFieldsValue } = this.props.form;
         let {data,record} = this.props;
 
+        const basePlanList = JSON.parse(localStorage.getItem('basePlanList'));
+        let  parent_id = 0
+        basePlanList.map((record,index) =>{
+            if(record.type === 4){
+                parent_id = record.id;
+                console.log("parent_id",parent_id)
+                return parent_id;
+            }
+        })
+
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
@@ -90,11 +102,16 @@ class AddMonthModalContentClass extends React.Component {
 
                 {data &&
                 <Form.Item label="关联任务">
-                    {getFieldDecorator('parentId',{initialValue:record !== null?record.parentId:118, rules: [{ required: true, message: '请选择关联任务！' }]})(
+                    {getFieldDecorator('parentId',{initialValue:record !== null?record.parentId:parent_id, rules: [{ required: true, message: '请选择关联任务！' }]})(
                         <PlanSelectOptionList data={data} />
                     )}
                 </Form.Item>
                 }
+
+                <Form.Item label='选择月份'
+                >
+                    {getFieldDecorator('startTime',{ initialValue:record !== null? moment(record.startTime).subtract(1,'months'):moment()})(  <MonthPicker locale={locale}   placeholder="选择月份" />)}
+                </Form.Item>
 
 
                 <Form.Item label="设定等级（由低到高）">

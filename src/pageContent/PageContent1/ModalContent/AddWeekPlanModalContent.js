@@ -1,11 +1,15 @@
 import React from 'react'
-import {Button, Form, Input, Switch,Modal} from 'antd';
+import {Button, Form, Input, Switch,Modal,DatePicker } from 'antd';
 import PlanNameSearch from "../Common/PlanNameSearch";
 import PlanSelectOptionList from "../Common/PlanSelectOptionList";
 import PlanRadioGroup from "../Common/PlanRadioGroup";
 import PlanSlider from "../Common/PlanSlider";
+import moment from 'moment';
+import locale from "antd/lib/date-picker/locale/zh_CN";
 
 const {confirm} = Modal
+const { WeekPicker } = DatePicker;
+moment.locale('zh-cn');
 
 
 class AddWeekModalContentClass extends React.Component {
@@ -58,6 +62,15 @@ class AddWeekModalContentClass extends React.Component {
         let { getFieldDecorator ,getFieldValue,setFieldsValue} = this.props.form;
         let {data,record} = this.props;
 
+        const basePlanList = JSON.parse(localStorage.getItem('basePlanList'));
+        let  parent_id = 0
+        basePlanList.map((record,index) =>{
+            if(record.type === 3){
+                parent_id = record.id;
+                console.log("parent_id",parent_id)
+                return parent_id;
+            }
+        })
 
         const formItemLayout = {
             labelCol: {
@@ -95,12 +108,16 @@ class AddWeekModalContentClass extends React.Component {
 
                 {data &&
                 <Form.Item label="关联任务">
-                    {getFieldDecorator('parentId',{initialValue:record !== null?record.parentId:119, rules: [{ required: true, message: '请选择关联任务！' }]})(
+                    {getFieldDecorator('parentId',{initialValue:record !== null?record.parentId:parent_id, rules: [{ required: true, message: '请选择关联任务！' }]})(
                         <PlanSelectOptionList data={data} />
                     )}
                 </Form.Item>
                 }
 
+                <Form.Item label='选择周'
+                >
+                    {getFieldDecorator('startTime',{ initialValue:record !== null? moment(record.startTime).subtract(1,'months'):moment()})(  <WeekPicker locale={locale}   placeholder="选择周" />)}
+                </Form.Item>
 
 
                 <Form.Item label="设定等级（由低到高）">
