@@ -25,6 +25,21 @@ export  function getAjax(url) {
 }
 
 
+export  function getWangYiAjax(url) {
+
+    const baseURL='http://47.106.187.222:3000'
+    const completeUrl =baseURL+url
+    const options = {
+        method: 'get',
+        //     headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        url:completeUrl,
+    };
+    return axios(options);
+}
+
+
+
+
 // 改
 export  function updateAjax(url,data) {
     console.log(data)

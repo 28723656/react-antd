@@ -18,10 +18,12 @@ import Test01 from "../../pages/Test01";
 import Test02 from "../../pages/Test02";
 import Page7 from "../../pages/Page7";
 import Page8 from "../../pages/Page8";
+import WangYi from "../../pages/WangYi";
 import Log from "../../pages/Log";
 import Admin from "../../pages/Admin";
 import {addAjax, getAjax} from "../../util/ajax";
 import Person from "../../pages/Person";
+import Score from "../../pages/Score";
 
 require('./style.css')
 
@@ -65,6 +67,16 @@ const linkList = [
             <NavLink to='/person'>个人中心</NavLink>
         </Menu.Item>
     },
+    {
+        menu: 'score', link: <Menu.Item key="1003">
+            <NavLink to='/score'>积分</NavLink>
+        </Menu.Item>
+    },
+    {
+        menu: 'wangyi', link: <Menu.Item key="1004">
+            <NavLink to='/wangyi'>网易云相关</NavLink>
+        </Menu.Item>
+    },
     ]
 
 const routerList = [
@@ -75,6 +87,8 @@ const routerList = [
     {menu:'log',route:<Route key={4} path="/log" component={Log}/>},
     {menu:'system',route:<Route key={5} path="/system" component={Admin}/>},
     {menu:'person',route:<Route key={7} path="/person" component={Person}/>},
+    {menu:'score',route:<Route key={8} path="/score" component={Score}/>},
+    {menu:'wangyi',route:<Route key={9} path="/wangyi" component={WangYi}/>},
 ]
 
 
