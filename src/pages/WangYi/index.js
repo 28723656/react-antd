@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Card, DatePicker, List, Tabs, Typography,Collapse,Input,Tag ,Row, Col} from "antd";
+import {Card, DatePicker, List, Tabs, Typography,Collapse,Input,Tag ,Row, Col,message} from "antd";
 import {getWangYiAjax} from "../../util/ajax";
 
 const {TabPane} = Tabs;
@@ -27,9 +27,45 @@ class Log extends Component {
     // 搜索
     onSearch =(value) =>{
         console.log(value)
-        this.setState({songMenuId:value})
-        this.searchSongByMenuId();
+
+        const result =this.checkNumber(value);
+        console.log(result,value === '')
+        // 如果是数字，就是歌单搜索，否则认为是歌名搜索
+        if(result || value === ''){
+            // 之前的搜索是搜索歌单，由于网易云歌单搜索不准，不热门的基本搜不到，现在改为
+            // 直接搜索歌曲,如果为空，默认出现周杰伦的歌单
+            if(value === ''){
+                value = '2809469700'
+            }
+             //this.setState({songMenuId:value})
+             this.searchSongByMenuId(value);
+        }
+        else {
+            // 已经改为了：搜索歌曲
+            getWangYiAjax(`/search?keywords=${value}`)
+                .then(response =>{
+                    if(response.data.result !== undefined && response.data.result !== null){
+                        const  result = response.data.result.songs.splice(0,15);
+                        this.setState({songData:result})
+                    }else {
+                       message.error("文明用语，ok?")
+                    }
+
+                });
+        }
+
     }
+
+
+    // 检查是否为数字
+     checkNumber = (number) => {
+         //判断正整数/[1−9]+[0−9]∗]∗/
+         const re = /^[0-9]+.?[0-9]*/;//
+         if (!re.test(number)) {
+             return false;
+         }
+         return true;
+     }
 
      onChange = (date, dateString) => {
         console.log(date, dateString);
@@ -40,12 +76,16 @@ class Log extends Component {
         console.log(key)
         if(key.length > 0){
              const lastSongId = key[key.length -1];
+             //debugger
              const url = `/comment/music?id=${lastSongId}&limit=100`
              console.log('url:',url);
              getWangYiAjax(url)
                  .then(response =>{
+                     // 热评
                      this.setState({comments:response.data.hotComments})
+                     // 评论
                      this.setState({newComments:response.data.comments})
+
 
 
                  });
@@ -82,8 +122,7 @@ class Log extends Component {
     }
 
     // 输入歌单id，查询歌单下的所有歌曲信息
-    searchSongByMenuId =() =>{
-        let {songMenuId} = this.state;
+    searchSongByMenuId =(songMenuId) =>{
         songMenuId = songMenuId === ''?'2809469700':songMenuId
         console.log('歌单id:',songMenuId)
         getWangYiAjax(`/playlist/detail?id=${songMenuId}`)
@@ -125,9 +164,8 @@ class Log extends Component {
 
     // 点击歌单
     handleSelectMenu = (record) =>{
-       // debugger
-        this.setState({songMenuId:record.id})
-        this.searchSongByMenuId()
+     //   this.setState({songMenuId:record.id})
+        this.searchSongByMenuId(record.id)
         //
         this.setState({activeKey:'1'});
 
@@ -175,7 +213,7 @@ class Log extends Component {
 
     // 初始化数据
     componentDidMount() {
-        this.searchSongByMenuId() // 通过歌单id找歌曲
+        this.searchSongByMenuId(2809469700) // 通过歌单id找歌曲
         this.selectTag()   // 初始化标签
         this.selectArtists() // 初始化排行榜歌手
 
@@ -184,14 +222,13 @@ class Log extends Component {
     render() {
         const {songData,comments,newComments,lyric,menuTags,menuList,activeKey,artists,artistsAlbum} = this.state
         return (
-            songData &&
             <Tabs defaultActiveKey="1" activeKey={activeKey}  onChange={this.changeTab}>
                 <TabPane tab="歌单热评" key="1">
-                    <Search placeholder="输入歌单的id" onSearch={this.onSearch} enterButton />
+                    <Search placeholder="歌名搜索" onSearch={this.onSearch} enterButton />
 
 
                     <Collapse defaultActiveKey={[]} onChange={this.callback}>
-                        {songData.map((record,index) =>{
+                        {songData && songData.map((record,index) =>{
                            return  <Panel header={record.name} key={record.id} >
                                <Tag color='#f50' style={{margin:'2px 2px 6px 2px'}} >热门评论</Tag>
                                   {comments && comments.map((recordComment,index2) =>{
@@ -207,10 +244,10 @@ class Log extends Component {
                 </TabPane>
 
                 <TabPane tab="歌单歌词" key="2">
-                    <Search placeholder="输入歌单的id" onSearch={this.onSearch} enterButton />
+                    <Search placeholder="歌名搜索" onSearch={this.onSearch} enterButton />
 
                     <Collapse defaultActiveKey={[]} onChange={this.searchLyric}>
-                        {songData.map((record,index) =>{
+                        {songData && songData.map((record,index) =>{
                             return  <Panel header={record.name} key={record.id} >
                                     <p style={{whiteSpace: 'pre-line'}} >{lyric}</p>
                             </Panel>
@@ -220,38 +257,40 @@ class Log extends Component {
 
 
                 <TabPane tab="标签选择" key="3">
-                    <Row type="flex" >
-                            {menuTags && menuTags.map((record, index) => {
-                                return    <Col xs={4} md={2}>
-                                    <Tag style={{margin:'3px'}} > <a onClick={() => this.handleSelectTag(record)}>{record.name}</a> </Tag>
-                                </Col>
-                            })}
-                    </Row>
                     <Row type="flex">
                         {menuList && menuList.length > 0 && menuList.map( (menuRecod,index) =>{
-                            return  <Col xs={24} md={6}>
-                                    <Tag color='geekblue'  style={{margin:'5px auto'}}  > <a onClick={() => this.handleSelectMenu(menuRecod)}>{menuRecod.name}</a> </Tag>
+                            return  <Col xs={24} md={8}  key={index}>
+                                <Tag color='geekblue'  style={{margin:'5px 20px',fontSize:'115%'}}  > <a onClick={() => this.handleSelectMenu(menuRecod)}>{menuRecod.name}</a> </Tag>
                             </Col>
                         } )}
                     </Row>
+                    <Row type="flex" >
+                            {menuTags && menuTags.map((record, index) => {
+                                return    <Col xs={6} md={3} key={index}>
+                                    <Tag style={{margin:'5px 20px',fontSize:'115%'}}  > <a onClick={() => this.handleSelectTag(record)}>{record.name}</a> </Tag>
+                                </Col>
+                            })}
+                    </Row>
+
                 </TabPane>
 
 
                 <TabPane tab="歌手选择" key="4">
-                    <Row type="flex" >
-                        {artists && artists.map((record, index) => {
-                            return    <Col xs={6} md={2}>
-                                <Tag style={{margin:'2px'}} > <a onClick={() => this.handleSelectArtists(record)}>{record.name}</a> </Tag>
-                            </Col>
-                        })}
-                    </Row>
                     <Row type="flex">
                         {artistsAlbum && artistsAlbum.length > 0 && artistsAlbum.map( (albumRecod,index2) =>{
-                            return  <Col xs={8} md={4}>
-                                <Tag color='geekblue'  style={{margin:'5px auto'}}  > <a onClick={() => this.handleSelectAlbum(albumRecod)}>{albumRecod.name}</a> </Tag>
+                            return  <Col xs={12} md={4}  key={index2}>
+                                <Tag color='geekblue'  style={{margin:'5px 20px',fontSize:'120%'}}  > <a onClick={() => this.handleSelectAlbum(albumRecod)}>{albumRecod.name}</a> </Tag>
                             </Col>
                         } )}
                     </Row>
+                    <Row type="flex" >
+                        {artists && artists.map((record, index) => {
+                            return    <Col xs={6} md={3}  key={index}>
+                                <Tag style={{margin:'5px 20px',fontSize:'115%'}}> <a onClick={() => this.handleSelectArtists(record)}>{record.name}</a> </Tag>
+                            </Col>
+                        })}
+                    </Row>
+
                 </TabPane>
 
 

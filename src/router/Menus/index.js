@@ -33,6 +33,11 @@ const {Header, Content, Footer} = Layout;
 
 const linkList = [
     {
+        menu: 'wangyi', link: <Menu.Item key="1004">
+            <NavLink to='/wangyi'>网易云相关</NavLink>
+        </Menu.Item>
+    },
+    {
         menu: 'plan', link: <Menu.Item key="1">
             <NavLink to='/plan'>今日任务</NavLink>
         </Menu.Item>
@@ -72,11 +77,7 @@ const linkList = [
             <NavLink to='/score'>积分</NavLink>
         </Menu.Item>
     },
-    {
-        menu: 'wangyi', link: <Menu.Item key="1004">
-            <NavLink to='/wangyi'>网易云相关</NavLink>
-        </Menu.Item>
-    },
+
     ]
 
 const routerList = [
