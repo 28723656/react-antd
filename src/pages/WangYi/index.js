@@ -21,7 +21,11 @@ class Log extends Component {
         artists:[],// 排行榜歌手
 
         artistsHotSongs:[], // 歌手的热歌
-        artistsAlbum:[] // 歌手的专辑
+        artistsAlbum:[], // 歌手的专辑
+
+
+        //打开了的热评数组
+     //   commentsArr:[],
     }
 
     // 搜索
@@ -76,24 +80,26 @@ class Log extends Component {
         console.log(key)
         if(key.length > 0){
              const lastSongId = key[key.length -1];
-             debugger
+            // debugger
              const url = `/comment/music?id=${lastSongId}&limit=100`
              console.log('url:',url);
              getWangYiAjax(url)
                  .then(response =>{
-                     // 热评
-                     this.setState({comments:response.data.hotComments})
-                     // 评论
-                     this.setState({newComments:response.data.comments})
-
-
-
+                     let {comments} = this.state;
+                     let  resultComments = response.data;
+                     // 为每一个对象加一个歌曲id属性
+                     resultComments.id = lastSongId;
+                     comments.push(resultComments);
+                 //    debugger
+                     // 热评+评论
+                     console.log(comments)
+                     this.setState({comments})
                  });
          }
 
-         if(key.length>1){
+    /*     if(key.length>1){
              key.shift()
-         }
+         }*/
 
     }
 
@@ -221,23 +227,31 @@ class Log extends Component {
 
     render() {
         const {songData,comments,newComments,lyric,menuTags,menuList,activeKey,artists,artistsAlbum} = this.state
+        console.log('songData',songData)
         return (
             <Tabs defaultActiveKey="1" activeKey={activeKey}  onChange={this.changeTab}>
                 <TabPane tab="歌单热评" key="1">
                     <Search placeholder="歌名搜索" onSearch={this.onSearch} enterButton />
-
 
                     <Collapse defaultActiveKey={[]} onChange={this.callback}>
                         {songData && songData.map((record,index) =>{
                            return  <Panel header={record.name} key={record.id} >
                                <Tag color='#f50' style={{margin:'2px 2px 6px 2px'}} >热门评论</Tag>
                                   {comments && comments.map((recordComment,index2) =>{
-                                       return <p key={index2}>{recordComment.content}&nbsp;&nbsp;《{record.name}》</p>
+                                      if(parseInt(recordComment.id) === record.id){
+                                       return  recordComment.hotComments.map((hotCommentsRecord,index3) =>{
+                                              return <p key={index3}>{hotCommentsRecord.content}&nbsp;&nbsp;《{record.name}》</p>
+                                          })
+                                      }
                                    })}
                                <Tag color='#87d068' style={{margin:'2px 2px 6px 2px'}} >最新评论</Tag>
-                                  {newComments && newComments.map((recordnewComments,index3) =>{
-                                       return <p key={index3}>{recordnewComments.content}&nbsp;&nbsp;《{record.name}》</p>
-                                   })}
+                               {comments && comments.map((recordComment,index2) =>{
+                                   if(parseInt(recordComment.id) === record.id){
+                                       return  recordComment.comments.map((newComments,index3) =>{
+                                           return <p key={index3}>{newComments.content}&nbsp;&nbsp;《{record.name}》</p>
+                                       })
+                                   }
+                               })}
                             </Panel>
                         })}
                     </Collapse>
