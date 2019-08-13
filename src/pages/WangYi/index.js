@@ -59,6 +59,8 @@ class Log extends Component {
                 });
         }
 
+        this.resetData();
+
     }
 
 
@@ -182,6 +184,8 @@ class Log extends Component {
         this.searchSongByMenuId(record.id)
         //
         this.setState({activeKey: '1'});
+        this.resetData();
+
 
     }
 
@@ -205,6 +209,7 @@ class Log extends Component {
                 });
         }
         this.setState({activeKey: '1'});
+        this.resetData();
     }
 
     // 混进去一个奇怪的东西，那就我的歌单
@@ -247,6 +252,14 @@ class Log extends Component {
         this.setState({onlyHotComments: activeCode})
     }
 
+    // 重置一下缓存数据
+    resetData =() =>{
+        // 重置一下歌词和热评的缓存
+        this.setState({comments:[]});
+        this.setState({lyric:[]});
+    }
+
+    // 去除对象中id相同的对象
     reduceArr = (arr) =>{
         //  方法1：利用对象访问属性的方法，判断对象中是否存在key
         let result = [];
