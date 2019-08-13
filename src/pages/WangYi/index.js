@@ -45,7 +45,7 @@ class Log extends Component {
             getWangYiAjax(`/search?keywords=${value}`)
                 .then(response =>{
                     if(response.data.result !== undefined && response.data.result !== null){
-                        const  result = response.data.result.songs.splice(0,15);
+                        const  result = response.data.result.songs.splice(0,40);
                         this.setState({songData:result})
                     }else {
                        message.error("文明用语，ok?")
@@ -76,7 +76,7 @@ class Log extends Component {
         console.log(key)
         if(key.length > 0){
              const lastSongId = key[key.length -1];
-             //debugger
+             debugger
              const url = `/comment/music?id=${lastSongId}&limit=100`
              console.log('url:',url);
              getWangYiAjax(url)
@@ -232,11 +232,11 @@ class Log extends Component {
                            return  <Panel header={record.name} key={record.id} >
                                <Tag color='#f50' style={{margin:'2px 2px 6px 2px'}} >热门评论</Tag>
                                   {comments && comments.map((recordComment,index2) =>{
-                                       return <p key={index2}>{recordComment.content}</p>
+                                       return <p key={index2}>{recordComment.content}&nbsp;&nbsp;《{record.name}》</p>
                                    })}
                                <Tag color='#87d068' style={{margin:'2px 2px 6px 2px'}} >最新评论</Tag>
                                   {newComments && newComments.map((recordnewComments,index3) =>{
-                                       return <p key={index3}>{recordnewComments.content}</p>
+                                       return <p key={index3}>{recordnewComments.content}&nbsp;&nbsp;《{record.name}》</p>
                                    })}
                             </Panel>
                         })}
