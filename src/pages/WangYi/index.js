@@ -35,7 +35,6 @@ class Log extends Component {
     onSearch = (value) => {
 
         const result = this.checkNumber(value);
-        console.log(result, value === '')
         // 如果是数字，就是歌单搜索，否则认为是歌名搜索
         if (result || value === '') {
             // 之前的搜索是搜索歌单，由于网易云歌单搜索不准，不热门的基本搜不到，现在改为
@@ -76,12 +75,12 @@ class Log extends Component {
     }
 
     onChange = (date, dateString) => {
-        console.log(date, dateString);
+     //   console.log(date, dateString);
     }
 
     // 点击一个歌曲，显示他的热评
     callback = (key) => {
-        console.log(key)
+     //   console.log(key)
         if (key.length > 0) {
             const lastSongId = key[key.length - 1];
             const url = `/comment/music?id=${lastSongId}&limit=100`
@@ -94,7 +93,7 @@ class Log extends Component {
                     resultComments.id = lastSongId;
                     comments.push(resultComments);
                     // 热评+评论
-                    console.log(comments)
+               //     console.log(comments)
                     this.setState({comments:this.reduceArr(comments)})
                 });
         }
@@ -107,7 +106,7 @@ class Log extends Component {
 
     // 点击一个歌曲，显示他的歌词
     searchLyric = (key) => {
-        console.log(key)
+      //  console.log(key)
         if (key.length > 0) {
             const lastSongId = key[key.length - 1];
             const url = `/lyric?id=${lastSongId}`
@@ -145,7 +144,7 @@ class Log extends Component {
         getWangYiAjax(`/playlist/detail?id=${songMenuId}`)
             .then(response => {
                 const result = response.data;
-                console.log(result.playlist.tracks)
+                // console.log(result.playlist.tracks)
                 this.setState({songData: result.playlist.tracks})
             });
     }
@@ -198,7 +197,7 @@ class Log extends Component {
             getWangYiAjax(`/playlist/detail?id=${record.id}`)
                 .then(response => {
                     const result = response.data;
-                    console.log(result.playlist.tracks)
+                    // console.log(result.playlist.tracks)
                     this.setState({songData: result.playlist.tracks})
                 });
             console.log(`点击我本人的名字的url:/playlist/detail?id=${record.id}`)
@@ -247,7 +246,7 @@ class Log extends Component {
 
     // 改变tab页面
     changeTab = (activeKey) => {
-        console.log(activeKey)
+        // console.log(activeKey)
         this.setState({activeKey})
     }
     // 是否只看热评，默认为是
@@ -274,7 +273,7 @@ class Log extends Component {
                 obj[arr[i].id] = true;
             }
         }
-        console.log('去重后的arr',result)
+        // console.log('去重后的arr',result)
         return result
     }
 
@@ -289,7 +288,7 @@ class Log extends Component {
 
     render() {
         const {songData, comments, onlyHotComments, lyric, menuTags, menuList, activeKey, artists, artistsAlbum} = this.state
-        console.log('lyric', lyric, typeof lyric)
+        // console.log('lyric', lyric, typeof lyric)
         return (
             <div>
                 <div>
@@ -309,7 +308,10 @@ class Log extends Component {
 
                         <Collapse defaultActiveKey={[]} onChange={this.callback}>
                             {songData && songData.map((record, index) => {
-                                return <Panel header={<div>{record.name }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {record.ar.map((record2,index2)=><Text key={index2}  type="secondary">{record2.name}&nbsp;&nbsp;</Text>)} </div>} key={record.id}>
+                                return <Panel header={<div>{record.name }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    {record.ar!== undefined &&record.ar.map((record2,index2)=><Text key={index2}  type="secondary">{record2.name}&nbsp;&nbsp;</Text>)}
+                                    {record.artists!== undefined &&record.artists.map((record2,index2)=><Text key={index2}  type="secondary">{record2.name}&nbsp;&nbsp;</Text>)}
+                                </div>} key={record.id}>
                                     <Tag color='#f50' style={{margin: '2px 2px 6px 2px'}}>热门评论</Tag>
                                     {comments && comments.map((recordComment, index2) => {
                                         if (parseInt(recordComment.id) === record.id) {
@@ -339,7 +341,10 @@ class Log extends Component {
 
                         <Collapse defaultActiveKey={[]} onChange={this.searchLyric}>
                             {songData && songData.map((record, index) => {
-                                return <Panel header={<div>{record.name }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {record.ar.map((record2,index2)=><Text key={index2}  type="secondary">{record2.name}&nbsp;&nbsp;</Text>)} </div>} key={record.id}>
+                                return <Panel header={<div>{record.name }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    {record.ar!== undefined &&record.ar.map((record2,index2)=><Text key={index2}  type="secondary">{record2.name}&nbsp;&nbsp;</Text>)}
+                                    {record.artists!== undefined &&record.artists.map((record2,index2)=><Text key={index2}  type="secondary">{record2.name}&nbsp;&nbsp;</Text>)}
+                                </div>} key={record.id}>
                                     <p style={{whiteSpace: 'pre-line',margin: '-10px 20px', fontSize: '115%'}}>
                                         {lyric.map((lyricRecord, index2) => {
                                             if (parseInt(lyricRecord.id) === record.id) {
