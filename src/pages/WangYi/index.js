@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Card, DatePicker, List, Tabs, Typography, Collapse, Input, Tag, Row, Col, message, Switch, Affix,Avatar,BackTop    } from "antd";
+import {Card, DatePicker, List, Tabs, Typography, Collapse, Input, Tag, Row, Col, message, Switch, Affix,Avatar,BackTop ,Button   } from "antd";
 import {getWangYiAjax} from "../../util/ajax";
 
 const {TabPane} = Tabs;
@@ -10,7 +10,8 @@ const { Text } = Typography;
 class Log extends Component {
 
     state = {
-        songMenuId: 2809469700, // 歌单id,默认为我的周杰伦的歌
+       // songMenuId: 2809469700, // 歌单id,默认为我的周杰伦的歌
+        songMenuId: 3778678, // 歌单id,默认为网易云热歌榜
         songData: [],  // 歌单信息
         comments: [],  // 对应歌词的热评
         newComments: [], // 歌曲的最新评论
@@ -25,8 +26,10 @@ class Log extends Component {
         artistsAlbum: [], // 歌手的专辑
 
         onlyHotComments: true,// 只看热评
+        onlyLyric:true, // 只显示歌词
         copyright:[],// 是否有歌曲播放版权
 
+        topMenuIds:[] , // 精选歌单，用于首页打开的时候显示随机歌单
 
         //打开了的热评数组
         //   commentsArr:[],
@@ -40,9 +43,9 @@ class Log extends Component {
         if (result || value === '') {
             // 之前的搜索是搜索歌单，由于网易云歌单搜索不准，不热门的基本搜不到，现在改为
             // 直接搜索歌曲,如果为空，默认出现周杰伦的歌单
-            if (value === '') {
+        /*    if (value === '') {
                 value = '2809469700'
-            }
+            }*/
             //this.setState({songMenuId:value})
             this.searchSongByMenuId(value);
         } else {
@@ -157,7 +160,15 @@ class Log extends Component {
 
     // 输入歌单id，查询歌单下的所有歌曲信息
     searchSongByMenuId = (songMenuId) => {
-        songMenuId = songMenuId === '' ? '2809469700' : songMenuId
+     //   songMenuId = songMenuId === '' ? '2809469700' : songMenuId
+        // 如果没有指定歌单id,随机从精品歌单中选一个id
+        if(songMenuId === '' || songMenuId === undefined || songMenuId === null){
+            console.log('-----我开始取id了-----------')
+            const {topMenuIds} =this.state
+            const randomNum = Math.floor(Math.random()*topMenuIds.length)
+            songMenuId = topMenuIds[randomNum];
+            console.log('随机歌单id为：',songMenuId)
+        }
         console.log(`通过歌单搜索的url:/playlist/detail?id=${songMenuId}`)
         getWangYiAjax(`/playlist/detail?id=${songMenuId}`)
             .then(response => {
@@ -273,6 +284,12 @@ class Log extends Component {
         this.setState({onlyHotComments: activeCode})
     }
 
+    // 是否只显示歌词
+    switchListen  = (activeCode) => {
+        const {onlyLyric} = this.state;
+        this.setState({onlyLyric: activeCode})
+    }
+
     // 重置一下缓存数据
     resetData =() =>{
         // 重置一下歌词和热评的缓存
@@ -295,17 +312,36 @@ class Log extends Component {
         return result
     }
 
+    // 首页每次出现不同的精品歌单
+    hotMenus =() =>{
+        console.log('初始化随机歌单的url:','/top/playlist/highquality')
+        getWangYiAjax(`/top/playlist/highquality`)
+            .then(response => {
+                const result = response.data.playlists;
+                let tempTopMenuIds = []
+                result.map((record,index) =>{
+                    tempTopMenuIds.push(record.id)
+                })
+                this.setState({topMenuIds: tempTopMenuIds})
+                console.log('-----生成随机id完毕-----------')
+            });
+
+    }
+
+    componentWillMount() {
+        this.hotMenus() // 初始化精品歌单
+    }
 
     // 初始化数据
     componentDidMount() {
-        this.searchSongByMenuId(2809469700) // 通过歌单id找歌曲
+        this.searchSongByMenuId(3778678) // 通过歌单id找歌曲(默认为网易云热歌榜，2809469700是我的歌单)
         this.selectTag()   // 初始化标签
         this.selectArtists() // 初始化排行榜歌手
 
     }
 
     render() {
-        const {songData, comments, onlyHotComments, lyric, menuTags, menuList, activeKey, artists, artistsAlbum,copyright} = this.state
+        const {songData, comments, onlyHotComments,onlyLyric, lyric, menuTags, menuList, activeKey, artists, artistsAlbum,copyright} = this.state
         // console.log('lyric', lyric, typeof lyric)
         return (
             <div>
@@ -319,6 +355,8 @@ class Log extends Component {
                         <Search placeholder="歌名搜索" onSearch={this.onSearch} enterButton/>
                         <Affix offsetTop={70}>
                             <div align="right" style={{marginRight: '20px'}}>
+                                随机歌单： <Button shape="circle" icon="sync" onClick={(event) =>this.searchSongByMenuId()} />
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 只看热评：
                                 <Switch defaultChecked onChange={this.switchComments}/>
                             </div>
@@ -355,6 +393,13 @@ class Log extends Component {
 
                     <TabPane tab="歌单歌词" key="2">
                         <Search placeholder="歌名搜索" onSearch={this.onSearch} enterButton/>
+                        <Affix offsetTop={70}>
+                            <div align="right" style={{marginRight: '20px'}}>
+                                随机歌单： <Button shape="circle" icon="sync" onClick={(event) =>this.searchSongByMenuId()} />
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                省流量模式： <Switch defaultChecked onChange={this.switchListen}/>
+                            </div>
+                        </Affix>
                         <Collapse defaultActiveKey={[]} onChange={this.searchLyric}>
                             {songData && songData.map((record, index) => {
                                 return <Panel header={<div>{record.name }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -362,23 +407,29 @@ class Log extends Component {
                                     {record.artists!== undefined &&record.artists.map((record2,index2)=><Text key={index2}  type="secondary">{record2.name}&nbsp;&nbsp;</Text>)}
                                 </div>} key={record.id}>
 
-                                    <Affix offsetTop={70}>
-                                        <div style={{align:'center'}}>
-                                            {
-                                                copyright.map((record3,index3) =>{
-                                                    if(parseInt(record3.id) === record.id){
-                                                       if(record3.copyright){
-                                                           return <audio key={index3} src={`https://music.163.com/song/media/outer/url?id=${record.id}`} controls="controls"  >播放音乐</audio>
-                                                       }else {
-                                                           return <p key={index3} style={{whiteSpace: 'pre-line',margin: '10px 20px', fontSize: '115%'}}>暂无版权！</p>
-                                                       }
+                                        {
+                                            !onlyLyric &&
+                                            <div>
+                                            <Affix offsetTop={70}>
+                                                <div style={{align:'center'}}>
+                                                    {
+                                                        copyright.map((record3,index3) =>{
+                                                            if(parseInt(record3.id) === record.id){
+                                                                if(record3.copyright){
+                                                                    return <audio key={index3} src={`https://music.163.com/song/media/outer/url?id=${record.id}`} controls="controls"  >播放音乐</audio>
+                                                                }else {
+                                                                    return <p key={index3} style={{whiteSpace: 'pre-line',margin: '10px 20px', fontSize: '115%'}}>暂无版权！</p>
+                                                                }
+                                                            }
+                                                        })
                                                     }
-                                                })
-                                            }
-                                        </div>
-                                   </Affix>
-                                    <hr/>
-                                    <br/>
+                                                </div>
+                                            </Affix>
+                                                <hr/>
+                                                <br/>
+                                            </div>
+                                        }
+
                                     <p style={{whiteSpace: 'pre-line',margin: '-10px 20px', fontSize: '115%'}}>
                                         {lyric.map((lyricRecord, index2) => {
                                             if (parseInt(lyricRecord.id) === record.id) {

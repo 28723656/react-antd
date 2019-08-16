@@ -13,6 +13,8 @@ const dataLog = [
     {id: 5, updateDay: '2019-6-25', content: '完成用户角色权限系统'},
     {id: 6, updateDay: '2019-6-26', content: '完成角色登陆后显示对应的权限菜单'},
     {id: 7, updateDay: '2019-6-30', content: '新增了用户注册和登录，计划管理也和用户账号对应'},
+    {id: 8, updateDay: '2019-7月到8月15', content: '游山玩水去了，持续掉线中... ...'},
+    {id: 9, updateDay: '2019-8-16', content: '更新了网易云的相关功能，可以听歌，看评论，看歌词等等'},
 ];
 
 const dataFuture6= [
