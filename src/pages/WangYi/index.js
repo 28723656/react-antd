@@ -25,7 +25,7 @@ class Log extends Component {
         artistsAlbum: [], // 歌手的专辑
 
         onlyHotComments: true,// 只看热评
-        copyright:true,// 是否有歌曲播放版权
+        copyright:[],// 是否有歌曲播放版权
 
 
         //打开了的热评数组
@@ -136,11 +136,15 @@ class Log extends Component {
             getWangYiAjax(`/check/music?id=${lastSongId}`)
                 .then(response => {
                     const result = response.data.success;
-                    this.setState({copyright:result})
+                    let {copyright} = this.state
+                    copyright.push({id:lastSongId,copyright:result});
+                    this.setState({copyright:this.reduceArr(copyright)})
                 })
                 .catch(error =>{
                     console.log('错误信息：'+error)
-                    this.setState({copyright:false})
+                    let {copyright} = this.state
+                    copyright.push({id:lastSongId,copyright:false});
+                    this.setState({copyright:this.reduceArr(copyright)})
                 })
             ;
 
@@ -357,9 +361,22 @@ class Log extends Component {
                                     {record.ar!== undefined &&record.ar.map((record2,index2)=><Text key={index2}  type="secondary">{record2.name}&nbsp;&nbsp;</Text>)}
                                     {record.artists!== undefined &&record.artists.map((record2,index2)=><Text key={index2}  type="secondary">{record2.name}&nbsp;&nbsp;</Text>)}
                                 </div>} key={record.id}>
-                                        {copyright &&<audio src={`https://music.163.com/song/media/outer/url?id=${record.id}`} controls="controls" >播放音乐</audio>}
-                                    {!copyright && <p style={{whiteSpace: 'pre-line',margin: '10px 20px', fontSize: '115%'}}>暂无版权！</p>}
 
+                                    <Affix offsetTop={70}>
+                                        <div style={{align:'center'}}>
+                                            {
+                                                copyright.map((record3,index3) =>{
+                                                    if(parseInt(record3.id) === record.id){
+                                                       if(record3.copyright){
+                                                           return <audio key={index3} src={`https://music.163.com/song/media/outer/url?id=${record.id}`} controls="controls"  >播放音乐</audio>
+                                                       }else {
+                                                           return <p key={index3} style={{whiteSpace: 'pre-line',margin: '10px 20px', fontSize: '115%'}}>暂无版权！</p>
+                                                       }
+                                                    }
+                                                })
+                                            }
+                                        </div>
+                                   </Affix>
                                     <hr/>
                                     <br/>
                                     <p style={{whiteSpace: 'pre-line',margin: '-10px 20px', fontSize: '115%'}}>
