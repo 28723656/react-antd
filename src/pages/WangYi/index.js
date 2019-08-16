@@ -25,6 +25,7 @@ class Log extends Component {
         artistsAlbum: [], // 歌手的专辑
 
         onlyHotComments: true,// 只看热评
+        copyright:true,// 是否有歌曲播放版权
 
 
         //打开了的热评数组
@@ -130,6 +131,19 @@ class Log extends Component {
                     }
 
                 });
+
+            // 检测歌曲的版权
+            getWangYiAjax(`/check/music?id=${lastSongId}`)
+                .then(response => {
+                    const result = response.data.success;
+                    this.setState({copyright:result})
+                })
+                .catch(error =>{
+                    console.log('错误信息：'+error)
+                    this.setState({copyright:false})
+                })
+            ;
+
         }
         /*
                 if(key.length>1){
@@ -287,7 +301,7 @@ class Log extends Component {
     }
 
     render() {
-        const {songData, comments, onlyHotComments, lyric, menuTags, menuList, activeKey, artists, artistsAlbum} = this.state
+        const {songData, comments, onlyHotComments, lyric, menuTags, menuList, activeKey, artists, artistsAlbum,copyright} = this.state
         // console.log('lyric', lyric, typeof lyric)
         return (
             <div>
@@ -309,15 +323,14 @@ class Log extends Component {
                         <Collapse defaultActiveKey={[]} onChange={this.callback}>
                             {songData && songData.map((record, index) => {
                                 return <Panel header={<div>{record.name }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    {record.ar!== undefined &&record.ar.map((record2,index2)=><Text key={index2}  type="secondary">{record2.name}&nbsp;&nbsp;</Text>)}
-                                    {record.artists!== undefined &&record.artists.map((record2,index2)=><Text key={index2}  type="secondary">{record2.name}&nbsp;&nbsp;</Text>)}
+                                    {record.ar!== undefined &&record.ar.map((record2,index2)=><Text key={index2}  type="secondary">{record2.name}&nbsp;&nbsp;&nbsp;&nbsp;</Text>)}
+                                    {record.artists!== undefined &&record.artists.map((record2,index2)=><Text key={index2}  type="secondary">{record2.name}&nbsp;&nbsp;&nbsp;&nbsp;</Text>)}
                                 </div>} key={record.id}>
                                     <Tag color='#f50' style={{margin: '2px 2px 6px 2px'}}>热门评论</Tag>
                                     {comments && comments.map((recordComment, index2) => {
                                         if (parseInt(recordComment.id) === record.id) {
                                             return recordComment.hotComments.map((hotCommentsRecord, index3) => {
-                                                return <p
-                                                    key={index3}>{hotCommentsRecord.content}&nbsp;&nbsp;《{record.name}》</p>
+                                                return <p key={index3}>{hotCommentsRecord.content}&nbsp;&nbsp;《{record.name}》</p>
                                             })
                                         }
                                     })}
@@ -338,13 +351,17 @@ class Log extends Component {
 
                     <TabPane tab="歌单歌词" key="2">
                         <Search placeholder="歌名搜索" onSearch={this.onSearch} enterButton/>
-
                         <Collapse defaultActiveKey={[]} onChange={this.searchLyric}>
                             {songData && songData.map((record, index) => {
                                 return <Panel header={<div>{record.name }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     {record.ar!== undefined &&record.ar.map((record2,index2)=><Text key={index2}  type="secondary">{record2.name}&nbsp;&nbsp;</Text>)}
                                     {record.artists!== undefined &&record.artists.map((record2,index2)=><Text key={index2}  type="secondary">{record2.name}&nbsp;&nbsp;</Text>)}
                                 </div>} key={record.id}>
+                                        {copyright &&<audio src={`https://music.163.com/song/media/outer/url?id=${record.id}`} controls="controls" >播放音乐</audio>}
+                                    {!copyright && <p style={{whiteSpace: 'pre-line',margin: '10px 20px', fontSize: '115%'}}>暂无版权！</p>}
+
+                                    <hr/>
+                                    <br/>
                                     <p style={{whiteSpace: 'pre-line',margin: '-10px 20px', fontSize: '115%'}}>
                                         {lyric.map((lyricRecord, index2) => {
                                             if (parseInt(lyricRecord.id) === record.id) {
