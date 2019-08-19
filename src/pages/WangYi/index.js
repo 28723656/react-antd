@@ -409,10 +409,10 @@ class Log extends Component {
                         <Affix offsetTop={70}>
                             <div align="right" style={{marginRight: '20px'}}>
                                 <Row>
-                                    <Col xs={24} md={8}>
+                                    <Col xs={24} sm={12} md={12} style={{paddingTop:'6px'}}>
                                        <span style={{color:'#101721'}}>《 {selectedMenu.name ||`云音乐热歌榜`}》</span>
                                     </Col>
-                                    <Col xs={24} md={8}>
+                                    <Col xs={24} sm={12} md={12}>
                                         随机歌单： <Button shape="circle" icon="sync" onClick={(event) =>this.searchSongByMenuId()} />
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         只看热评：
