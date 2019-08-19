@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Card, DatePicker, List, Tabs, Typography, Collapse, Input, Tag, Row, Col, message, Switch, Affix,Avatar,BackTop ,Button   } from "antd";
+import {Card, DatePicker, List, Tabs, Typography, Collapse, Input, Tag, Row, Col, message, Switch, Affix,Avatar,BackTop ,Button ,Icon  } from "antd";
 import {getWangYiAjax} from "../../util/ajax";
 
 const {TabPane} = Tabs;
@@ -33,6 +33,15 @@ class Log extends Component {
 
         //打开了的热评数组
         //   commentsArr:[],
+
+        // 标签颜色改变 选中
+        // 选中的标签
+        selectedTag:{},
+        // 选中的歌单
+        selectedMenu:{},
+        // 选中的歌手
+        selectedSinger:{}
+
     }
 
     // 搜索
@@ -200,6 +209,15 @@ class Log extends Component {
 
     // 点击tagId
     handleSelectTag = (record) => {
+        // 高亮选中的标签
+        this.setState({
+            selectedTag:  {
+            //    id:record.id,
+                style:{color:'#0ae631', fontSize: '115%'},
+                name:record.name,
+            }
+        })
+
         // 点击一个标签，显示标签下的前15个歌单
         getWangYiAjax(`/top/playlist?limit=40&cat=${record.name}`)
             .then(response => {
@@ -211,6 +229,14 @@ class Log extends Component {
 
     // 点击歌单
     handleSelectMenu = (record) => {
+        // 高亮选中的歌单
+        this.setState({
+            selectedMenu:  {
+                id:record.id,
+                style:{color:'#6200ff', fontSize: '120%'},
+                name:record.name,
+            }
+        })
         //   this.setState({songMenuId:record.id})
         this.searchSongByMenuId(record.id)
         //
@@ -221,6 +247,16 @@ class Log extends Component {
 
     // 点击专辑
     handleSelectAlbum = (record) => {
+
+        // 高亮选中的专辑
+        this.setState({
+            selectedMenu:  {
+                id:record.id,
+                style:{color:'#6200ff', fontSize: '120%'},
+                name:record.name,
+            }
+        })
+
         // 这个是我本人的歌单
         if (record.userId === 376845421 || parseInt(record.userId) === 376845421) {
             getWangYiAjax(`/playlist/detail?id=${record.id}`)
@@ -245,6 +281,15 @@ class Log extends Component {
 
     // 混进去一个奇怪的东西，那就我的歌单
     handleSelectMe = (record) => {
+        // 高亮选中的歌手
+        this.setState({
+            selectedSinger:  {
+                id:376845421,
+                style:{color:'#0ae631', fontSize: '120%'},
+                name:'风往西边吹丶',
+            }
+        })
+
         console.log(`我自己的歌单url：/user/playlist?uid=${record}`)
         getWangYiAjax(`/user/playlist?uid=${record}`)
             .then(response => {
@@ -255,12 +300,15 @@ class Log extends Component {
     }
     // 点击歌手
     handleSelectArtists = (record) => {
-        // 选出当前歌手的热门歌曲歌单  -- 暂时不用
-        /*        getWangYiAjax(`/artists?id=${record.id}`)
-                    .then(response =>{
-                        const  result = response.data.hotSongs;
-                        this.setState({artistsHotSongs:result})
-                    });*/
+
+        // 高亮选中的歌手
+        this.setState({
+            selectedSinger:  {
+                id:record.id,
+                style:{color:'#0ae631', fontSize: '120%'},
+                name:record.name,
+            }
+        })
 
         // 选出当前歌手的专辑歌单
         getWangYiAjax(`/artist/album?id=${record.id}&limit=30`)
@@ -341,6 +389,11 @@ class Log extends Component {
     }
 
     render() {
+
+        // #6200ff
+        const {selectedMenu,selectedSinger,selectedTag} = this.state
+
+
         const {songData, comments, onlyHotComments,onlyLyric, lyric, menuTags, menuList, activeKey, artists, artistsAlbum,copyright} = this.state
         // console.log('lyric', lyric, typeof lyric)
         return (
@@ -355,10 +408,19 @@ class Log extends Component {
                         <Search placeholder="歌名搜索" onSearch={this.onSearch} enterButton/>
                         <Affix offsetTop={70}>
                             <div align="right" style={{marginRight: '20px'}}>
-                                随机歌单： <Button shape="circle" icon="sync" onClick={(event) =>this.searchSongByMenuId()} />
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                只看热评：
-                                <Switch defaultChecked onChange={this.switchComments}/>
+                                <Row>
+                                    <Col xs={24} md={8}>
+                                       <span style={{color:'#101721'}}>《 {selectedMenu.name ||`云音乐热歌榜`}》</span>
+                                    </Col>
+                                    <Col xs={24} md={8}>
+                                        随机歌单： <Button shape="circle" icon="sync" onClick={(event) =>this.searchSongByMenuId()} />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        只看热评：
+                                        <Switch defaultChecked onChange={this.switchComments}/>
+                                    </Col>
+
+                                </Row>
+
                             </div>
                         </Affix>
 
@@ -372,7 +434,7 @@ class Log extends Component {
                                     {comments && comments.map((recordComment, index2) => {
                                         if (parseInt(recordComment.id) === record.id) {
                                             return recordComment.hotComments.map((hotCommentsRecord, index3) => {
-                                                return <p key={index3}>{hotCommentsRecord.content}&nbsp;&nbsp;《{record.name}》</p>
+                                                return  <p key={index3} >{hotCommentsRecord.content}&nbsp;&nbsp;《{record.name}》 </p>
                                             })
                                         }
                                     })}
@@ -395,9 +457,16 @@ class Log extends Component {
                         <Search placeholder="歌名搜索" onSearch={this.onSearch} enterButton/>
                         <Affix offsetTop={70}>
                             <div align="right" style={{marginRight: '20px'}}>
-                                随机歌单： <Button shape="circle" icon="sync" onClick={(event) =>this.searchSongByMenuId()} />
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                省流量模式： <Switch defaultChecked onChange={this.switchListen}/>
+                                <Row>
+                                    <Col xs={24} md={8}>
+                                        <span style={{color:'#101721'}}>《 {selectedMenu.name ||`云音乐热歌榜`}》</span>
+                                    </Col>
+                                    <Col xs={24} md={8}>
+                                        随机歌单： <Button shape="circle" icon="sync" onClick={(event) =>this.searchSongByMenuId()} />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        省流量模式： <Switch defaultChecked onChange={this.switchListen}/>
+                                    </Col>
+                                </Row>
                             </div>
                         </Affix>
                         <Collapse defaultActiveKey={[]} onChange={this.searchLyric}>
@@ -447,7 +516,7 @@ class Log extends Component {
                         <Row type="flex">
                             {menuList && menuList.length > 0 && menuList.map((menuRecod, index) => {
                                 return <Col xs={24} md={8} key={index}>
-                                    <Tag color='geekblue' style={{margin: '5px 20px', fontSize: '115%'}}> <a
+                                    <Tag color='geekblue' style={{margin: '5px 20px', fontSize: '115%'}}> <a style={selectedMenu.id === menuRecod.id?selectedMenu.style:{}}
                                         onClick={() => this.handleSelectMenu(menuRecod)}>{menuRecod.name}</a> </Tag>
                                 </Col>
                             })}
@@ -455,7 +524,7 @@ class Log extends Component {
                         <Row type="flex">
                             {menuTags && menuTags.map((record, index) => {
                                 return <Col xs={6} md={3} key={index}>
-                                    <Tag style={{margin: '5px 20px', fontSize: '115%'}}> <a
+                                    <Tag style={{margin: '5px 20px', fontSize: '115%'}}> <a style={selectedTag.name === record.name?selectedTag.style:{}}
                                         onClick={() => this.handleSelectTag(record)}>{record.name}</a> </Tag>
                                 </Col>
                             })}
@@ -468,7 +537,7 @@ class Log extends Component {
                         <Row type="flex">
                             {artistsAlbum && artistsAlbum.length > 0 && artistsAlbum.map((albumRecod, index2) => {
                                 return <Col xs={12} md={4} key={index2}>
-                                    <Tag color='geekblue' style={{margin: '5px 20px', fontSize: '120%'}}> <a
+                                    <Tag color='geekblue' style={{margin: '5px 20px', fontSize: '120%'}}> <a style={selectedMenu.id === albumRecod.id?selectedMenu.style:{}}
                                         onClick={() => this.handleSelectAlbum(albumRecod)}>{albumRecod.name}</a> </Tag>
                                 </Col>
                             })}
@@ -476,19 +545,17 @@ class Log extends Component {
                         <Row type="flex">
                             {artists && artists.map((record, index) => {
                                 return <Col xs={6} md={3} key={index}>
-                                    <Tag style={{margin: '5px 20px', fontSize: '115%'}}> <a
+                                    <Tag style={{margin: '5px 20px', fontSize: '115%'}}> <a style={selectedSinger.id === record.id?selectedSinger.style:{}}
                                         onClick={() => this.handleSelectArtists(record)}>{record.name}</a> </Tag>
                                 </Col>
                             })}
                             <Col xs={12} md={4}>
-                                <Tag style={{margin: '5px 20px', fontSize: '120%'}}> <a
+                                <Tag style={{margin: '5px 20px', fontSize: '120%'}}> <a style={selectedSinger.id === 376845421?selectedSinger.style:{}}
                                     onClick={() => this.handleSelectMe(376845421)}>风往西边吹丶</a> </Tag>
                             </Col>
                         </Row>
 
                     </TabPane>
-
-
                 </Tabs>
             </div>
 
