@@ -13,8 +13,9 @@ const dataLog = [
     {id: 5, updateDay: '2019-6-25', content: '完成用户角色权限系统'},
     {id: 6, updateDay: '2019-6-26', content: '完成角色登陆后显示对应的权限菜单'},
     {id: 7, updateDay: '2019-6-30', content: '新增了用户注册和登录，计划管理也和用户账号对应'},
-    {id: 8, updateDay: '2019-7月到8月15', content: '游山玩水去了，持续掉线中... ...'},
+    {id: 8, updateDay: '2019-7月到8-15', content: '游山玩水去了，持续掉线中... ...'},
     {id: 9, updateDay: '2019-8-16', content: '更新了网易云的相关功能，可以听歌，看评论，看歌词等等'},
+    {id: 10, updateDay: '2019-8-20', content: '优化了网易云的选中标签特效，新增屏幕使用时间密码忘记功能'},
 ];
 
 const dataFuture6= [
@@ -25,10 +26,7 @@ const dataFuture6= [
 ];
 
 const dataFuture7= [
-    {id: 1,  content: '收录动漫网站'},
-    {id: 2,  content: '收录电影网站'},
-    {id: 3,  content: '设计用户积分，逐步开放权限'},
-    {id: 4,  content: '加强系统安全性'},
+    {id: 1,  content: '随缘更新...'},
 ];
 
 class Log extends Component {

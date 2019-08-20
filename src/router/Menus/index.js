@@ -25,6 +25,8 @@ import {addAjax, getAjax} from "../../util/ajax";
 import Person from "../../pages/Person";
 import Score from "../../pages/Score";
 import Password from "../../pages/Password";
+import Message from "../../pages/Message";
+import OnlyAdmin from "../../pages/OnlyAdmin";
 
 require('./style.css')
 
@@ -34,7 +36,7 @@ const {Header, Content, Footer} = Layout;
 
 const linkList = [
     {
-        menu: 'wangyi', link: <Menu.Item key="1004">
+        menu: 'wangyi', link: <Menu.Item key="2004">
             <NavLink to='/wangyi'>网易云相关</NavLink>
         </Menu.Item>
     },
@@ -69,7 +71,7 @@ const linkList = [
         </Menu.Item>
     },
     {
-        menu: 'score', link: <Menu.Item key="1003">
+        menu: 'score', link: <Menu.Item key="1002">
             <NavLink to='/score'>积分</NavLink>
         </Menu.Item>
     },
@@ -79,7 +81,17 @@ const linkList = [
         </Menu.Item>
     },
     {
-        menu: 'person', link: <Menu.Item key="1002">
+        menu: 'message', link: <Menu.Item key="1004">
+            <NavLink to='/message'>留言</NavLink>
+        </Menu.Item>
+    },
+    {
+        menu: 'onlyAdmin', link: <Menu.Item key="1005">
+            <NavLink to='/onlyAdmin'>管理员后台</NavLink>
+        </Menu.Item>
+    },
+    {
+        menu: 'person', link: <Menu.Item key="1099">
             <NavLink to='/person'>个人中心</NavLink>
         </Menu.Item>
     },
@@ -97,8 +109,8 @@ const routerList = [
     {menu:'score',route:<Route key={8} path="/score" component={Score}/>},
     {menu:'wangyi',route:<Route key={9} path="/wangyi" component={WangYi}/>},
     {menu:'password',route:<Route key={10} path="/password" component={Password}/>},
-
-
+    {menu:'message',route:<Route key={11} path="/message" component={Message}/>},
+    {menu:'onlyAdmin',route:<Route key={12} path="/onlyAdmin" component={OnlyAdmin}/>},
 ]
 
 

@@ -124,6 +124,7 @@ class Password extends Component {
             <Tabs defaultActiveKey="1" onChange={this.callback} style={{padding:'10px'}}>
                 <TabPane tab="屏幕使用时间加密" key="1">
                     <Search
+                        readOnly={true}
                         placeholder='4位数密码'
                         addonBefore={selectBefore}
                         value={randomNum}
