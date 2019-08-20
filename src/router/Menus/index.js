@@ -24,6 +24,7 @@ import Admin from "../../pages/Admin";
 import {addAjax, getAjax} from "../../util/ajax";
 import Person from "../../pages/Person";
 import Score from "../../pages/Score";
+import Password from "../../pages/Password";
 
 require('./style.css')
 
@@ -68,13 +69,18 @@ const linkList = [
         </Menu.Item>
     },
     {
-        menu: 'person', link: <Menu.Item key="1002">
-            <NavLink to='/person'>个人中心</NavLink>
+        menu: 'score', link: <Menu.Item key="1003">
+            <NavLink to='/score'>积分</NavLink>
         </Menu.Item>
     },
     {
-        menu: 'score', link: <Menu.Item key="1003">
-            <NavLink to='/score'>积分</NavLink>
+        menu: 'password', link: <Menu.Item key="1003">
+            <NavLink to='/password'>密码加密</NavLink>
+        </Menu.Item>
+    },
+    {
+        menu: 'person', link: <Menu.Item key="1002">
+            <NavLink to='/person'>个人中心</NavLink>
         </Menu.Item>
     },
 
@@ -90,6 +96,9 @@ const routerList = [
     {menu:'person',route:<Route key={7} path="/person" component={Person}/>},
     {menu:'score',route:<Route key={8} path="/score" component={Score}/>},
     {menu:'wangyi',route:<Route key={9} path="/wangyi" component={WangYi}/>},
+    {menu:'password',route:<Route key={10} path="/password" component={Password}/>},
+
+
 ]
 
 

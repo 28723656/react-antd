@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Button, Card, List, Tabs, Typography} from "antd";
+import {getAjax} from "../../util/ajax";
 
 const {TabPane} = Tabs;
 
@@ -10,6 +11,19 @@ class Person extends Component {
         localStorage.removeItem("basePlanList");
         window.location="/";
     }
+
+    getIp =() =>{
+        const user = JSON.parse(localStorage.getItem('user'));
+        getAjax(`/ip/ip/${user.id}`)
+            .then(response =>{
+                // 什么都不用做
+            })
+    }
+
+    componentDidMount() {
+        this.getIp();
+    }
+
     render() {
        const user = JSON.parse(localStorage.getItem("user"));
         return (
