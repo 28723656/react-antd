@@ -2,8 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import './style.css';
-import { Table, Input, Button, Popconfirm, Form,Row,Col } from 'antd';
+import { Table, Input, Button, Popconfirm, Form,Row,Col,Typography  } from 'antd';
 import PropTypes from "prop-types";
+
+const { Text,Title } = Typography;
 
 const EditableContext = React.createContext();
 
@@ -142,6 +144,7 @@ class EditableTable extends React.Component {
             {
                 title: '操作',
                 dataIndex: 'operation',
+                width: '10%',
                 render: (text, record) =>
                     this.state.dataSource.length >= 1 ? (
                             <a onClick={() => this.handleDelete(record.key)}>删除</a>
@@ -151,7 +154,7 @@ class EditableTable extends React.Component {
 
         this.state = {
             dataSource: [
-                {
+         /*       {
                     key:1,
                     rank: 1,
                     star:1,
@@ -170,9 +173,9 @@ class EditableTable extends React.Component {
                     incExperience: 6.4,
                     lowPercent:0.15,
                     topPercent:0.67,
-                },
+                },*/
             ],
-            count: 2,
+            count: 0,
             upLowPercent:false,
             loop:0,
             star:1,
@@ -185,6 +188,7 @@ class EditableTable extends React.Component {
             oneCost:50,
             eachCost:20,
             fullCost:430,
+            fullCostAll:0,
 
             oneIncCoin:6.2,
             eachIncCoin:0.2,
@@ -272,6 +276,7 @@ class EditableTable extends React.Component {
             oneStar,
             fullRank,
             fullCost:eachCost*fullRank+(oneCost-eachCost),
+            fullCostAll:(2*oneCost+eachCost*fullRank-eachCost)*fullRank/2,
             fullIncCoin:eachIncCoin*fullRank+(oneIncCoin-eachIncCoin),
             fullIncExperience:eachIncExperience*fullRank+(oneIncExperience-eachIncExperience),
             fullLowPercent:(eachLowPercent*fullRank+(oneLowPercent-eachLowPercent)).toFixed(2),
@@ -290,7 +295,8 @@ class EditableTable extends React.Component {
             {
                 eachStar,
                 fullRank,
-                fullCost:(eachCost*fullRank+(oneCost-eachCost)).toFixed(2),
+                fullCost:eachCost*fullRank+(oneCost-eachCost),
+                fullCostAll:(2*oneCost+eachCost*fullRank-eachCost)*fullRank/2,
                 fullIncCoin:(eachIncCoin*fullRank+(oneIncCoin-eachIncCoin)).toFixed(2),
                 fullIncExperience:(eachIncExperience*fullRank+(oneIncExperience-eachIncExperience)).toFixed(2),
                 fullLowPercent:(eachLowPercent*fullRank+(oneLowPercent-eachLowPercent)).toFixed(2),
@@ -304,7 +310,8 @@ class EditableTable extends React.Component {
         const {fullRank,eachCost} = this.state;
         this.setState(
             {
-                fullCost:(eachCost*fullRank+(oneCost-eachCost)).toFixed(2),
+                fullCost:eachCost*fullRank+(oneCost-eachCost),
+                fullCostAll:(2*oneCost+eachCost*fullRank-eachCost)*fullRank/2,
                 oneCost,
             }
         )
@@ -316,7 +323,8 @@ class EditableTable extends React.Component {
         const {fullRank,oneCost} = this.state;
         this.setState(
             {
-                fullCost:(eachCost*fullRank+(oneCost-eachCost)).toFixed(2),
+                fullCost:eachCost*fullRank+(oneCost-eachCost),
+                fullCostAll:(2*oneCost+eachCost*fullRank-eachCost)*fullRank/2,
                 eachCost,
             }
         )
@@ -411,17 +419,55 @@ class EditableTable extends React.Component {
         )
     }
 
+    // ----------------分割线----------------------------我自己的方法--------------
+
+
+    //------------------------------------我自己的事件处理-----------------------------------
+
+    // 生成预览界面
+    handlePreview =() =>{
+       // let {count} = this.state
+        const {dataSource,fullRank, oneStar,eachStar,eachCost,oneCost,eachIncCoin,oneIncCoin,
+            eachIncExperience,oneIncExperience,eachLowPercent,oneLowPercent,eachTopPercent,oneTopPercent} = this.state
+        let tempArr =[]
+        for(let count=1;count<=fullRank;count++){
+
+            let tempCount =count;
+            let star = 0;
+            while (tempCount > 0){
+                tempCount = tempCount-oneStar-star*eachStar
+                star ++;
+            }
+
+            const newData = {
+                key: count,
+                rank: count,
+                star,
+                cost: (eachCost*count+(oneCost-eachCost)).toFixed(2),
+                incCoin:(eachIncCoin*count+(oneIncCoin-eachIncCoin)).toFixed(2),
+                incExperience: (eachIncExperience*count+(oneIncExperience-eachIncExperience)).toFixed(2),
+                lowPercent:(eachLowPercent*count+(oneLowPercent-eachLowPercent)).toFixed(2),
+                topPercent:(eachTopPercent*count+(oneTopPercent-eachTopPercent)).toFixed(2),
+            };
+            tempArr.push(newData)
+        }
+        console.log(tempArr)
+
+        this.setState({
+            dataSource: tempArr,
+        });
+    }
+
+    //------------------------------------我自己的事件处理-----------------------------------
+
     componentDidMount() {
         // 为了开始的时候刷新数据
         this.changeOneStar();
     }
 
 
-    // ----------------分割线----------------------------我自己的方法--------------
-
-
     render() {
-        const { dataSource,fullRank,fullCost,fullIncCoin,fullIncExperience,fullLowPercent,fullTopPercent } = this.state;
+        const { dataSource,fullRank,fullCost,fullIncCoin,fullIncExperience,fullLowPercent,fullTopPercent,fullCostAll } = this.state;
         const components = {
             body: {
                 row: EditableFormRow,
@@ -460,30 +506,30 @@ class EditableTable extends React.Component {
                     <Row>
                         <Col span={16}>
                             <div>
-                            <Row gutter={20}>
+                            <Row gutter={20} style={{marginTop:'4px'}} >
                                 <Col span={4} >参数设置:</Col>
                                 <Col span={8}>1星: <Input type='number' defaultValue={10} suffix="级" onChange={this.changeOneStar} /> </Col>
                                 <Col span={8}>每星增加:<Input type='number' defaultValue={0} suffix="级" onChange={this.changeEachStar} /></Col>
                             </Row>
 
-                            <Row gutter={20}>
+                            <Row gutter={20} style={{marginTop:'4px'}}>
                                 <Col offset={4} span={8}>花费(1级): <Input type='number' defaultValue={50} suffix="G" onChange={this.changeOneCost} /> </Col>
                                 <Col span={8}>每级增加:<Input type='number' defaultValue={20} suffix="G" onChange={this.changeEachCost} /></Col>
                             </Row>
 
-                            <Row gutter={20}>
+                            <Row gutter={20} style={{marginTop:'4px'}}>
                                 <Col  offset={4}  span={8}>金币(1级): <Input type='number' defaultValue={6.2} suffix="%" onChange={this.changeOneIncCoin} /> </Col>
                                 <Col span={8}>每级增加:<Input type='number' defaultValue={0.2} suffix="%" onChange={this.changeEachIncCoin} /></Col>
                             </Row>
-                            <Row gutter={20}>
+                            <Row gutter={20} style={{marginTop:'4px'}}>
                                 <Col  offset={4}  span={8}>经验(1级): <Input type='number' defaultValue={6.2} suffix="%" onChange={this.changeOneIncExperience} /> </Col>
                                 <Col span={8}>每级增加:<Input type='number' defaultValue={0.2} suffix="%" onChange={this.changeEachIncExperience} /></Col>
                             </Row>
-                            <Row gutter={20}>
+                            <Row gutter={20} style={{marginTop:'4px'}}>
                                 <Col  offset={4}  span={8}>概率下限(1级): <Input type='number' defaultValue={0.105} onChange={this.changeOneLowPercent}  /> </Col>
                                 <Col span={8}>每级增加:<Input type='number' defaultValue={0.05} onChange={this.changeEachLowPercent}  /></Col>
                             </Row>
-                            <Row gutter={20}>
+                            <Row gutter={20} style={{marginTop:'4px'}}>
                                 <Col  offset={4}  span={8}>概率上限(1级): <Input type='number' defaultValue={0.705} onChange={this.changeOneTopPercent}   /> </Col>
                                 <Col span={8}>每级增加:<Input type='number' defaultValue={0.05}  onChange={this.changeEachTopPercent} /></Col>
                             </Row>
@@ -492,34 +538,55 @@ class EditableTable extends React.Component {
 
                         <Col span={6}>
                             <div>
-                                <Row gutter={20}>
-                                    <Col>满级预览<Input value={fullRank} suffix="级" readOnly/></Col>
+                                <Row gutter={20} style={{marginTop:'5px'}}>
+                                    <Col>满级级数： <Title level={4}>{fullRank}&nbsp;级</Title></Col>
+
+{/*
+                                    <Col>满级级数：<Input value={fullRank} suffix="级" readOnly/></Col>
+*/}
                                 </Row>
-                                <Row gutter={20}>
-                                    <Col>满级预览<Input value={fullCost} suffix="G" readOnly/></Col>
+                                <Row >
+                                    <Col span={12} >满级消耗： <Title level={4}>{fullCost}&nbsp;G</Title></Col>
+                                    <Col span={12}>总共消耗：<Title level={4}>{fullCostAll}&nbsp;G</Title></Col>
+{/*
+                                    <Col span={12} >满级消耗：<Input value={fullCost} suffix="G" readOnly/></Col>
+                                    <Col span={12}>总共消耗：<Input value={fullCostAll} suffix="G" readOnly/></Col>
+*/}
                                 </Row>
-                                <Row gutter={20}>
-                                    <Col>满级预览<Input value={fullIncCoin}  suffix="%" readOnly /></Col>
+                                <Row>
+                                    <Col>满级预览:<Title level={4}>{fullIncCoin}&nbsp;%</Title></Col>
+                                   {/* <Col>满级预览<Input value={fullIncCoin}  suffix="%" readOnly /></Col>*/}
                                 </Row>
-                                <Row gutter={20}>
-                                    <Col>满级预览<Input value={fullIncExperience} suffix="%" readOnly /></Col>
+                                <Row >
+
+                                    <Col>满级预览:<Title level={4}>{fullIncExperience}&nbsp;%</Title></Col>
+                                  {/*  <Col>满级预览<Input value={fullIncExperience} suffix="%" readOnly /></Col>*/}
                                 </Row>
-                                <Row gutter={20}>
-                                    <Col>满级预览<Input value={fullLowPercent}  readOnly /></Col>
+                                <Row >
+
+                                    <Col>满级预览: <Title level={4}>{fullLowPercent}</Title></Col>
+                                    {/*<Col>满级预览<Input value={fullLowPercent}  readOnly /></Col>*/}
                                 </Row>
-                                <Row gutter={20}>
-                                    <Col>满级预览<Input value={fullTopPercent} readOnly /></Col>
+                                <Row >
+
+                                    <Col>满级预览:<Title level={4}>{fullTopPercent}</Title></Col>
+                                 {/*   <Col>满级预览<Input value={fullTopPercent} readOnly /></Col>*/}
                                 </Row>
                             </div>
                         </Col>
                     </Row>
-
-
                 </div>
 
-                <Button onClick={this.handleAdd} type="primary" style={{ marginBottom: 16 }}>
-                  添加一行
+                <div>
+                    <Button onClick={this.handlePreview} type="primary" style={{ marginBottom: 16 }}>
+                        生成预览
+                    </Button>
+                </div>
+
+                <Button disabled onClick={this.handleAdd} type="primary" style={{ marginBottom: 16 }}>
+                  添加一行(暂时不用)
                 </Button>
+
                 <Table
                     components={components}
                     rowClassName={() => 'editable-row'}

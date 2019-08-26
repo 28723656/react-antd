@@ -226,9 +226,12 @@ class GameCardAdminForm extends Component {
             {
                 title: '最高星级',
                 dataIndex: 'topStar',
+                align:'center',
             },
             {
                 title: '修改数据',
+                width:'25%',
+                align:'center',
                 render: (text, record) => {
                     return <div>
                         <a onClick={() => this.updateCard(record)}>修改</a>
