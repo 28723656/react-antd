@@ -149,7 +149,6 @@ class TodayPlan extends Component{
                                   title='添加今日计划' type={1}
                                   deletePlan={deletePlan}
                     />
-
                     <Row>
                         <Col span={6}>
                             <Button type="link" onClick={this.handleAddPlan}>
@@ -163,10 +162,7 @@ class TodayPlan extends Component{
                         </Col>
 
                     </Row>
-
                 </Card>
-
-
                 <Card title='未完成' style={{marginTop:15 }} bodyStyle={{padding:'8px'}}  >
                 <Table columns={columns1_3} dataSource={data1_1} showHeader={false} size='small'
                        scroll={{x:true}}

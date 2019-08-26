@@ -14,7 +14,6 @@ import PlanStat from "../../pages/PlanStat";
 import Page3 from "../../pages/Page3";
 import Page4 from "../../pages/Page4";
 import Page5 from "../../pages/Page5";
-import Test01 from "../../pages/Test01";
 import Test02 from "../../pages/Test02";
 import Page7 from "../../pages/Page7";
 import Page8 from "../../pages/Page8";
@@ -27,6 +26,9 @@ import Score from "../../pages/Score";
 import Password from "../../pages/Password";
 import Message from "../../pages/Message";
 import OnlyAdmin from "../../pages/OnlyAdmin";
+import GameCard from "../../pages/GameCard";
+import GameCardAdmin from "../../pages/Admin/GameCardAdmin";
+import Test001 from "../../pages/Test001";
 
 require('./style.css')
 
@@ -86,13 +88,28 @@ const linkList = [
         </Menu.Item>
     },
     {
-        menu: 'onlyAdmin', link: <Menu.Item key="1005">
+        menu: 'gameCard', link: <Menu.Item key="1006">
+            <NavLink to='/gameCard'>卡片游戏</NavLink>
+        </Menu.Item>
+    },
+    {
+        menu: 'gameCardAdmin', link: <Menu.Item key="1007">
+            <NavLink to='/gameCardAdmin'>卡片游戏管理</NavLink>
+        </Menu.Item>
+    },
+    {
+        menu: 'onlyAdmin', link: <Menu.Item key="1098">
             <NavLink to='/onlyAdmin'>管理员后台</NavLink>
         </Menu.Item>
     },
     {
         menu: 'person', link: <Menu.Item key="1099">
             <NavLink to='/person'>个人中心</NavLink>
+        </Menu.Item>
+    },
+    {
+        menu: 'test001', link: <Menu.Item key="9001">
+            <NavLink to='/test001'>测试001</NavLink>
         </Menu.Item>
     },
 
@@ -111,6 +128,9 @@ const routerList = [
     {menu:'password',route:<Route key={10} path="/password" component={Password}/>},
     {menu:'message',route:<Route key={11} path="/message" component={Message}/>},
     {menu:'onlyAdmin',route:<Route key={12} path="/onlyAdmin" component={OnlyAdmin}/>},
+    {menu:'gameCard',route:<Route key={13} path="/gameCard" component={GameCard}/>},
+    {menu:'gameCardAdmin',route:<Route key={14} path="/gameCardAdmin" component={GameCardAdmin}/>},
+    {menu:'test001',route:<Route key={9001} path="/test001" component={Test001}/>},
 ]
 
 
