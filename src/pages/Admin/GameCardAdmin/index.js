@@ -83,10 +83,11 @@ class GameCardAdminForm extends Component {
     };
 
     // 模态框，打开【等级管理】模态框
-    showRankModal = () => {
+    showRankModal = (record) => {
         this.setState({
             visibleRank: true,
             activeKey: '3',
+            cardEntity:record,
         });
     };
 
@@ -244,8 +245,8 @@ class GameCardAdminForm extends Component {
             },
             {
                 title: '等级管理',
-                render: () => {
-                    return <a onClick={this.showRankModal}>编辑</a>
+                render: (text,record) => {
+                    return <a onClick={() =>this.showRankModal(record)}>编辑</a>
                 }
             },
         ]
@@ -369,7 +370,7 @@ class GameCardAdminForm extends Component {
 
                 {visibleRank &&
                 <TabPane tab="等级管理(临时)" key="3">
-                    <Test001></Test001>
+                    <Test001 cardEntity={cardEntity}></Test001>
                 </TabPane>
                 }
 
