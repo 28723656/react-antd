@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import {Tabs, Card, Row, Col, Button, Avatar, Table, Modal, Form, Input, Icon, Checkbox, Select} from "antd";
+import {Tabs, Card, Row, Col, Button, Avatar, Table, Modal, Form, Input, Icon, Checkbox, Select,message} from "antd";
 import SmallTable from "../../../components/Table/SmallTable";
 import Test001 from "../../Test001"
-import {addAjax, getAjax, updateAjax} from "../../../util/ajax";
+import {addAjax, deleteAjax, getAjax, updateAjax} from "../../../util/ajax";
 
 const {TabPane} = Tabs;
 const {Option} = Select
@@ -144,7 +144,16 @@ class GameCardAdminForm extends Component {
 
     // 删除卡片
     deleteCard = (record) => {
-        console.log("删除卡片涉及到很多东西，等下再做")
+      deleteAjax(`/game/card/${record.id}`)
+          .then(response =>{
+              if(response.data.flag){
+                  message.success('删除成功');
+              }else {
+                  message.error('删除失败,请联系管理员反馈');
+              }
+              this.initCardData();
+          })
+
     }
 
     // 卡片ok
@@ -229,6 +238,19 @@ class GameCardAdminForm extends Component {
                 align:'center',
             },
             {
+                title: '卡片技能',
+                dataIndex: 'skill',
+                render: (text) =>{
+                    if(text === 1){
+                        return '金币加成'
+                    }else if(text === 2){
+                        return '经验加成'
+                    }else if(text === 3){
+                        return '免费抽卡加成'
+                    }
+                }
+            },
+            {
                 title: '修改数据',
                 width:'25%',
                 align:'center',
@@ -272,7 +294,7 @@ class GameCardAdminForm extends Component {
                     >
                         <Form onSubmit={this.updateCard}>
                             <Row gutter={5}>
-                                <Col xs={12}>
+                                <Col xs={8}>
                                     {getFieldDecorator('id', {initialValue: cardEntity.id || null})(
                                         <Input hidden={true}/>,
                                     )}
@@ -282,7 +304,7 @@ class GameCardAdminForm extends Component {
                                         )}
                                     </Form.Item>
                                 </Col>
-                                <Col xs={12}>
+                                <Col xs={8}>
                                     <Form.Item label="类型">
                                         {getFieldDecorator('type', {initialValue: cardEntity.type || 'D'})(
                                             <Select>
@@ -295,14 +317,7 @@ class GameCardAdminForm extends Component {
                                         )}
                                     </Form.Item>
                                 </Col>
-                                <Col xs={12}>
-                                    <Form.Item label="昵称">
-                                        {getFieldDecorator('nickName', {initialValue: cardEntity.nickName || 'D级卡片'})(
-                                            <Input/>,
-                                        )}
-                                    </Form.Item>
-                                </Col>
-                                <Col xs={12}>
+                                <Col xs={8}>
                                     <Form.Item label="最高星级">
                                         {getFieldDecorator('topStar', {initialValue: cardEntity.topStar || 3})(
                                             <Select>
@@ -316,6 +331,24 @@ class GameCardAdminForm extends Component {
                                                 <Option value={8}>8星</Option>
                                                 <Option value={9}>9星</Option>
                                                 <Option value={10}>10星</Option>
+                                            </Select>,
+                                        )}
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={12}>
+                                    <Form.Item label="昵称">
+                                        {getFieldDecorator('nickName', {initialValue: cardEntity.nickName || 'D级卡片'})(
+                                            <Input/>,
+                                        )}
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={12}>
+                                    <Form.Item label="技能">
+                                        {getFieldDecorator('skill', {initialValue: cardEntity.skill || 1})(
+                                            <Select>
+                                                <Option value={1}>金币加成</Option>
+                                                <Option value={2}>经验加成</Option>
+                                                <Option value={3}>免费抽卡加成</Option>
                                             </Select>,
                                         )}
                                     </Form.Item>

@@ -515,18 +515,33 @@ class EditableTable extends React.Component {
                 tempCount = tempCount-oneStar-star*eachStar
                 star ++;
             }
-            const newData = {
+            let newData = {
                 cardId:cardEntity.id,
                 key: count,
                 rank: count,
                 star,
                 cost: eachCost*count+(oneCost-eachCost),
-                incCoin:(eachIncCoin*count+(oneIncCoin-eachIncCoin)).toFixed(2),
-                incExperience: (eachIncExperience*count+(oneIncExperience-eachIncExperience)).toFixed(2),
-                lowPercent:(eachLowPercent*count+(oneLowPercent-eachLowPercent)).toFixed(2),
-                topPercent:(eachTopPercent*count+(oneTopPercent-eachTopPercent)).toFixed(2),
-                hopePercent:(((eachLowPercent*count+(oneLowPercent-eachLowPercent))+(eachTopPercent*count+(oneTopPercent-eachTopPercent)))/2).toFixed(2)
             };
+            // 处理技能的问题
+            if(cardEntity.skill === 1){
+                newData ={
+                    ...newData,
+                    incCoin:(eachIncCoin*count+(oneIncCoin-eachIncCoin)).toFixed(2),
+                }
+            }else if(cardEntity.skill === 2){
+                newData ={
+                    ...newData,
+                    incExperience: (eachIncExperience*count+(oneIncExperience-eachIncExperience)).toFixed(2),
+                }
+            }else if(cardEntity.skill === 3){
+                newData ={
+                    ...newData,
+                    lowPercent:(eachLowPercent*count+(oneLowPercent-eachLowPercent)).toFixed(2),
+                    topPercent:(eachTopPercent*count+(oneTopPercent-eachTopPercent)).toFixed(2),
+                    hopePercent:(((eachLowPercent*count+(oneLowPercent-eachLowPercent))+(eachTopPercent*count+(oneTopPercent-eachTopPercent)))/2).toFixed(2)
+                }
+            }
+
             tempArr.push(newData)
         }
         console.log(tempArr)
@@ -556,6 +571,9 @@ class EditableTable extends React.Component {
         configEntity.cardId= cardEntity.id
         configEntity.topStar = cardEntity.topStar
         // 保存配置
+        configEntity = this.deleteUselessProperties(cardEntity.skill,configEntity);
+        console.log(configEntity)
+
         addAjax(`/game/config`,configEntity)
             .then(response =>{
                 if(response.data.flag){
@@ -574,6 +592,46 @@ class EditableTable extends React.Component {
                     this.setState({loadingButton:false})
                 }
             });
+    }
+
+    // 一个公共方法,删除无用属性
+    deleteUselessProperties =(skill,configEntity) =>{
+        // 这里为了那个skill要判断一下，防止给数据库塞一些没用的数据
+        if(skill === 1){
+            delete configEntity.oneIncExperience
+            delete configEntity.eachIncExperience
+            delete configEntity.fullIncExperience
+
+            delete configEntity.oneLowPercent
+            delete configEntity.eachLowPercent
+            delete configEntity.fullLowPercent
+
+            delete configEntity.oneTopPercent
+            delete configEntity.eachTopPercent
+            delete configEntity.fullTopPercent
+
+        }else if(skill === 2){
+            delete configEntity.oneIncCoin
+            delete configEntity.eachIncCoin
+            delete configEntity.fullIncCoin
+
+            delete configEntity.oneLowPercent
+            delete configEntity.eachLowPercent
+            delete configEntity.fullLowPercent
+
+            delete configEntity.oneTopPercent
+            delete configEntity.eachTopPercent
+            delete configEntity.fullTopPercent
+        }else if(skill === 3){
+            delete configEntity.oneIncCoin
+            delete configEntity.eachIncCoin
+            delete configEntity.fullIncCoin
+
+            delete configEntity.oneIncExperience
+            delete configEntity.eachIncExperience
+            delete configEntity.fullIncExperience
+        }
+        return configEntity;
     }
 
     //------------------------------------我自己的事件处理-----------------------------------
@@ -607,6 +665,7 @@ class EditableTable extends React.Component {
 
 
     render() {
+        const {cardEntity} = this.props
         const { dataSource,loadingButton } = this.state;
         const { oneStar,eachStar,eachCost,oneCost,eachIncCoin,oneIncCoin,eachIncExperience,oneIncExperience,eachLowPercent,oneLowPercent,eachTopPercent,oneTopPercent,fullRank,fullCost,fullIncCoin,fullIncExperience,fullLowPercent,fullTopPercent,fullCostAll } = this.state.configEntity;
         const components = {
@@ -631,17 +690,30 @@ class EditableTable extends React.Component {
             };
         });
 
-        const {cardEntity} = this.props
+        // 处理skill的问题，让columns显示对应的内容
+        if(cardEntity.skill === 1){
+            // 从数组下标为5开始，（包括自身）
+         columns.splice(4,4);
+        }else if(cardEntity.skill === 2){
+            columns.splice(3,1);
+            columns.splice(4,3);
+        }else if(cardEntity.skill === 3){
+            columns.splice(3,2);
+        }
+
+
+
 
         return (
             <div>
 
                 <div>
                     <Row gutter={20}>
-                        <Col span={4} >当前卡片:</Col>
-                        <Col span={5}>{cardEntity.type  || '暂无类型'}</Col>
-                        <Col span={5}>{cardEntity.name  || '暂无名称'}</Col>
-                        <Col span={5}>{'最高'+cardEntity.topStar+'星' || '暂无星级'}</Col>
+                        <Col span={3} >当前卡片:</Col>
+                        <Col span={4}>{cardEntity.type  || '暂无类型'}</Col>
+                        <Col span={4}>{cardEntity.name  || '暂无名称'}</Col>
+                        <Col span={4}>{cardEntity.skill===1?'金币加成':(cardEntity.skill===2?'经验加成':(cardEntity.skill===3?'免费抽卡加成':'没有加成'))}</Col>
+                        <Col span={4}>{'最高'+cardEntity.topStar+'星' || '暂无星级'}</Col>
                     </Row>
 
                     <Row>
@@ -657,23 +729,36 @@ class EditableTable extends React.Component {
                                 <Col offset={4} span={8}>花费(1级): <Input type='number' value={oneCost} suffix="G" onChange={this.changeOneCost} /> </Col>
                                 <Col span={8}>每级增加:<Input type='number' value={eachCost} suffix="G" onChange={this.changeEachCost} /></Col>
                             </Row>
+                                {
+                                    cardEntity.skill===1 &&
+                                    <Row gutter={20} style={{marginTop:'4px'}}>
+                                        <Col  offset={4}  span={8}>金币(1级): <Input type='number' value={oneIncCoin} suffix="%" onChange={this.changeOneIncCoin} /> </Col>
+                                        <Col span={8}>每级增加:<Input type='number' value={eachIncCoin} suffix="%" onChange={this.changeEachIncCoin} /></Col>
+                                    </Row>
+                                }
 
-                            <Row gutter={20} style={{marginTop:'4px'}}>
-                                <Col  offset={4}  span={8}>金币(1级): <Input type='number' value={oneIncCoin} suffix="%" onChange={this.changeOneIncCoin} /> </Col>
-                                <Col span={8}>每级增加:<Input type='number' value={eachIncCoin} suffix="%" onChange={this.changeEachIncCoin} /></Col>
-                            </Row>
-                            <Row gutter={20} style={{marginTop:'4px'}}>
-                                <Col  offset={4}  span={8}>经验(1级): <Input type='number' value={oneIncExperience} suffix="%" onChange={this.changeOneIncExperience} /> </Col>
-                                <Col span={8}>每级增加:<Input type='number' value={eachIncExperience} suffix="%" onChange={this.changeEachIncExperience} /></Col>
-                            </Row>
-                            <Row gutter={20} style={{marginTop:'4px'}}>
-                                <Col  offset={4}  span={8}>概率下限(1级): <Input type='number' value={oneLowPercent} onChange={this.changeOneLowPercent}  /> </Col>
-                                <Col span={8}>每级增加:<Input type='number' value={eachLowPercent} onChange={this.changeEachLowPercent}  /></Col>
-                            </Row>
-                            <Row gutter={20} style={{marginTop:'4px'}}>
-                                <Col  offset={4}  span={8}>概率上限(1级): <Input type='number' value={oneTopPercent} onChange={this.changeOneTopPercent}   /> </Col>
-                                <Col span={8}>每级增加:<Input type='number' value={eachTopPercent}  onChange={this.changeEachTopPercent} /></Col>
-                            </Row>
+                                {
+                                    cardEntity.skill===2 &&
+                                    <Row gutter={20} style={{marginTop:'4px'}}>
+                                        <Col  offset={4}  span={8}>经验(1级): <Input type='number' value={oneIncExperience} suffix="%" onChange={this.changeOneIncExperience} /> </Col>
+                                        <Col span={8}>每级增加:<Input type='number' value={eachIncExperience} suffix="%" onChange={this.changeEachIncExperience} /></Col>
+                                    </Row>
+                                }
+
+                                {
+                                    cardEntity.skill===3 &&
+                                    <div>
+                                        <Row gutter={20} style={{marginTop:'4px'}}>
+                                            <Col  offset={4}  span={8}>概率下限(1级): <Input type='number' value={oneLowPercent} onChange={this.changeOneLowPercent}  /> </Col>
+                                            <Col span={8}>每级增加:<Input type='number' value={eachLowPercent} onChange={this.changeEachLowPercent}  /></Col>
+                                        </Row>
+                                        <Row gutter={20} style={{marginTop:'4px'}}>
+                                            <Col  offset={4}  span={8}>概率上限(1级): <Input type='number' value={oneTopPercent} onChange={this.changeOneTopPercent}   /> </Col>
+                                            <Col span={8}>每级增加:<Input type='number' value={eachTopPercent}  onChange={this.changeEachTopPercent} /></Col>
+                                        </Row>
+                                    </div>
+                                }
+
                             </div>
                         </Col>
 
@@ -686,20 +771,31 @@ class EditableTable extends React.Component {
                                     <Col span={12} >满级消耗： <Title level={4}>{fullCost || 0}&nbsp;G</Title></Col>
                                     <Col span={12}>总共消耗：<Title level={4}>{fullCostAll || 0}&nbsp;G</Title></Col>
                                 </Row>
-                                <Row>
-                                    <Col>满级预览:<Title level={4}>{fullIncCoin || 0}&nbsp;%</Title></Col>
-                                </Row>
-                                <Row >
+                                {cardEntity.skill === 1 &&
+                                    <Row>
+                                        <Col>满级预览:<Title level={4}>{fullIncCoin || 0}&nbsp;%</Title></Col>
+                                    </Row>
+                                }
+                                {
+                                    cardEntity.skill === 2 &&
+                                    <Row>
+                                        <Col>满级预览:<Title level={4}>{fullIncExperience || 0}&nbsp;%</Title></Col>
+                                    </Row>
+                                }
 
-                                    <Col>满级预览:<Title level={4}>{fullIncExperience || 0}&nbsp;%</Title></Col>
-                                </Row>
-                                <Row >
-                                    <Col>满级预览: <Title level={4}>{fullLowPercent || 0}</Title></Col>
-                                </Row>
-                                <Row >
+                                {
+                                    cardEntity.skill === 3 &&
+                                    <div>
+                                        <Row >
+                                            <Col>满级预览: <Title level={4}>{fullLowPercent || 0}</Title></Col>
+                                        </Row>
+                                        <Row >
 
-                                    <Col>满级预览:<Title level={4}>{fullTopPercent || 0}</Title></Col>
-                                </Row>
+                                            <Col>满级预览:<Title level={4}>{fullTopPercent || 0}</Title></Col>
+                                        </Row>
+                                    </div>
+                                }
+
                             </div>
                         </Col>
                     </Row>
