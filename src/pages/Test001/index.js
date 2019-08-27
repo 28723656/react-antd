@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import './style.css';
-import { Table, Input, Button, Popconfirm, Form,Row,Col,Typography  } from 'antd';
+import { Table, Input, Button, Popconfirm, Form,Row,Col,Typography,message  } from 'antd';
 import PropTypes from "prop-types";
+import {addAjax, getAjax, updateAjax} from "../../util/ajax";
 
 const { Text,Title } = Typography;
 
@@ -138,10 +139,8 @@ class EditableTable extends React.Component {
             {
                 title: '概率期望',
                 dataIndex:'hopePercent',
-                render:(text,record) =>
-                    ((record.lowPercent*1+record.topPercent*1)/2).toFixed(2)
             },
-            {
+       /*     {
                 title: '操作',
                 dataIndex: 'operation',
                 width: '10%',
@@ -149,7 +148,7 @@ class EditableTable extends React.Component {
                     this.state.dataSource.length >= 1 ? (
                             <a onClick={() => this.handleDelete(record.key)}>删除</a>
                     ) : null,
-            },
+            },*/
         ];
 
         this.state = {
@@ -180,8 +179,10 @@ class EditableTable extends React.Component {
             loop:0,
             star:1,
 
+            loadingButton:false,
+
             // 新增的一些属性
-            oneStar:10,
+        /*    oneStar:10,
             eachStar:0,
             fullRank:20,
 
@@ -204,16 +205,42 @@ class EditableTable extends React.Component {
 
             oneTopPercent:0.705,
             eachTopPercent:0.005,
-            fullTopPercent:0.8,
+            fullTopPercent:0.8,*/
+            configEntity:{
+                oneStar:10,
+                eachStar:0,
+                fullRank:20,
+
+                oneCost:50,
+                eachCost:20,
+                fullCost:430,
+                fullCostAll:0,
+
+                oneIncCoin:6.2,
+                eachIncCoin:0.2,
+                fullIncCoin:10,
+
+                oneIncExperience:6.2,
+                eachIncExperience:0.2,
+                fullIncExperience:10,
+
+                oneLowPercent:0.105,
+                eachLowPercent:0.005,
+                fullLowPercent:0.2,
+
+                oneTopPercent:0.705,
+                eachTopPercent:0.005,
+                fullTopPercent:0.8,
+            },
         };
     }
 
-    handleDelete = key => {
+/*    handleDelete = key => {
         const dataSource = [...this.state.dataSource];
         this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
-    };
+    };*/
 
-    handleAdd = () => {
+  /*  handleAdd = () => {
         const {  dataSource } = this.state;
         let {upLowPercent,count,loop,star} = this.state
         count = count + 1;
@@ -237,7 +264,7 @@ class EditableTable extends React.Component {
             upLowPercent:upLowPercent,
             loop:loop,
         });
-    };
+    };*/
 
     handleSave = row => {
         const newData = [...this.state.dataSource];
@@ -263,24 +290,28 @@ class EditableTable extends React.Component {
 
     // 改变 oneStar
     changeOneStar =(e) =>{
-        let oneStar = 10
+        let oneStar = e
         // 如果是直接调用，就是为了刷新一下数据
-        if(e!== undefined){
+        if(e.target!== undefined){
             oneStar = e.target.value
         }
         // 根据两个条件改变满级的结果
-       const {eachStar,eachCost,oneCost,eachIncCoin,oneIncCoin,eachIncExperience,oneIncExperience,eachLowPercent,oneLowPercent,eachTopPercent,oneTopPercent} = this.state
+        const {configEntity} =  this.state;
+       const {eachStar,eachCost,oneCost,eachIncCoin,oneIncCoin,eachIncExperience,oneIncExperience,eachLowPercent,oneLowPercent,eachTopPercent,oneTopPercent} = this.state.configEntity
         const topStar = this.getTopStar();
        const fullRank = oneStar*topStar+eachStar*topStar*(topStar-1)/2
         this.setState({
-            oneStar,
-            fullRank,
-            fullCost:eachCost*fullRank+(oneCost-eachCost),
-            fullCostAll:(2*oneCost+eachCost*fullRank-eachCost)*fullRank/2,
-            fullIncCoin:eachIncCoin*fullRank+(oneIncCoin-eachIncCoin),
-            fullIncExperience:eachIncExperience*fullRank+(oneIncExperience-eachIncExperience),
-            fullLowPercent:(eachLowPercent*fullRank+(oneLowPercent-eachLowPercent)).toFixed(2),
-            fullTopPercent:(eachTopPercent*fullRank+(oneTopPercent-eachTopPercent)).toFixed(2),
+            configEntity:{
+                ...configEntity,   // 解构，然后后面的属性会覆盖前面的属性
+                oneStar,
+                fullRank,
+                fullCost:eachCost*fullRank+(oneCost-eachCost),
+                fullCostAll:(2*oneCost+eachCost*fullRank-eachCost)*fullRank/2,
+                fullIncCoin:eachIncCoin*fullRank+(oneIncCoin-eachIncCoin),
+                fullIncExperience:eachIncExperience*fullRank+(oneIncExperience-eachIncExperience),
+                fullLowPercent:eachLowPercent*fullRank+(oneLowPercent-eachLowPercent),
+                fullTopPercent:eachTopPercent*fullRank+(oneTopPercent-eachTopPercent),
+            },
         })
     }
 
@@ -288,31 +319,39 @@ class EditableTable extends React.Component {
     changeEachStar = (e) =>{
         const eachStar = e.target.value
         // 根据两个条件改变满级的结果
-        const {oneStar,eachCost,oneCost,eachIncCoin,oneIncCoin,eachIncExperience,oneIncExperience,eachLowPercent,oneLowPercent,eachTopPercent,oneTopPercent} = this.state
+        const {configEntity} =  this.state;
+        const {oneStar,eachCost,oneCost,eachIncCoin,oneIncCoin,eachIncExperience,oneIncExperience,eachLowPercent,oneLowPercent,eachTopPercent,oneTopPercent} = this.state.configEntity
         const topStar = this.getTopStar();
         const fullRank = oneStar*topStar+eachStar*topStar*(topStar-1)/2
         this.setState(
             {
-                eachStar,
-                fullRank,
-                fullCost:eachCost*fullRank+(oneCost-eachCost),
-                fullCostAll:(2*oneCost+eachCost*fullRank-eachCost)*fullRank/2,
-                fullIncCoin:(eachIncCoin*fullRank+(oneIncCoin-eachIncCoin)).toFixed(2),
-                fullIncExperience:(eachIncExperience*fullRank+(oneIncExperience-eachIncExperience)).toFixed(2),
-                fullLowPercent:(eachLowPercent*fullRank+(oneLowPercent-eachLowPercent)).toFixed(2),
-                fullTopPercent:(eachTopPercent*fullRank+(oneTopPercent-eachTopPercent)).toFixed(2),
+                configEntity:{
+                    ...configEntity,   // 解构，然后后面的属性会覆盖前面的属性
+                    eachStar,
+                    fullRank,
+                    fullCost:eachCost*fullRank+(oneCost-eachCost),
+                    fullCostAll:(2*oneCost+eachCost*fullRank-eachCost)*fullRank/2,
+                    fullIncCoin:eachIncCoin*fullRank+(oneIncCoin-eachIncCoin),
+                    fullIncExperience:eachIncExperience*fullRank+(oneIncExperience-eachIncExperience),
+                    fullLowPercent:eachLowPercent*fullRank+(oneLowPercent-eachLowPercent),
+                    fullTopPercent:eachTopPercent*fullRank+(oneTopPercent-eachTopPercent),
+                },
             })
     }
 
     // 改变OneCost
     changeOneCost =(e) =>{
         const oneCost = e.target.value
-        const {fullRank,eachCost} = this.state;
+        const {configEntity} =  this.state;
+        const {fullRank,eachCost} = this.state.configEntity;
         this.setState(
             {
-                fullCost:eachCost*fullRank+(oneCost-eachCost),
-                fullCostAll:(2*oneCost+eachCost*fullRank-eachCost)*fullRank/2,
-                oneCost,
+                configEntity:{
+                    ...configEntity,   // 解构，然后后面的属性会覆盖前面的属性
+                    fullCost:eachCost*fullRank+(oneCost-eachCost),
+                    fullCostAll:(2*oneCost+eachCost*fullRank-eachCost)*fullRank/2,
+                    oneCost,
+                },
             }
         )
     }
@@ -320,12 +359,16 @@ class EditableTable extends React.Component {
     // 改变eachCost
     changeEachCost =(e) =>{
         const eachCost = e.target.value
-        const {fullRank,oneCost} = this.state;
+        const {configEntity} =  this.state;
+        const {fullRank,oneCost} = this.state.configEntity;
         this.setState(
             {
-                fullCost:eachCost*fullRank+(oneCost-eachCost),
-                fullCostAll:(2*oneCost+eachCost*fullRank-eachCost)*fullRank/2,
-                eachCost,
+                configEntity:{
+                    ...configEntity,   // 解构，然后后面的属性会覆盖前面的属性
+                    fullCost:eachCost*fullRank+(oneCost-eachCost),
+                    fullCostAll:(2*oneCost+eachCost*fullRank-eachCost)*fullRank/2,
+                    eachCost,
+                },
             }
         )
     }
@@ -333,88 +376,123 @@ class EditableTable extends React.Component {
 
     changeOneIncCoin =(e) =>{
         const oneIncCoin = e.target.value
-        const {fullRank,eachIncCoin} = this.state;
+        const {configEntity} =  this.state;
+        const {fullRank,eachIncCoin} = this.state.configEntity;
         this.setState(
             {
-                fullIncCoin:(eachIncCoin*fullRank+(oneIncCoin-eachIncCoin)).toFixed(2),
-                oneIncCoin,
+                configEntity:{
+                    ...configEntity,   // 解构，然后后面的属性会覆盖前面的属性
+                    fullIncCoin:(eachIncCoin*fullRank+(oneIncCoin-eachIncCoin)).toFixed(2),
+                    oneIncCoin,
+                },
             }
         )
     }
 
     changeEachIncCoin =(e) =>{
         const eachIncCoin = e.target.value
-        const {fullRank,oneIncCoin} = this.state;
+        const {configEntity} =  this.state;
+        const {fullRank,oneIncCoin} = this.state.configEntity;
         this.setState(
             {
-                fullIncCoin:(eachIncCoin*fullRank+(oneIncCoin-eachIncCoin)).toFixed(2),
-                eachIncCoin,
+                configEntity:{
+                    ...configEntity,   // 解构，然后后面的属性会覆盖前面的属性
+                    fullIncCoin:(eachIncCoin*fullRank+(oneIncCoin-eachIncCoin)).toFixed(2),
+                    eachIncCoin,
+                },
+
             }
         )
     }
 
     changeOneIncExperience =(e) =>{
         const oneIncExperience = e.target.value
-        const {fullRank,eachIncExperience} = this.state;
+        const {configEntity} =  this.state;
+        const {fullRank,eachIncExperience} = this.state.configEntity;
         this.setState(
             {
-                fullIncExperience:(eachIncExperience*fullRank+(oneIncExperience-eachIncExperience)).toFixed(2),
-                oneIncExperience,
+                configEntity:{
+                    ...configEntity,   // 解构，然后后面的属性会覆盖前面的属性
+                    fullIncExperience:(eachIncExperience*fullRank+(oneIncExperience-eachIncExperience)).toFixed(2),
+                    oneIncExperience,
+                },
             }
         )
     }
 
     changeEachIncExperience =(e) =>{
         const eachIncExperience = e.target.value
-        const {fullRank,oneIncExperience} = this.state;
+        const {configEntity} =  this.state;
+        const {fullRank,oneIncExperience} = this.state.configEntity;
         this.setState(
             {
-                fullIncExperience:(eachIncExperience*fullRank+(oneIncExperience-eachIncExperience)).toFixed(2),
-                eachIncExperience,
+                configEntity:{
+                    ...configEntity,   // 解构，然后后面的属性会覆盖前面的属性
+                    fullIncExperience:(eachIncExperience*fullRank+(oneIncExperience-eachIncExperience)).toFixed(2),
+                    eachIncExperience,
+                },
             }
         )
     }
 
     changeOneLowPercent =(e) =>{
         const oneLowPercent = e.target.value
-        const {fullRank,eachLowPercent} = this.state;
+        const {configEntity} =  this.state;
+        const {fullRank,eachLowPercent} = this.state.configEntity;
         this.setState(
             {
-                fullLowPercent:(eachLowPercent*fullRank+(oneLowPercent-eachLowPercent)).toFixed(2),
-                oneLowPercent,
+                configEntity:{
+                    ...configEntity,   // 解构，然后后面的属性会覆盖前面的属性
+                    fullLowPercent:(eachLowPercent*fullRank+(oneLowPercent-eachLowPercent)).toFixed(2),
+                    oneLowPercent,
+                },
             }
         )
     }
 
     changeEachLowPercent =(e) =>{
         const eachLowPercent = e.target.value
-        const {fullRank,oneLowPercent} = this.state;
+        const {configEntity} =  this.state;
+        const {fullRank,oneLowPercent} = this.state.configEntity;
         this.setState(
             {
-                fullLowPercent:(eachLowPercent*fullRank+(oneLowPercent-eachLowPercent)).toFixed(2),
-                eachLowPercent,
+                configEntity:{
+                    ...configEntity,   // 解构，然后后面的属性会覆盖前面的属性
+                    fullLowPercent:(eachLowPercent*fullRank+(oneLowPercent-eachLowPercent)).toFixed(2),
+                    eachLowPercent,
+                },
+
             }
         )
     }
 
     changeOneTopPercent =(e) =>{
         const oneTopPercent = e.target.value
-        const {fullRank,eachTopPercent} = this.state;
+        const {configEntity} =  this.state;
+        const {fullRank,eachTopPercent} = this.state.configEntity;
         this.setState(
             {
-                fullTopPercent:(eachTopPercent*fullRank+(oneTopPercent-eachTopPercent)).toFixed(2),
-                oneTopPercent,
+                configEntity:{
+                    ...configEntity,   // 解构，然后后面的属性会覆盖前面的属性
+                    fullTopPercent:(eachTopPercent*fullRank+(oneTopPercent-eachTopPercent)).toFixed(2),
+                    oneTopPercent,
+                },
+
             }
         )
     }
 
     changeEachTopPercent =(e) =>{
         const eachTopPercent = e.target.value
-        const {fullRank,oneTopPercent} = this.state;
+        const {configEntity} =  this.state;
+        const {fullRank,oneTopPercent} = this.state.configEntity;
         this.setState(
             {
-                fullTopPercent:(eachTopPercent*fullRank+(oneTopPercent-eachTopPercent)).toFixed(2),
-                eachTopPercent,
+                configEntity:{
+                    ...configEntity,   // 解构，然后后面的属性会覆盖前面的属性
+                    fullTopPercent:(eachTopPercent*fullRank+(oneTopPercent-eachTopPercent)).toFixed(2),
+                    eachTopPercent,
+                },
             }
         )
     }
@@ -426,28 +504,28 @@ class EditableTable extends React.Component {
 
     // 生成预览界面
     handlePreview =() =>{
-       // let {count} = this.state
-        const {dataSource,fullRank, oneStar,eachStar,eachCost,oneCost,eachIncCoin,oneIncCoin,
-            eachIncExperience,oneIncExperience,eachLowPercent,oneLowPercent,eachTopPercent,oneTopPercent} = this.state
+        const {cardEntity} = this.props
+        const {fullRank, oneStar,eachStar,eachCost,oneCost,eachIncCoin,oneIncCoin,
+            eachIncExperience,oneIncExperience,eachLowPercent,oneLowPercent,eachTopPercent,oneTopPercent} = this.state.configEntity
         let tempArr =[]
         for(let count=1;count<=fullRank;count++){
-
             let tempCount =count;
             let star = 0;
             while (tempCount > 0){
                 tempCount = tempCount-oneStar-star*eachStar
                 star ++;
             }
-
             const newData = {
+                cardId:cardEntity.id,
                 key: count,
                 rank: count,
                 star,
-                cost: (eachCost*count+(oneCost-eachCost)).toFixed(2),
+                cost: eachCost*count+(oneCost-eachCost),
                 incCoin:(eachIncCoin*count+(oneIncCoin-eachIncCoin)).toFixed(2),
                 incExperience: (eachIncExperience*count+(oneIncExperience-eachIncExperience)).toFixed(2),
                 lowPercent:(eachLowPercent*count+(oneLowPercent-eachLowPercent)).toFixed(2),
                 topPercent:(eachTopPercent*count+(oneTopPercent-eachTopPercent)).toFixed(2),
+                hopePercent:(((eachLowPercent*count+(oneLowPercent-eachLowPercent))+(eachTopPercent*count+(oneTopPercent-eachTopPercent)))/2).toFixed(2)
             };
             tempArr.push(newData)
         }
@@ -458,16 +536,79 @@ class EditableTable extends React.Component {
         });
     }
 
+    // 保存我的配置
+    handleSaveConfig = () =>{
+
+        console.log('--保存配置--')
+        const {cardEntity} = this.props;
+        let {configEntity,dataSource} = this.state
+
+        if(dataSource.length === 0){
+            message.warning('请先生成预览，确认无误后再点保存配置');
+            return ;
+        }
+
+        //  ----------先保存上面的配置信息 ------------
+
+        this.setState({loadingButton:true})
+
+        // 稍微赋值一下，把卡片id传一下
+        configEntity.cardId= cardEntity.id
+        configEntity.topStar = cardEntity.topStar
+        // 保存配置
+        addAjax(`/game/config`,configEntity)
+            .then(response =>{
+                if(response.data.flag){
+                    // -------------再保存下面的预览信息-----------
+                    addAjax(`/game/cost`,dataSource)
+                        .then(result =>{
+                            if(result.data.flag){
+                                message.success('保存成功');
+                            }else {
+                                message.warning('保存失败')
+                            }
+                            this.setState({loadingButton:false})
+                        })
+                }else {
+                    message.warning('保存失败')
+                    this.setState({loadingButton:false})
+                }
+            });
+    }
+
     //------------------------------------我自己的事件处理-----------------------------------
 
     componentDidMount() {
         // 为了开始的时候刷新数据
-        this.changeOneStar();
+        //this.changeOneStar();
+
+        // 修改为数据库版本
+        // 1.从数据库获取数据，加载配置参数
+        const {cardEntity} = this.props
+        getAjax(`/game/config/${cardEntity.id}`)
+            .then(response =>{
+                const result = response.data;
+                if(result.flag){
+                    this.setState({configEntity:result.data})
+                    console.log('config:',result.data)
+                    if(result.data.topStar !== cardEntity.topStar){
+                        // 为了开始的时候刷新数据
+                        this.changeOneStar(result.data.oneStar);
+                        message.warning('您修改了星级，请重新配置');
+                    }
+                }else {
+                    message.warning('请设置卡片升级配置，并保存');
+                    // 为了开始的时候刷新数据
+                    this.changeOneStar(10);
+                }
+            })
+
     }
 
 
     render() {
-        const { dataSource,fullRank,fullCost,fullIncCoin,fullIncExperience,fullLowPercent,fullTopPercent,fullCostAll } = this.state;
+        const { dataSource,loadingButton } = this.state;
+        const { oneStar,eachStar,eachCost,oneCost,eachIncCoin,oneIncCoin,eachIncExperience,oneIncExperience,eachLowPercent,oneLowPercent,eachTopPercent,oneTopPercent,fullRank,fullCost,fullIncCoin,fullIncExperience,fullLowPercent,fullTopPercent,fullCostAll } = this.state.configEntity;
         const components = {
             body: {
                 row: EditableFormRow,
@@ -498,9 +639,9 @@ class EditableTable extends React.Component {
                 <div>
                     <Row gutter={20}>
                         <Col span={4} >当前卡片:</Col>
-                        <Col span={5}>{cardEntity.type}</Col>
-                        <Col span={5}>{cardEntity.name}</Col>
-                        <Col span={5}>{'最高'+cardEntity.topStar+'星'}</Col>
+                        <Col span={5}>{cardEntity.type  || '暂无类型'}</Col>
+                        <Col span={5}>{cardEntity.name  || '暂无名称'}</Col>
+                        <Col span={5}>{'最高'+cardEntity.topStar+'星' || '暂无星级'}</Col>
                     </Row>
 
                     <Row>
@@ -508,30 +649,30 @@ class EditableTable extends React.Component {
                             <div>
                             <Row gutter={20} style={{marginTop:'4px'}} >
                                 <Col span={4} >参数设置:</Col>
-                                <Col span={8}>1星: <Input type='number' defaultValue={10} suffix="级" onChange={this.changeOneStar} /> </Col>
-                                <Col span={8}>每星增加:<Input type='number' defaultValue={0} suffix="级" onChange={this.changeEachStar} /></Col>
+                                <Col span={8}>1星: <Input type='number' value={oneStar} suffix="级" onChange={this.changeOneStar} /> </Col>
+                                <Col span={8}>每星增加:<Input type='number' value={eachStar} suffix="级" onChange={this.changeEachStar} /></Col>
                             </Row>
 
                             <Row gutter={20} style={{marginTop:'4px'}}>
-                                <Col offset={4} span={8}>花费(1级): <Input type='number' defaultValue={50} suffix="G" onChange={this.changeOneCost} /> </Col>
-                                <Col span={8}>每级增加:<Input type='number' defaultValue={20} suffix="G" onChange={this.changeEachCost} /></Col>
+                                <Col offset={4} span={8}>花费(1级): <Input type='number' value={oneCost} suffix="G" onChange={this.changeOneCost} /> </Col>
+                                <Col span={8}>每级增加:<Input type='number' value={eachCost} suffix="G" onChange={this.changeEachCost} /></Col>
                             </Row>
 
                             <Row gutter={20} style={{marginTop:'4px'}}>
-                                <Col  offset={4}  span={8}>金币(1级): <Input type='number' defaultValue={6.2} suffix="%" onChange={this.changeOneIncCoin} /> </Col>
-                                <Col span={8}>每级增加:<Input type='number' defaultValue={0.2} suffix="%" onChange={this.changeEachIncCoin} /></Col>
+                                <Col  offset={4}  span={8}>金币(1级): <Input type='number' value={oneIncCoin} suffix="%" onChange={this.changeOneIncCoin} /> </Col>
+                                <Col span={8}>每级增加:<Input type='number' value={eachIncCoin} suffix="%" onChange={this.changeEachIncCoin} /></Col>
                             </Row>
                             <Row gutter={20} style={{marginTop:'4px'}}>
-                                <Col  offset={4}  span={8}>经验(1级): <Input type='number' defaultValue={6.2} suffix="%" onChange={this.changeOneIncExperience} /> </Col>
-                                <Col span={8}>每级增加:<Input type='number' defaultValue={0.2} suffix="%" onChange={this.changeEachIncExperience} /></Col>
+                                <Col  offset={4}  span={8}>经验(1级): <Input type='number' value={oneIncExperience} suffix="%" onChange={this.changeOneIncExperience} /> </Col>
+                                <Col span={8}>每级增加:<Input type='number' value={eachIncExperience} suffix="%" onChange={this.changeEachIncExperience} /></Col>
                             </Row>
                             <Row gutter={20} style={{marginTop:'4px'}}>
-                                <Col  offset={4}  span={8}>概率下限(1级): <Input type='number' defaultValue={0.105} onChange={this.changeOneLowPercent}  /> </Col>
-                                <Col span={8}>每级增加:<Input type='number' defaultValue={0.05} onChange={this.changeEachLowPercent}  /></Col>
+                                <Col  offset={4}  span={8}>概率下限(1级): <Input type='number' value={oneLowPercent} onChange={this.changeOneLowPercent}  /> </Col>
+                                <Col span={8}>每级增加:<Input type='number' value={eachLowPercent} onChange={this.changeEachLowPercent}  /></Col>
                             </Row>
                             <Row gutter={20} style={{marginTop:'4px'}}>
-                                <Col  offset={4}  span={8}>概率上限(1级): <Input type='number' defaultValue={0.705} onChange={this.changeOneTopPercent}   /> </Col>
-                                <Col span={8}>每级增加:<Input type='number' defaultValue={0.05}  onChange={this.changeEachTopPercent} /></Col>
+                                <Col  offset={4}  span={8}>概率上限(1级): <Input type='number' value={oneTopPercent} onChange={this.changeOneTopPercent}   /> </Col>
+                                <Col span={8}>每级增加:<Input type='number' value={eachTopPercent}  onChange={this.changeEachTopPercent} /></Col>
                             </Row>
                             </div>
                         </Col>
@@ -539,38 +680,25 @@ class EditableTable extends React.Component {
                         <Col span={6}>
                             <div>
                                 <Row gutter={20} style={{marginTop:'5px'}}>
-                                    <Col>满级级数： <Title level={4}>{fullRank}&nbsp;级</Title></Col>
-
-{/*
-                                    <Col>满级级数：<Input value={fullRank} suffix="级" readOnly/></Col>
-*/}
+                                    <Col>满级级数： <Title level={4}>{fullRank || 0}&nbsp;级</Title></Col>
                                 </Row>
                                 <Row >
-                                    <Col span={12} >满级消耗： <Title level={4}>{fullCost}&nbsp;G</Title></Col>
-                                    <Col span={12}>总共消耗：<Title level={4}>{fullCostAll}&nbsp;G</Title></Col>
-{/*
-                                    <Col span={12} >满级消耗：<Input value={fullCost} suffix="G" readOnly/></Col>
-                                    <Col span={12}>总共消耗：<Input value={fullCostAll} suffix="G" readOnly/></Col>
-*/}
+                                    <Col span={12} >满级消耗： <Title level={4}>{fullCost || 0}&nbsp;G</Title></Col>
+                                    <Col span={12}>总共消耗：<Title level={4}>{fullCostAll || 0}&nbsp;G</Title></Col>
                                 </Row>
                                 <Row>
-                                    <Col>满级预览:<Title level={4}>{fullIncCoin}&nbsp;%</Title></Col>
-                                   {/* <Col>满级预览<Input value={fullIncCoin}  suffix="%" readOnly /></Col>*/}
+                                    <Col>满级预览:<Title level={4}>{fullIncCoin || 0}&nbsp;%</Title></Col>
                                 </Row>
                                 <Row >
 
-                                    <Col>满级预览:<Title level={4}>{fullIncExperience}&nbsp;%</Title></Col>
-                                  {/*  <Col>满级预览<Input value={fullIncExperience} suffix="%" readOnly /></Col>*/}
+                                    <Col>满级预览:<Title level={4}>{fullIncExperience || 0}&nbsp;%</Title></Col>
+                                </Row>
+                                <Row >
+                                    <Col>满级预览: <Title level={4}>{fullLowPercent || 0}</Title></Col>
                                 </Row>
                                 <Row >
 
-                                    <Col>满级预览: <Title level={4}>{fullLowPercent}</Title></Col>
-                                    {/*<Col>满级预览<Input value={fullLowPercent}  readOnly /></Col>*/}
-                                </Row>
-                                <Row >
-
-                                    <Col>满级预览:<Title level={4}>{fullTopPercent}</Title></Col>
-                                 {/*   <Col>满级预览<Input value={fullTopPercent} readOnly /></Col>*/}
+                                    <Col>满级预览:<Title level={4}>{fullTopPercent || 0}</Title></Col>
                                 </Row>
                             </div>
                         </Col>
@@ -578,14 +706,27 @@ class EditableTable extends React.Component {
                 </div>
 
                 <div>
-                    <Button onClick={this.handlePreview} type="primary" style={{ marginBottom: 16 }}>
-                        生成预览
-                    </Button>
+                    <Row gutter={50}>
+                        <Col offset={3} span={4} >
+                            <Button onClick={this.handlePreview} type="primary">
+                                生成预览
+                            </Button>
+                        </Col>
+                        <Col span={4}>
+                            <Button loading={loadingButton} onClick={this.handleSaveConfig} type="primary">
+                                保存配置
+                            </Button>
+                        </Col>
+
+
+                    </Row>
+
+
                 </div>
 
-                <Button disabled onClick={this.handleAdd} type="primary" style={{ marginBottom: 16 }}>
+            {/*    <Button disabled onClick={this.handleAdd} type="primary" style={{ marginBottom: 16 }}>
                   添加一行(暂时不用)
-                </Button>
+                </Button>*/}
 
                 <Table
                     components={components}
