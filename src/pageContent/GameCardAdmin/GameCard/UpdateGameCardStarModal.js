@@ -37,6 +37,7 @@ class UpdateGameCardStarModalForm extends Component{
 
         return (
             <Modal
+                destroyOnClose={true}
                 title="升星管理"
                 visible={visibleStar}
                 onOk={this.handleStarOk}

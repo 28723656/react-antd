@@ -3,7 +3,7 @@ import {Button, message, Tabs} from "antd";
 import SmallTable from "../../../components/Table/SmallTable";
 import Test001 from "../../Test001"
 import {getAjax} from "../../../util/ajax";
-import LuckyPercentConfig from "../../../pageContent/GameCardAdmin/LuckyPercentConfig";
+import LuckyPercentConfig from "../../../pageContent/GameCardAdmin/GameCardLucky/LuckyPercentConfig";
 import UpdateGameCardModal from "../../../pageContent/GameCardAdmin/GameCard/UpdateGameCardModal";
 import UpdateGameCardStarModal from "../../../pageContent/GameCardAdmin/GameCard/UpdateGameCardStarModal";
 import SureToDeleteModal from "../../../pageContent/GameCardAdmin/GameCard/SureToDeleteModal";
@@ -133,12 +133,6 @@ class GameCardAdmin extends Component {
     handleDeletePasswordChange =(value) =>{
         this.setState({deletePassword:value});
     }
-
-
-    // ------------删除卡片，确认----------------
-
-
-    // --------------------------抽奖的事件管理------------------------------
 
     // 初始化抽奖的数据
     initLuckyData =()=>{

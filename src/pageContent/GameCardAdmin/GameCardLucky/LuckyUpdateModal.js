@@ -54,6 +54,7 @@ class LuckyUpdateModalForm extends Component{
 
         return (
             <Modal
+                destroyOnClose={true}
                 title={luckyTitle}
                 visible={visibleLucky}
                 onOk={this.handleLuckyOk}

@@ -39,7 +39,6 @@ class SureToDeleteModal extends Component{
     }
     render() {
         const {deleteVisible,handleDeleteCancel,deletePassword} = this.props;
-        console.log('deletePassword',deletePassword)
         return (
             <Modal
                 destroyOnClose={true}

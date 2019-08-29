@@ -56,6 +56,7 @@ class UpdateGameCardModalForm extends Component{
 
         return (
             <Modal
+                destroyOnClose={true}
                 title={cardTitle}
                 visible={visibleCard}
                 onOk={this.handleCardOk}
