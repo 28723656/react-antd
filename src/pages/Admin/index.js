@@ -96,17 +96,18 @@ class Admin extends Component {
         }
         confirm({
             title: `确定删除该${name}?`,
-            content: '删就删呗！',
+            content: '手下留情！',
             okText:'确定',
             cancelText:'取消',
-            onOk() {
-                deleteAjax(url)
+            onOk: () => {
+               deleteAjax(url)
                     .then(response =>{
                         const  result = response.data;
                         if(!result.flag){
                            message.error(result.message);
                         }else {
-                            this.initValue();
+                            //
+                            this.initValue()
                         }
                     });
             },

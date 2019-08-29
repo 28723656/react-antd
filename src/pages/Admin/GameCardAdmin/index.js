@@ -1,38 +1,42 @@
 import React, {Component} from 'react'
-import {Tabs, Card, Row, Col, Button, Avatar, Table, Modal, Form, Input, Icon, Checkbox, Select,message} from "antd";
+import {Button, message, Tabs} from "antd";
 import SmallTable from "../../../components/Table/SmallTable";
 import Test001 from "../../Test001"
-import {addAjax, deleteAjax, getAjax, updateAjax} from "../../../util/ajax";
+import {getAjax} from "../../../util/ajax";
+import LuckyPercentConfig from "../../../pageContent/GameCardAdmin/LuckyPercentConfig";
+import UpdateGameCardModal from "../../../pageContent/GameCardAdmin/GameCard/UpdateGameCardModal";
+import UpdateGameCardStarModal from "../../../pageContent/GameCardAdmin/GameCard/UpdateGameCardStarModal";
+import SureToDeleteModal from "../../../pageContent/GameCardAdmin/GameCard/SureToDeleteModal";
+import LuckyUpdateModal from "../../../pageContent/GameCardAdmin/GameCardLucky/LuckyUpdateModal";
 
 const {TabPane} = Tabs;
-const {Option} = Select
-const {TextArea} = Input;
 
-const gridStyle = {
-    width: '50%',
-    textAlign: 'center',
-    padding: '5px'
-};
-
-const marginStyle = {
-    marginBottom: '6px'
-}
-
-
-class GameCardAdminForm extends Component {
-
+class GameCardAdmin extends Component {
 
     state = {
         visibleStar: false, // 星级
         visibleRank: false, // 等级
-        visibleCard: false, // 卡片
+        visibleCard: false, // 卡片 *
         activeKey: '1', // 默认显示第一个标签页面
-        cardEntity: {},  // 修改选择的一个卡片实体
+        cardEntity: {},  // 修改选择的一个卡片实体 *
         cardTitle: "添加卡片",// 添加卡片还是修改卡片
 
         cardData: [],// 卡片数据
         starData: [], // 单个卡片升星数据
         starArr: [], // 卡片星级，cardEntity中显示有几星就重复几个星级属性
+
+        // 删除的一些属性
+        deleteVisible:false, // 删除确认框是否可见
+        deletePassword:'',   //删除的时候的口令
+        deleteCardId:0,  //  临时删除的cardId
+
+        // 抽奖部分
+        luckyData:[],//抽奖数据
+        luckyTitle:'修改抽奖',  // 模态框标题
+        visibleLucky:false,  // 模态框可见性
+        luckyEntity:{},  // 单个抽奖数据
+        visibleLuckyConfig:false, // 概率配置模态框
+
     };
 
     // 模态框，打开【星级管理】模态框
@@ -54,33 +58,11 @@ class GameCardAdminForm extends Component {
                     starArr
                 });
             })
-
-
-    };
-
-    // 模态框，【星级管理】点击确定,修改升星的一些东西
-    handleStarOk = e => {
-        console.log(e);
-        this.setState({
-            visibleStar: false,
-        });
-
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-                updateAjax(`/game/upgrade`,values);
-            }
-        });
     };
 
     // 模态框，【星级管理】点击取消
     handleStarCancel = e => {
-        console.log(e);
-        this.setState({
-            visibleStar: false,
-        });
-    };
+        this.setState({ visibleStar: false}); };
 
     // 模态框，打开【等级管理】模态框
     showRankModal = (record) => {
@@ -93,33 +75,14 @@ class GameCardAdminForm extends Component {
 
     // 改变tab页面
     changeTabs = (value) => {
-        if (value !== '3') {
+        if (value !== '3'|| value !=='4') {
             this.setState({
                 visibleRank: false,
+                visibleLuckyConfig:false,
                 activeKey: value
             })
         }
     }
-
-    // 升级卡片
-    updateCard = () => {
-        console.log('升级了卡片')
-    }
-
-    // 开箱一次
-    openOne = () => {
-        console.log('开一次')
-    }
-    // 开箱10次
-    openTen = () => {
-        console.log('开10次')
-    }
-
-    // 查看概率
-    showPercent = () => {
-        console.log('查看概率')
-    }
-
     // 修改或者添加卡片信息
     updateCard = (record) => {
         // 有值，修改卡片
@@ -144,65 +107,16 @@ class GameCardAdminForm extends Component {
 
     // 删除卡片
     deleteCard = (record) => {
-      deleteAjax(`/game/card/${record.id}`)
-          .then(response =>{
-              if(response.data.flag){
-                  message.success('删除成功');
-              }else {
-                  message.error('删除失败,请联系管理员反馈');
-              }
-              this.initCardData();
-          })
-
-    }
-
-    // 卡片ok
-    handleCardOk = (e) => {
-        console.log(e);
-        this.setState({
-            visibleCard: false,
-            cardEntity: {},
-        });
-
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-                // 如果有id,就是修改
-                if (values.id) {
-                    updateAjax('/game/card', values)
-                        .then(response => {
-                            this.initCardData();
-                        })
-                } else {
-                    // 没有就是插入
-                    addAjax('/game/card', values)
-                        .then(response => {
-                            this.initCardData();
-                        })
-                }
-            }
-        });
+        this.setState({deleteVisible:true,deleteCardId:record.id});
     }
 
     // 卡片取消
-    handleCardCancel = (e) => {
-        console.log(e);
+    handleCardCancel = () => {
         this.setState({
             visibleCard: false,
             cardEntity: {},
         });
     }
-
-
-    updateCardStar = e => {
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-            }
-        });
-    };
 
     // 初始化数据
     initCardData = () => {
@@ -212,14 +126,69 @@ class GameCardAdminForm extends Component {
             })
     }
 
+    // 隐藏删除模态框
+    handleDeleteCancel =() =>{
+        this.setState({deleteVisible:false,deletePassword:''})
+    }
+    handleDeletePasswordChange =(value) =>{
+        this.setState({deletePassword:value});
+    }
+
+
+    // ------------删除卡片，确认----------------
+
+
+    // --------------------------抽奖的事件管理------------------------------
+
+    // 初始化抽奖的数据
+    initLuckyData =()=>{
+        getAjax('/game/lucky')
+            .then(response =>{
+                if(response.data.flag){
+                    this.setState({luckyData:response.data.data})
+                }else {
+                    message.error("请检查网络连接");
+                }
+            })
+    }
+
+    // 修改抽奖数据
+    updateLucky =(record) =>{
+        // 有值，修改
+        if(record.id){
+            this.setState({visibleLucky:true,luckyEntity:record,luckyTitle:'修改抽奖'});
+        }else {
+            this.setState({visibleLucky:true,luckyEntity:{},luckyTitle:'添加抽奖'});
+        }
+
+    }
+
+    // 取消标签
+    handleLuckyCancel =() =>{
+        this.setState({visibleLucky:false})
+    }
+
+    // 打开概率配置表模态框
+    showLuckyConfigModal = (record) => {
+        this.setState(
+            {
+                visibleLuckyConfig: true,
+                luckyEntity: record,
+                activeKey:'4',
+            }
+        )
+    }
+
+    // --------------------------end:抽奖的事件管理------------------------------
     // 初始化数据
     componentDidMount() {
         this.initCardData();
+        this.initLuckyData();
     }
 
     render() {
 
-        const columns = [
+        const cardColumns = [
             {
                 title: '名称',
                 dataIndex: 'name',
@@ -275,133 +244,98 @@ class GameCardAdminForm extends Component {
                 }
             },
         ]
+        const luckyColumns = [
+            {
+                title: '类型',
+                dataIndex: 'type',
+                render: (text) =>{
+                    if(text ===1 ){
+                        return '免费卡包'
+                    }else if(text ===2 ){
+                        return '普通卡包'
+                    }else if(text ===3 ){
+                        return '高级卡包'
+                    }else if(text ===4 ){
+                        return '至尊卡包'
+                    }
+                }
+            },
+            {
+                title: '产出',
+                dataIndex: 'output',
+                align:'center',
+                render:(text) =>{
+                    const outputArr = text.split('')
+                    return outputArr.map((record,index) =>{
+                        if(outputArr.length-1 === index){
+                            return record
+                        }else {
+                            return record+'、'
+                        }
+                    })
+                }
+            },
+            {
+                title: '单次花费',
+                dataIndex: 'onceCost',
+                render: (text, record) =>{
+                    if(record.costType ===1){
+                        return text+' 💰'
+                    }else if(record.costType ===2){
+                        return text+' 💎'
+                    }else if(record.costType ===3){
+                        return text+' 🔑'
+                    }
+                }
+            },
+            {
+                title: '10次花费',
+                dataIndex: 'tenTimesCost',
+                render: (text, record) =>{
+                    if(record.costType ===1){
+                        return text+' 💰'
+                    }else if(record.costType ===2){
+                        return text+' 💎'
+                    }else if(record.costType ===3){
+                        return text+' 🔑'
+                    }
+                }
+            },
+            {
+                title: '修改数据',
+                render: (text,record) => {
+                    return <div>
+                        <a onClick={() =>this.updateLucky(record)} >修改</a>
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <a >删除</a>
+                    </div>
+                }
+            },
 
-        const {getFieldDecorator} = this.props.form;
+            {
+                title: '概率配置',
+                render: (text,record) => {
+                    return <a onClick={() =>this.showLuckyConfigModal(record)} >编辑</a>
+                }
+            },
+        ]
 
-        const {activeKey, visibleRank, visibleCard, cardEntity, cardTitle, cardData, starData,starArr} = this.state
+        const {activeKey, visibleRank, visibleCard, cardEntity, cardTitle, cardData, starData,starArr,visibleStar,deletePassword,deleteCardId} = this.state
+        const {luckyData,luckyTitle,visibleLucky,luckyEntity,visibleLuckyConfig,deleteVisible} = this.state;
 
         return (
             <Tabs activeKey={activeKey} onChange={this.changeTabs}>
                 <TabPane tab="卡片管理" key="1">
                     <Button type='primary' onClick={this.updateCard}>+添加卡片</Button>
-                    <SmallTable columns={columns} dataSource={cardData}/>
-
-                    <Modal
-                        title={cardTitle}
-                        visible={visibleCard}
-                        onOk={this.handleCardOk}
-                        onCancel={this.handleCardCancel}
-                    >
-                        <Form onSubmit={this.updateCard}>
-                            <Row gutter={5}>
-                                <Col xs={8}>
-                                    {getFieldDecorator('id', {initialValue: cardEntity.id || null})(
-                                        <Input hidden={true}/>,
-                                    )}
-                                    <Form.Item label="名称">
-                                        {getFieldDecorator('name', {initialValue: cardEntity.name || 'D'})(
-                                            <Input/>,
-                                        )}
-                                    </Form.Item>
-                                </Col>
-                                <Col xs={8}>
-                                    <Form.Item label="类型">
-                                        {getFieldDecorator('type', {initialValue: cardEntity.type || 'D'})(
-                                            <Select>
-                                                <Option value="S">S级</Option>
-                                                <Option value="A">A级</Option>
-                                                <Option value="B">B级</Option>
-                                                <Option value="C">C级</Option>
-                                                <Option value="D">D级</Option>
-                                            </Select>,
-                                        )}
-                                    </Form.Item>
-                                </Col>
-                                <Col xs={8}>
-                                    <Form.Item label="最高星级">
-                                        {getFieldDecorator('topStar', {initialValue: cardEntity.topStar || 3})(
-                                            <Select>
-                                                <Option value={1}>1星</Option>
-                                                <Option value={2}>2星</Option>
-                                                <Option value={3}>3星</Option>
-                                                <Option value={4}>4星</Option>
-                                                <Option value={5}>5星</Option>
-                                                <Option value={6}>6星</Option>
-                                                <Option value={7}>7星</Option>
-                                                <Option value={8}>8星</Option>
-                                                <Option value={9}>9星</Option>
-                                                <Option value={10}>10星</Option>
-                                            </Select>,
-                                        )}
-                                    </Form.Item>
-                                </Col>
-                                <Col xs={12}>
-                                    <Form.Item label="昵称">
-                                        {getFieldDecorator('nickName', {initialValue: cardEntity.nickName || 'D级卡片'})(
-                                            <Input/>,
-                                        )}
-                                    </Form.Item>
-                                </Col>
-                                <Col xs={12}>
-                                    <Form.Item label="技能">
-                                        {getFieldDecorator('skill', {initialValue: cardEntity.skill || 1})(
-                                            <Select>
-                                                <Option value={1}>金币加成</Option>
-                                                <Option value={2}>经验加成</Option>
-                                                <Option value={3}>免费抽卡加成</Option>
-                                            </Select>,
-                                        )}
-                                    </Form.Item>
-                                </Col>
-                                <Col xs={24}>
-                                    <Form.Item label="描述">
-                                        {getFieldDecorator('description', {initialValue: cardEntity.description || '这是D级卡片'})(
-                                            <TextArea rows={3}></TextArea>
-                                        )}
-                                    </Form.Item>
-                                </Col>
-                            </Row>
-                        </Form>
-                    </Modal>
-
-                    <Modal
-                        title="升星管理"
-                        visible={this.state.visibleStar}
-                        onOk={this.handleStarOk}
-                        onCancel={this.handleStarCancel}
-                    >
-                        <Form onSubmit={this.updateCardStar}>
-                            <Row gutter={5}>
-                                {getFieldDecorator('id', {initialValue: cardEntity.id || null})(
-                                    <Input hidden={true}/>,
-                                )}
-
-                                {
-                                    starArr.map((value, index) =>{
-                                        const label = value + '星'
-                                        const starName = 'star' + value
-                                        let initialValue = starData.filter((record) =>record.star === value)
-                                        if(initialValue[0] !== undefined){
-                                            initialValue = initialValue[0].num ;
-                                        }else {
-                                            initialValue =''
-                                        }
-                                        return <Col xs={8} key={index}>
-                                            <Form.Item label={label}>
-                                                {getFieldDecorator(starName, {initialValue:initialValue || '' })(
-                                                    <Input suffix="张"/>,
-                                                )}
-                                            </Form.Item>
-                                        </Col>
-                                    })
-                                }
-                            </Row>
-                        </Form>
-                    </Modal>
-
+                    <SmallTable columns={cardColumns} dataSource={cardData}/>
+                    <UpdateGameCardModal cardEntity={cardEntity} initCardData={this.initCardData} visibleCard={visibleCard} cardTitle={cardTitle} handleCardCancel={this.handleCardCancel} />
+                    <UpdateGameCardStarModal visibleStar={visibleStar} cardEntity={cardEntity} handleStarCancel={this.handleStarCancel} starArr={starArr} starData={starData} />
+                    <SureToDeleteModal deleteVisible={deleteVisible} handleDeleteCancel={this.handleDeleteCancel} deleteCardId={deleteCardId} initCardData={this.initCardData} deletePassword={deletePassword} handleDeletePasswordChange={this.handleDeletePasswordChange}/>
                 </TabPane>
                 <TabPane tab="抽奖管理" key="2">
-                    <h1>随便表示一下</h1>
+                    <Button type='primary' onClick={this.updateLucky}>+添加抽奖</Button>
+                   <SmallTable columns={luckyColumns} dataSource={luckyData}/>
+                   <LuckyUpdateModal luckyTitle={luckyTitle} visibleLucky={visibleLucky} initLuckyData={this.initLuckyData}  handleLuckyCancel={this.handleLuckyCancel} luckyEntity={luckyEntity} />
                 </TabPane>
 
                 {visibleRank &&
@@ -410,12 +344,16 @@ class GameCardAdminForm extends Component {
                 </TabPane>
                 }
 
+                {visibleLuckyConfig &&
+                <TabPane tab="概率配置(临时)" key="4">
+                    <LuckyPercentConfig luckyEntity={luckyEntity}/>
+                </TabPane>
+                }
+
 
             </Tabs>
         )
     }
 }
-
-const GameCardAdmin = Form.create({name: 'game_card'})(GameCardAdminForm);
 
 export default GameCardAdmin

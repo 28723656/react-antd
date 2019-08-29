@@ -62,7 +62,7 @@ class AddPlanModal extends Component{
                     destroyOnClose={true}
                 >
                     {type ===1 &&<AddTodayPlanModalContent  addPlan={addPlan} data={data} switchModal={switchModal}
-                                                            record={record}     updatePlan={updatePlan} deletePlan={deletePlan}
+                                                           record={record}    updatePlan={updatePlan} deletePlan={deletePlan}
                     />}
                     {type ===2 &&<AddWeekPlanModalContent   addPlan={addPlan} data={data} switchModal={switchModal}
                                                             record={record}     updatePlan={updatePlan} deletePlan={deletePlan}

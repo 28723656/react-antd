@@ -4,9 +4,17 @@ import {Tabs,Card,Row,Col,Button,Avatar  } from "antd";
 const {TabPane} = Tabs;
 
 const gridStyle = {
-    width: '50%',
-    textAlign: 'center',
-    padding:'5px'
+    width: '33.3%',
+    textAlign: 'left',
+    padding:'2px',
+    border:'rgb(255, 255, 255) 1px solid',
+};
+
+const gridStyleD = {
+    width: '33.3%',
+    textAlign: 'left',
+    padding:'2px',
+    border:'#229282 1px solid',
 };
 
 const marginStyle ={
@@ -43,206 +51,209 @@ class GameCard extends Component {
             <Tabs defaultActiveKey="1" onChange={this.callback}>
                 <TabPane tab="我的卡片" key="1">
                     <Card title="D卡">
-                        <Card.Grid style={gridStyle} >
-                            <Row>
-                                <Col xs={24}  >
-                                    <span style={{fontSize:'20px',margin:'2px'}}>★☆</span>
-                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                    <span>14/20</span>
-                                </Col>
+                        <Card.Grid style={gridStyleD} >
+                            <Row >
+                                <Col span={6}>
+                                    <Row>
+                                        <span>&nbsp;</span>
+                                    </Row>
+                                    <Row>
+                                        <span style={{fontSize:'20px',margin:'2px'}}>★☆</span>
+                                    </Row>
+                                    <Row>
+                                        <span style={{color:'blue',fontSize:'20px'}} >D1卡</span>
+                                    </Row>
+                                    <Row>
+                                        <span>&nbsp;</span>
+                                    </Row>
 
-                                <Col xs={24}>
-                                    <span style={{color:'blue',fontSize:'20px'}} >D1卡&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                 </Col>
-                                <Col xs={10}>
-                                    <p>效果：</p>
-                                </Col>
-                                <Col xs={14}>
-                                    <p>金币+7%</p>
-                                </Col>
-                                <Col xs={24}>
-                                    <a onClick={this.updateCard} > 升级</a>
+                                <Col span={18}>
+                                    <Row>
+                                        <Col xs={10}  >
+                                            <span >卡片数量:</span>
+                                        </Col>
+                                        <Col xs={6}>
+                                            <span>24/20</span>
+                                        </Col>
+                                        <Col xs={4}>
+                                            <a onClick={this.updateCard} > 升星</a>
+                                        </Col>
+                                    </Row>
+
+                                    <Row>
+                                        <Col xs={10}>
+                                            <span>当前等级:</span>
+                                        </Col>
+                                        <Col xs={6}  >
+                                            <span>14</span>
+                                        </Col>
+                                        <Col xs={4}  >
+                                            <a onClick={this.updateCard} > 升级</a>
+                                        </Col>
+                                    </Row>
+
+                                    <Row>
+                                        <Col xs={10}  >
+                                            <span>升级花费:</span>
+                                        </Col>
+                                        <Col xs={6}  >
+                                            <span>140G</span>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col xs={10}  >
+                                            <span>当前效果：</span>
+                                        </Col>
+                                        <Col xs={10}  >
+                                            <span>金币+7%</span>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col xs={10}  >
+                                            <span>下一级：</span>
+                                        </Col>
+                                        <Col xs={10}  >
+                                            <span>金币+7.1%</span>
+                                        </Col>
+                                    </Row>
                                 </Col>
                             </Row>
                         </Card.Grid>
-                        <Card.Grid style={gridStyle}>
-                            <Row>
-                                <Col xs={24} >
-                                    <span style={{fontSize:'20px',margin:'2px'}}>★☆</span>
-                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                    <span>14/20</span>
+                        <Card.Grid style={gridStyleD} >
+                            <Row >
+                                <Col span={6}>
+                                    <Row>
+                                        <span>&nbsp;</span>
+                                    </Row>
+                                    <Row>
+                                        <span style={{fontSize:'20px',margin:'2px'}}>★☆</span>
+                                    </Row>
+                                    <Row>
+                                        <span style={{color:'blue',fontSize:'20px'}} >D2卡</span>
+                                    </Row>
+                                    <Row>
+                                        <span>&nbsp;</span>
+                                    </Row>
                                 </Col>
+                                <Col span={18}>
+                                    <Row>
+                                        <Col xs={10}  >
+                                            <span >卡片数量:</span>
+                                        </Col>
+                                        <Col xs={6}>
+                                            <span>24/20</span>
+                                        </Col>
+                                        <Col xs={4}>
+                                            <a onClick={this.updateCard} > 升星</a>
+                                        </Col>
+                                    </Row>
 
-                                <Col xs={24}>
-                                    <span style={{color:'blue',fontSize:'20px'}} >D2卡&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                </Col>
-                                    <Col xs={8}>
-                                        <p>效果：</p>
-                                    </Col>
-                                    <Col xs={16}>
-                                        <p>经验+7%</p>
-                                    </Col>
-                                    <Col xs={24}>
-                                        <a onClick={this.updateCard} > 升级</a>
-                                    </Col>
-                            </Row>
-                        </Card.Grid>
-                        <Card.Grid style={gridStyle}>
-                            <Row>
-                                <Col xs={24} >
-                                    <span style={{fontSize:'20px',margin:'2px'}}>★☆</span>
-                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                    <span>14/20</span>
-                                </Col>
+                                    <Row>
+                                        <Col xs={10}>
+                                            <span>当前等级:</span>
+                                        </Col>
+                                        <Col xs={6}  >
+                                            <span>14</span>
+                                        </Col>
+                                        <Col xs={4}  >
+                                            <a onClick={this.updateCard} > 升级</a>
+                                        </Col>
+                                    </Row>
 
-                                <Col xs={24}>
-                                    <span style={{color:'blue',fontSize:'20px'}} >D3卡&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                </Col>
-                                    <Col xs={8}>
-                                        <p>效果：</p>
-                                    </Col>
-                                    <Col xs={16}>
-                                        <p>抽1张:60%&nbsp;&nbsp;</p>
-                                    </Col>
-                                <Col xs={24}>
-                                    <a onClick={this.updateCard} > 升级</a>
-                                </Col>
-                            </Row>
-                        </Card.Grid>
-
-
-                        <Card.Grid style={gridStyle}>
-                            <Row>
-                                <Col xs={24} >
-                                    <span style={{fontSize:'20px',margin:'2px'}}>★☆</span>
-                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                    <span>14/20</span>
-                                </Col>
-
-                                <Col xs={24}>
-                                    <span style={{color:'blue',fontSize:'20px'}} >D4卡&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                </Col>
-                                    <Col xs={8}>
-                                        <p>效果：</p>
-                                    </Col>
-                                    <Col xs={16}>
-                                        <p>金币+8%</p>
-                                    </Col>
-                                <Col xs={24}>
-                                    <a onClick={this.updateCard} > 升级</a>
-                                </Col>
-                            </Row>
-                        </Card.Grid>
-                        <Card.Grid style={gridStyle}>
-                            <Row>
-                                <Col xs={24} >
-                                    <span style={{fontSize:'20px',margin:'2px'}}>★☆</span>
-                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                    <span>14/20</span>
-                                </Col>
-
-                                <Col xs={24}>
-                                    <span style={{color:'blue',fontSize:'20px'}} >D5卡&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                </Col>
-                                    <Col xs={10}>
-                                        <p>效果：</p>
-                                    </Col>
-                                    <Col xs={14}>
-                                        <p>经验+8%</p>
-                                    </Col>
-                                <Col xs={24}>
-                                    <a onClick={this.updateCard} > 升级</a>
+                                    <Row>
+                                        <Col xs={10}  >
+                                            <span>升级花费:</span>
+                                        </Col>
+                                        <Col xs={6}  >
+                                            <span>140G</span>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col xs={10}  >
+                                            <span>当前效果：</span>
+                                        </Col>
+                                        <Col xs={10}  >
+                                            <span>金币+7%</span>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col xs={10}  >
+                                            <span>下一级：</span>
+                                        </Col>
+                                        <Col xs={10}  >
+                                            <span>金币+7.1%</span>
+                                        </Col>
+                                    </Row>
                                 </Col>
                             </Row>
                         </Card.Grid>
-                        <Card.Grid style={gridStyle}>
-                            <Row>
-                                <Col xs={24} >
-                                    <span style={{fontSize:'20px',margin:'2px'}}>★☆</span>
-                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                    <span>14/20</span>
+                        <Card.Grid style={gridStyleD} >
+                            <Row >
+                                <Col span={6}>
+                                    <Row>
+                                        <span>&nbsp;</span>
+                                    </Row>
+                                    <Row>
+                                        <span style={{fontSize:'20px',margin:'2px'}}>★☆</span>
+                                    </Row>
+                                    <Row>
+                                        <span style={{color:'blue',fontSize:'20px'}} >D3卡</span>
+                                    </Row>
+                                    <Row>
+                                        <span>&nbsp;</span>
+                                    </Row>
                                 </Col>
+                                <Col span={18}>
+                                    <Row>
+                                        <Col xs={10}  >
+                                            <span >卡片数量:</span>
+                                        </Col>
+                                        <Col xs={6}>
+                                            <span>24/20</span>
+                                        </Col>
+                                        <Col xs={4}>
+                                            <a onClick={this.updateCard} > 升星</a>
+                                        </Col>
+                                    </Row>
 
-                                <Col xs={24}>
-                                    <span style={{color:'blue',fontSize:'20px'}} >D6卡&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                </Col>
-                                    <Col xs={8}>
-                                        <p>效果：</p>
-                                    </Col>
-                                    <Col xs={16}>
-                                        <p>抽1张:70%&nbsp;&nbsp;</p>
-                                    </Col>
-                                <Col xs={24}>
-                                    <a onClick={this.updateCard} > 升级</a>
-                                </Col>
-                            </Row>
-                        </Card.Grid>
+                                    <Row>
+                                        <Col xs={10}>
+                                            <span>当前等级:</span>
+                                        </Col>
+                                        <Col xs={6}  >
+                                            <span>14</span>
+                                        </Col>
+                                        <Col xs={4}  >
+                                            <a onClick={this.updateCard} > 升级</a>
+                                        </Col>
+                                    </Row>
 
-
-                        <Card.Grid style={gridStyle}>
-                            <Row>
-                                <Col xs={24} >
-                                    <span style={{fontSize:'20px',margin:'2px'}}>★☆☆</span>
-                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                    <span>14/20</span>
+                                    <Row>
+                                        <Col xs={10}  >
+                                            <span>升级花费:</span>
+                                        </Col>
+                                        <Col xs={6}  >
+                                            <span>140G</span>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col xs={10}  >
+                                            <span>当前效果：</span>
+                                        </Col>
+                                        <Col xs={10}  >
+                                            <span>金币+7%</span>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col xs={10}  >
+                                            <span>下一级：</span>
+                                        </Col>
+                                        <Col xs={10}  >
+                                            <span>金币+7.1%</span>
+                                        </Col>
+                                    </Row>
                                 </Col>
-
-                                <Col xs={24}>
-                                    <span style={{color:'blue',fontSize:'20px'}} >D7卡&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                </Col>
-                                    <Col xs={8}>
-                                        <p>效果：</p>
-                                    </Col>
-                                    <Col xs={16}>
-                                        <p>金币+9%</p>
-                                    </Col>
-                                <Col xs={24}>
-                                    <a onClick={this.updateCard} > 升级</a>
-                                </Col>
-                            </Row>
-                        </Card.Grid>
-                        <Card.Grid style={gridStyle}>
-                            <Row>
-                                <Col xs={24} >
-                                    <span style={{fontSize:'20px',margin:'2px'}}>★☆☆</span>
-                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                    <span>14/20</span>
-                                </Col>
-
-                                <Col xs={24}>
-                                    <span style={{color:'blue',fontSize:'20px'}} >D8卡&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                </Col>
-                                    <Col xs={10}>
-                                        <p>效果：</p>
-                                    </Col>
-                                    <Col xs={14}>
-                                        <p>经验+9%</p>
-                                    </Col>
-                                <Col xs={24}>
-                                    <a onClick={this.updateCard} > 升级</a>
-                                </Col>
-                            </Row>
-                        </Card.Grid>
-                        <Card.Grid style={gridStyle}>
-                            <Row>
-                                <Col xs={24} >
-                                    <span style={{fontSize:'20px',margin:'2px'}}>★☆☆</span>
-                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                    <span>14/20</span>
-                                </Col>
-
-                                <Col xs={24}>
-                                    <span style={{color:'blue',fontSize:'20px'}} >D9卡&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                </Col>
-                                    <Col xs={8}>
-                                        <p>效果：</p>
-                                    </Col>
-                                    <Col xs={16}>
-                                        <p>抽1张:80%&nbsp;&nbsp;</p>
-                                    </Col>
-                                    <Col xs={24}>
-                                        <a onClick={this.updateCard} > 升级</a>
-                                    </Col>
                             </Row>
                         </Card.Grid>
                     </Card>
@@ -300,10 +311,10 @@ class GameCard extends Component {
                                         </Row>
                                         <Row>
                                             <Col xs={16} style={marginStyle}>
-                                                <Button block onClick={this.openOne}>1次&nbsp;&nbsp;&nbsp;&nbsp;1 🗝</Button>
+                                                <Button style={{width:120}} onClick={this.openOne}>1次&nbsp;&nbsp;&nbsp;&nbsp;1 🗝</Button>
                                             </Col>
                                             <Col xs={16} style={marginStyle}>
-                                                <Button block onClick={this.openTen}>10次&nbsp;&nbsp;&nbsp;&nbsp;9 🗝</Button>
+                                                <Button style={{width:120}} onClick={this.openTen}>10次&nbsp;&nbsp;&nbsp;&nbsp;9 🗝</Button>
                                             </Col>
                                         </Row>
                                     </Col >
@@ -331,10 +342,10 @@ class GameCard extends Component {
                                     </Row>
                                     <Row>
                                         <Col xs={16} style={marginStyle}>
-                                            <Button block onClick={this.openOne}>1次&nbsp;&nbsp;&nbsp;&nbsp;50G</Button>
+                                            <Button style={{width:120}} onClick={this.openOne}>1次&nbsp;&nbsp;&nbsp;&nbsp;50G</Button>
                                         </Col>
                                         <Col xs={16} style={marginStyle}>
-                                            <Button block onClick={this.openTen}>10次&nbsp;&nbsp;&nbsp;&nbsp;450G</Button>
+                                            <Button style={{width:120}} onClick={this.openTen}>10次&nbsp;&nbsp;&nbsp;&nbsp;450G</Button>
                                         </Col>
                                     </Row>
                                 </Col >
@@ -362,10 +373,10 @@ class GameCard extends Component {
                                     </Row>
                                     <Row>
                                         <Col xs={16} style={marginStyle}>
-                                            <Button block>1次&nbsp;&nbsp;&nbsp;&nbsp;120G</Button>
+                                            <Button style={{width:120}}>1次&nbsp;&nbsp;&nbsp;&nbsp;120G</Button>
                                         </Col>
                                         <Col xs={16} style={marginStyle}>
-                                            <Button block>10次&nbsp;&nbsp;&nbsp;&nbsp;1080G</Button>
+                                            <Button style={{width:120}}>10次&nbsp;&nbsp;&nbsp;&nbsp;1080G</Button>
                                         </Col>
                                     </Row>
                                 </Col >
@@ -393,10 +404,10 @@ class GameCard extends Component {
                                     </Row>
                                     <Row>
                                         <Col xs={16} style={marginStyle}>
-                                            <Button block>1次&nbsp;&nbsp;&nbsp;&nbsp;50 钻</Button>
+                                            <Button style={{width:120}}>1次&nbsp;&nbsp;&nbsp;&nbsp;50 钻</Button>
                                         </Col>
                                         <Col xs={16} style={marginStyle}>
-                                            <Button block>10次&nbsp;&nbsp;&nbsp;&nbsp;450 钻</Button>
+                                            <Button style={{width:120}}>10次&nbsp;&nbsp;&nbsp;&nbsp;450 钻</Button>
                                         </Col>
                                     </Row>
                                 </Col >
@@ -416,7 +427,8 @@ class GameCard extends Component {
                         </Card>
                     </div>
                 </TabPane>
-
+                <TabPane tab="卡片图鉴" key="3">
+                </TabPane>
 
 
             </Tabs>
