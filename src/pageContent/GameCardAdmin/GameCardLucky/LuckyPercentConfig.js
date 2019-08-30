@@ -333,7 +333,7 @@ class LuckyPercentConfig extends Component{
         const {countTotalPercentS,countTotalPercentA,countTotalPercentB,countTotalPercentC,countTotalPercentD} = this.state;
         const totalPercent = countTotalPercentA+countTotalPercentB+countTotalPercentC+countTotalPercentD+countTotalPercentS
         console.log('totalPercent',totalPercent)
-        if(totalPercent!=100 ){
+        if(totalPercent< 99.9999 || totalPercent > 100.0001 ){
             message.error('请调整至100再保存配置！')
             return;
         }
@@ -491,9 +491,9 @@ class LuckyPercentConfig extends Component{
 
         const totalPercent = countTotalPercentA+countTotalPercentB+countTotalPercentC+countTotalPercentD+countTotalPercentS
         let status ='normal'
-        if(totalPercent<0 || totalPercent>100){
+        if(totalPercent<0 || totalPercent>100.0001){
             status = 'exception'
-        }else if(totalPercent === 100){
+        }else if(totalPercent>=99.9999 && totalPercent <= 100.0001){
             status = 'success'
         }else {
             status = 'normal'

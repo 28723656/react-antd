@@ -53,11 +53,11 @@ class OnlyAdmin extends Component {
                             header={<div>简单介绍</div>}
                             bordered
                             dataSource={messageList}
-                            renderItem={item => (
-                                <List.Item>
-                                    <Typography.Text mark>{item.username}</Typography.Text>说： {item.message} ---- {moment(item.createTime).format("YYYY-MM-DD HH:mm:ss")}
+                            renderItem={item =>
+                                  <List.Item>
+                                    <Typography.Text mark>{item.username}</Typography.Text>说： {item.message}---- ---- {moment(item.createTime.map((record,index)=> index === 1 ?record-1:record)  ).format("YYYY-MM-DD HH:mm:ss")}
                                 </List.Item>
-                            )}
+                            }
                         />
                     </Card>
                     }

@@ -107,12 +107,6 @@ const linkList = [
             <NavLink to='/person'>个人中心</NavLink>
         </Menu.Item>
     },
-    {
-        menu: 'test001', link: <Menu.Item key="9001">
-            <NavLink to='/test001'>测试001</NavLink>
-        </Menu.Item>
-    },
-
     ]
 
 const routerList = [
@@ -130,7 +124,6 @@ const routerList = [
     {menu:'onlyAdmin',route:<Route key={12} path="/onlyAdmin" component={OnlyAdmin}/>},
     {menu:'gameCard',route:<Route key={13} path="/gameCard" component={GameCard}/>},
     {menu:'gameCardAdmin',route:<Route key={14} path="/gameCardAdmin" component={GameCardAdmin}/>},
-    {menu:'test001',route:<Route key={9001} path="/test001" component={Test001}/>},
 ]
 
 
