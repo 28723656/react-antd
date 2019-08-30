@@ -338,7 +338,6 @@ class LuckyPercentConfig extends Component{
             return;
         }
 
-        message.success('可以保存了')
         addAjax(`/game/luckyConfig`,dataSource)
             .then(response =>{
                 if(response.data.flag){

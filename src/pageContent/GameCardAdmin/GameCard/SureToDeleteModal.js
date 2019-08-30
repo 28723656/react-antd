@@ -8,8 +8,8 @@ class SureToDeleteModal extends Component{
     static propTypes = {
         deleteVisible:PropTypes.bool.isRequired,
         handleDeleteCancel:PropTypes.func.isRequired,
-        deleteCardId:PropTypes.number.isRequired,
-        initCardData:PropTypes.func.isRequired,
+        deleteUrl:PropTypes.string.isRequired,
+        initMethod:PropTypes.func.isRequired,
         deletePassword:PropTypes.string.isRequired,
         handleDeletePasswordChange:PropTypes.func.isRequired,
     }
@@ -17,17 +17,21 @@ class SureToDeleteModal extends Component{
     // ------------删除卡片，确认----------------
     handleDeleteOk = () => {
         // 获取
-        const {deleteCardId,handleDeleteCancel,initCardData,deletePassword} = this.props
+        const {deleteUrl,handleDeleteCancel,initMethod,deletePassword} = this.props
         if(deletePassword ==='awsl'){
-            deleteAjax(`/game/card/${deleteCardId}`)
+            deleteAjax(deleteUrl)
                 .then(response =>{
                     if(response.data.flag){
                         message.success('删除成功');
                     }else {
-                        message.error('删除失败,请联系管理员反馈');
+                        if(response.data.code === 20001){
+                            message.error('删除失败,请联系管理员反馈')
+                        }else {
+                            message.error('该数据无法被删除，因为其他地方引用了这个数据');
+                        }
                     }
                     handleDeleteCancel()
-                    initCardData()
+                    initMethod()
                 })
         }else {
             message.error('没有口令，就不要乱删除了');

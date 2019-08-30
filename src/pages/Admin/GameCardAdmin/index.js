@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Button, message, Tabs} from "antd";
 import SmallTable from "../../../components/Table/SmallTable";
 import Test001 from "../../Test001"
-import {getAjax} from "../../../util/ajax";
+import {deleteAjax, getAjax} from "../../../util/ajax";
 import LuckyPercentConfig from "../../../pageContent/GameCardAdmin/GameCardLucky/LuckyPercentConfig";
 import UpdateGameCardModal from "../../../pageContent/GameCardAdmin/GameCard/UpdateGameCardModal";
 import UpdateGameCardStarModal from "../../../pageContent/GameCardAdmin/GameCard/UpdateGameCardStarModal";
@@ -28,7 +28,8 @@ class GameCardAdmin extends Component {
         // 删除的一些属性
         deleteVisible:false, // 删除确认框是否可见
         deletePassword:'',   //删除的时候的口令
-        deleteCardId:0,  //  临时删除的cardId
+        deleteUrl:'',    // 删除的时候的请求
+        initMethod:function () {},   // 删除的方法
 
         // 抽奖部分
         luckyData:[],//抽奖数据
@@ -107,7 +108,7 @@ class GameCardAdmin extends Component {
 
     // 删除卡片
     deleteCard = (record) => {
-        this.setState({deleteVisible:true,deleteCardId:record.id});
+        this.setState({deleteVisible:true,deleteUrl:`/game/card/${record.id}`,initMethod:this.initCardData});
     }
 
     // 卡片取消
@@ -155,6 +156,11 @@ class GameCardAdmin extends Component {
             this.setState({visibleLucky:true,luckyEntity:{},luckyTitle:'添加抽奖'});
         }
 
+    }
+
+    // 删除抽奖大分类
+    deleteLucky =(record ) =>{
+        this.setState({deleteVisible:true,deleteUrl:`/game/lucky/${record.id}`,initMethod:this.initLuckyData});
     }
 
     // 取消标签
@@ -301,7 +307,7 @@ class GameCardAdmin extends Component {
                     return <div>
                         <a onClick={() =>this.updateLucky(record)} >修改</a>
                         <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        <a >删除</a>
+                        <a onClick={() =>this.deleteLucky(record)} >删除</a>
                     </div>
                 }
             },
@@ -314,7 +320,7 @@ class GameCardAdmin extends Component {
             },
         ]
 
-        const {activeKey, visibleRank, visibleCard, cardEntity, cardTitle, cardData, starData,starArr,visibleStar,deletePassword,deleteCardId} = this.state
+        const {activeKey, visibleRank, visibleCard, cardEntity, cardTitle, cardData, starData,starArr,visibleStar,deletePassword,deleteUrl,initMethod} = this.state
         const {luckyData,luckyTitle,visibleLucky,luckyEntity,visibleLuckyConfig,deleteVisible} = this.state;
 
         return (
@@ -324,7 +330,7 @@ class GameCardAdmin extends Component {
                     <SmallTable columns={cardColumns} dataSource={cardData}/>
                     <UpdateGameCardModal cardEntity={cardEntity} initCardData={this.initCardData} visibleCard={visibleCard} cardTitle={cardTitle} handleCardCancel={this.handleCardCancel} />
                     <UpdateGameCardStarModal visibleStar={visibleStar} cardEntity={cardEntity} handleStarCancel={this.handleStarCancel} starArr={starArr} starData={starData} />
-                    <SureToDeleteModal deleteVisible={deleteVisible} handleDeleteCancel={this.handleDeleteCancel} deleteCardId={deleteCardId} initCardData={this.initCardData} deletePassword={deletePassword} handleDeletePasswordChange={this.handleDeletePasswordChange}/>
+                    <SureToDeleteModal deleteVisible={deleteVisible} handleDeleteCancel={this.handleDeleteCancel} deleteUrl={deleteUrl} initMethod={initMethod} deletePassword={deletePassword} handleDeletePasswordChange={this.handleDeletePasswordChange}/>
                 </TabPane>
                 <TabPane tab="抽奖管理" key="2">
                     <Button type='primary' onClick={this.updateLucky}>+添加抽奖</Button>
