@@ -16,27 +16,27 @@ class LuckyPercentConfig extends Component{
     state = {
         cardArrS:[],    // 所有的S卡片数组
         selectedCardS:[], // 选中的卡片S数组
-        totalPercentS:[], // S卡片中的总概率数组
+        percentArrS:[], // S卡片中的每一个选中的概率（id+percent）
         countTotalPercentS:0, // 计算出总概率S
 
         cardArrA:[],    // 所有的A卡片数组
         selectedCardA:[], // 选中的卡片A数组
-        totalPercentA:[], // A卡片中的总概率数组
+        percentArrA:[], // A卡片中的每一个选中的概率（id+percent）
         countTotalPercentA:0, // 计算出总概率
 
         cardArrB:[],    // 所有的B卡片数组
         selectedCardB:[], // 选中的卡片B数组
-        totalPercentB:[], // B卡片中的总概率数组
+        percentArrB:[], // B卡片中的每一个选中的概率（id+percent）
         countTotalPercentB:0, // 计算出总概率B
 
         cardArrC:[],    // 所有的C卡片数组
         selectedCardC:[], // 选中的卡片C数组
-        totalPercentC:[], // C卡片中的总概率数组
+        percentArrC:[], // C卡片中的每一个选中的概率（id+percent）
         countTotalPercentC:0, // 计算出总概率C
 
         cardArrD:[],    // 所有的D卡片数组
         selectedCardD:[], // 选中的卡片D数组
-        totalPercentD:[], // D卡片中的总概率数组
+        percentArrD:[], // D卡片中的每一个选中的概率（id+percent）
         countTotalPercentD:0, // 计算出总概率D
 
 
@@ -49,11 +49,11 @@ class LuckyPercentConfig extends Component{
     // 改变卡片S
     changeCardS =(value) =>{
         console.log(value);
-        const {totalPercentS,cardArrS} = this.state
+        const {percentArrS,cardArrS} = this.state
         // 应该放入从数据库查询到的实例类数组
        let newCardDataS =  cardArrS.filter((record,index) => value.indexOf(record.id) !== -1)
-        let newTotalPercentS =this.commonGetTotalPercentArr(value,totalPercentS)
-        this.setState({selectedCardS:newCardDataS,totalPercentS:newTotalPercentS});
+        let newTotalPercentS =this.commonGetTotalPercentArr(value,percentArrS)
+        this.setState({selectedCardS:newCardDataS,percentArrS:newTotalPercentS});
         // 公共方法，在控制台输入概率总和
         this.setState({countTotalPercentS:this.commonCountTotalPercent(newTotalPercentS)})
     }
@@ -62,16 +62,16 @@ class LuckyPercentConfig extends Component{
     changePercentS =(e,record) => {
         const inputPercent = e.target.value;
         console.log('输入框的值：', inputPercent, 'record为：', record)
-        const {totalPercentS, selectedCardS} = this.state
+        const {percentArrS, selectedCardS} = this.state
         // 只有对象才能覆盖。。。
-        const tempPercentS = totalPercentS.map((tempResult,index) =>{
+        const tempPercentS = percentArrS.map((tempResult,index) =>{
             if(record.id === tempResult.id){
                 return {id:record.id,percent:inputPercent}
             }else {
                 return tempResult;
             }
         })
-        this.setState({ totalPercentS:tempPercentS })
+        this.setState({ percentArrS:tempPercentS})
 
         // 公共方法，在控制台输入概率总和
         this.setState({countTotalPercentS:this.commonCountTotalPercent(tempPercentS)})
@@ -83,30 +83,32 @@ class LuckyPercentConfig extends Component{
 
     // 改变卡片A
     changeCardA =(value) =>{
-        console.log(value);
-        const {totalPercentA,cardArrA} = this.state
+        console.log("我执行了--------------AAAAAAA----changeCardA");
+        const {percentArrA,cardArrA} = this.state
         // 应该放入从数据库查询到的实例类数组
         let newCardDataA =  cardArrA.filter((record,index) => value.indexOf(record.id) !== -1)
-        let newTotalPercentA =this.commonGetTotalPercentArr(value,totalPercentA)
-        this.setState({selectedCardA:newCardDataA,totalPercentA:newTotalPercentA});
+        let newTotalPercentA =this.commonGetTotalPercentArr(value,percentArrA)
+        this.setState({selectedCardA:newCardDataA,percentArrA:newTotalPercentA});
         // 公共方法，在控制台输入概率总和
         this.setState({countTotalPercentA:this.commonCountTotalPercent(newTotalPercentA)})
     }
 
     // 改变输入框A中的概率值
     changePercentA =(e,record) => {
+        console.log("我执行了--------------AAAAAAA----changePercentA");
         const inputPercent = e.target.value;
         console.log('输入框的值：', inputPercent, 'record为：', record)
-        const {totalPercentA, selectedCardA} = this.state
+        const {percentArrA, selectedCardA} = this.state
         // 只有对象才能覆盖。。。
-        const tempPercentA = totalPercentA.map((tempResult,index) =>{
+        const tempPercentA = percentArrA.map((tempResult,index) =>{
             if(record.id === tempResult.id){
                 return {id:record.id,percent:inputPercent}
             }else {
                 return tempResult;
             }
         })
-        this.setState({ totalPercentA:tempPercentA })
+        console.log("新的percentArrA:",tempPercentA)
+        this.setState({ percentArrA:tempPercentA })
 
         // 公共方法，在控制台输入概率总和
         this.setState({countTotalPercentA:this.commonCountTotalPercent(tempPercentA)})
@@ -119,11 +121,11 @@ class LuckyPercentConfig extends Component{
     // 改变卡片B
     changeCardB =(value) =>{
         console.log(value);
-        const {totalPercentB,cardArrB} = this.state
+        const {percentArrB,cardArrB} = this.state
         // 应该放入从数据库查询到的实例类数组
         let newCardDataB =  cardArrB.filter((record,index) => value.indexOf(record.id) !== -1)
-        let newTotalPercentB =this.commonGetTotalPercentArr(value,totalPercentB)
-        this.setState({selectedCardB:newCardDataB,totalPercentB:newTotalPercentB});
+        let newTotalPercentB =this.commonGetTotalPercentArr(value,percentArrB)
+        this.setState({selectedCardB:newCardDataB,percentArrB:newTotalPercentB});
         // 公共方法，在控制台输入概率总和
         this.setState({countTotalPercentB:this.commonCountTotalPercent(newTotalPercentB)})
     }
@@ -132,16 +134,16 @@ class LuckyPercentConfig extends Component{
     changePercentB =(e,record) => {
         const inputPercent = e.target.value;
         console.log('输入框的值：', inputPercent, 'record为：', record)
-        const {totalPercentB, selectedCardB} = this.state
+        const {percentArrB, selectedCardB} = this.state
         // 只有对象才能覆盖。。。
-        const tempPercentB = totalPercentB.map((tempResult,index) =>{
+        const tempPercentB = percentArrB.map((tempResult,index) =>{
             if(record.id === tempResult.id){
                 return {id:record.id,percent:inputPercent}
             }else {
                 return tempResult;
             }
         })
-        this.setState({ totalPercentB:tempPercentB })
+        this.setState({ percentArrB:tempPercentB })
 
         // 公共方法，在控制台输入概率总和
         this.setState({countTotalPercentB:this.commonCountTotalPercent(tempPercentB)})
@@ -153,11 +155,11 @@ class LuckyPercentConfig extends Component{
     // 改变卡片C
     changeCardC =(value) =>{
         console.log(value);
-        const {totalPercentC,cardArrC} = this.state
+        const {percentArrC,cardArrC} = this.state
         // 应该放入从数据库查询到的实例类数组
         let newCardDataC =  cardArrC.filter((record,index) => value.indexOf(record.id) !== -1)
-        let newTotalPercentC =this.commonGetTotalPercentArr(value,totalPercentC)
-        this.setState({selectedCardC:newCardDataC,totalPercentC:newTotalPercentC});
+        let newTotalPercentC =this.commonGetTotalPercentArr(value,percentArrC)
+        this.setState({selectedCardC:newCardDataC,percentArrC:newTotalPercentC});
         // 公共方法，在控制台输入概率总和
         this.setState({countTotalPercentC:this.commonCountTotalPercent(newTotalPercentC)})
     }
@@ -166,16 +168,16 @@ class LuckyPercentConfig extends Component{
     changePercentC =(e,record) => {
         const inputPercent = e.target.value;
         console.log('输入框的值：', inputPercent, 'record为：', record)
-        const {totalPercentC, selectedCardC} = this.state
+        const {percentArrC, selectedCardC} = this.state
         // 只有对象才能覆盖。。。
-        const tempPercentC = totalPercentC.map((tempResult,index) =>{
+        const tempPercentC = percentArrC.map((tempResult,index) =>{
             if(record.id === tempResult.id){
                 return {id:record.id,percent:inputPercent}
             }else {
                 return tempResult;
             }
         })
-        this.setState({ totalPercentC:tempPercentC })
+        this.setState({ percentArrC:tempPercentC })
 
         // 公共方法，在控制台输入概率总和
         this.setState({countTotalPercentC:this.commonCountTotalPercent(tempPercentC)})
@@ -187,11 +189,11 @@ class LuckyPercentConfig extends Component{
     // 改变卡片D
     changeCardD =(value) =>{
         console.log(value);
-        const {totalPercentD,cardArrD} = this.state
+        const {percentArrD,cardArrD} = this.state
         // 应该放入从数据库查询到的实例类数组
         let newCardDataD =  cardArrD.filter((record,index) => value.indexOf(record.id) !== -1)
-        let newTotalPercentD =this.commonGetTotalPercentArr(value,totalPercentD)
-        this.setState({selectedCardD:newCardDataD,totalPercentD:newTotalPercentD});
+        let newTotalPercentD =this.commonGetTotalPercentArr(value,percentArrD)
+        this.setState({selectedCardD:newCardDataD,percentArrD:newTotalPercentD});
         // 公共方法，在控制台输入概率总和
         this.setState({countTotalPercentD:this.commonCountTotalPercent(newTotalPercentD)})
     }
@@ -200,16 +202,16 @@ class LuckyPercentConfig extends Component{
     changePercentD =(e,record) => {
         const inputPercent = e.target.value;
         console.log('输入框的值：', inputPercent, 'record为：', record)
-        const {totalPercentD, selectedCardD} = this.state
+        const {percentArrD, selectedCardD} = this.state
         // 只有对象才能覆盖。。。
-        const tempPercentD = totalPercentD.map((tempResult,index) =>{
+        const tempPercentD = percentArrD.map((tempResult,index) =>{
             if(record.id === tempResult.id){
                 return {id:record.id,percent:inputPercent}
             }else {
                 return tempResult;
             }
         })
-        this.setState({ totalPercentD:tempPercentD })
+        this.setState({ percentArrD:tempPercentD })
 
         // 公共方法，在控制台输入概率总和
         this.setState({countTotalPercentD:this.commonCountTotalPercent(tempPercentD)})
@@ -230,11 +232,11 @@ class LuckyPercentConfig extends Component{
         return tempPercent
     }
 
-    commonGetTotalPercentArr =(selectedArr,totalPercentArr) =>{
+    commonGetTotalPercentArr =(selectedArr,percentArrArr) =>{
         let newTotalPercent =[]
         // 当改变卡片的时候，对于选中的内容，重新计算概率
         selectedArr.map((record) =>{
-            const tempTotalPercent = totalPercentArr.filter((tempPercentReocrd,index) =>record === tempPercentReocrd.id)
+            const tempTotalPercent = percentArrArr.filter((tempPercentReocrd,index) =>record === tempPercentReocrd.id)
             if(tempTotalPercent.length === 0){
                 newTotalPercent.push({id:record,percent:0});
             }else {
@@ -264,22 +266,57 @@ class LuckyPercentConfig extends Component{
         return dataSource
     }
 
+    // 给两个数组，进行比较，找出交集部分
+    commonGetCommon= (wantedResult,allResult) =>{
+        return wantedResult .filter(record =>{
+                const tempResult =allResult.filter(record2 => record2.cardId === record.id)
+                if(tempResult.length ===0){
+                    return false
+                }
+                return record.id === tempResult[0].cardId
+            }
+        )
+    }
+
+    // 把一个数组属性转化为另一个（临时用的）
+    commonTranslateTo(finalResult,type){
+        const tempPercentArr = finalResult.filter(record =>record.cardType ===type)
+        let finalPercentArr =[]
+        if(tempPercentArr.length > 0){
+            tempPercentArr.map(record2 => {
+                finalPercentArr.push({id:record2.cardId,percent:record2.percent})
+            })
+        }
+        return finalPercentArr;
+    }
+
+    // 也是一个临时的,为了空值判断
+    commonCompareArr=(percentArr,record) =>{
+        const tempPercent = percentArr.filter(recordSelf => recordSelf.id === record.id)
+        let percentValue = 0;
+        if(tempPercent.length > 0){
+            percentValue = tempPercent[0].percent;
+        }
+        return percentValue;
+    }
+
     // ************end 公共方法***************
 
     //**********其他方法，生成预览，保存配置*********
 
     // 生成预览
     handlePreview =() =>{
+        console.log('预览界面执行-----------')
         this.setState({tableVisible:true})
         const {selectedCardS,selectedCardA,selectedCardB,selectedCardC,selectedCardD}=this.state;
-        const {totalPercentS,totalPercentA,totalPercentB,totalPercentC,totalPercentD}=this.state;
+        const {percentArrS,percentArrA,percentArrB,percentArrC,percentArrD}=this.state;
 
         let dataSource = []
-        dataSource = this.commonGetDataSource(selectedCardS,totalPercentS,dataSource);
-        dataSource = this.commonGetDataSource(selectedCardA,totalPercentA,dataSource);
-        dataSource = this.commonGetDataSource(selectedCardB,totalPercentB,dataSource);
-        dataSource = this.commonGetDataSource(selectedCardC,totalPercentC,dataSource);
-        dataSource = this.commonGetDataSource(selectedCardD,totalPercentD,dataSource);
+        dataSource = this.commonGetDataSource(selectedCardS,percentArrS,dataSource);
+        dataSource = this.commonGetDataSource(selectedCardA,percentArrA,dataSource);
+        dataSource = this.commonGetDataSource(selectedCardB,percentArrB,dataSource);
+        dataSource = this.commonGetDataSource(selectedCardC,percentArrC,dataSource);
+        dataSource = this.commonGetDataSource(selectedCardD,percentArrD,dataSource);
         this.setState({dataSource})
     }
 
@@ -337,16 +374,38 @@ class LuckyPercentConfig extends Component{
                    cardArrC:tempCardC,
                    cardArrD:tempCardD,
                })
-            })
 
-        // 解决一下问题  selectedCardS   cardArrS  countTotalPercentS
-        getAjax(`/game/luckyConfig/last/${luckyEntity.id}`)
-            .then(response =>{
-                if(response.data.flag){
-                    console.log('获取到的数据:',response.data.data);
-                }else {
-                    console.log('没有数据')
-                }
+                // 解决一下问题  selectedCardS   countTotalPercentS
+                getAjax(`/game/luckyConfig/last/${luckyEntity.id}`)
+                    .then(response2 =>{
+                        const result2 = response2.data
+                        if(result2.flag){
+                            const finalResult = result2.data;
+                            console.log('获取到的数据:',finalResult)
+                            let selectedCardS=[] ,selectedCardA=[],selectedCardB=[],selectedCardC=[],selectedCardD=[]
+                            selectedCardS = this.commonGetCommon(tempCardS,finalResult);
+                            selectedCardA = this.commonGetCommon(tempCardA,finalResult);
+                            selectedCardB = this.commonGetCommon(tempCardB,finalResult);
+                            selectedCardC = this.commonGetCommon(tempCardC,finalResult);
+                            selectedCardD = this.commonGetCommon(tempCardD,finalResult);
+                            this.setState({selectedCardS,selectedCardA,selectedCardB,selectedCardC,selectedCardD})
+
+                            this.setState({countTotalPercentS:this.commonCountTotalPercent(finalResult.filter(record =>record.cardType ==='S'))})
+                            this.setState({countTotalPercentA:this.commonCountTotalPercent(finalResult.filter(record =>record.cardType ==='A'))})
+                            this.setState({countTotalPercentB:this.commonCountTotalPercent(finalResult.filter(record =>record.cardType ==='B'))})
+                            this.setState({countTotalPercentC:this.commonCountTotalPercent(finalResult.filter(record =>record.cardType ==='C'))})
+                            this.setState({countTotalPercentD:this.commonCountTotalPercent(finalResult.filter(record =>record.cardType ==='D'))})
+
+                            this.setState({percentArrS:this.commonTranslateTo(finalResult,'S')})
+                            this.setState({percentArrA:this.commonTranslateTo(finalResult,'A')})
+                            this.setState({percentArrB:this.commonTranslateTo(finalResult,'B')})
+                            this.setState({percentArrC:this.commonTranslateTo(finalResult,'C')})
+                            this.setState({percentArrD:this.commonTranslateTo(finalResult,'D')})
+
+                        }
+
+                    })
+
             })
     }
 
@@ -409,17 +468,14 @@ class LuckyPercentConfig extends Component{
 
         //
         const {tableVisible,dataSource} = this.state
-        console.log(dataSource)
+        //console.log(dataSource)
 
         // 服务于S
-        const {selectedCardS,countTotalPercentS,cardArrS} = this.state;
-        const {selectedCardA,countTotalPercentA,cardArrA} = this.state;
-        const {selectedCardB,countTotalPercentB,cardArrB} = this.state;
-        const {selectedCardC,countTotalPercentC,cardArrC} = this.state;
-        const {selectedCardD,countTotalPercentD,cardArrD} = this.state;
-
-        console.log('selectedCardA',selectedCardA)
-        console.log('cardArrA',cardArrA)
+        const {selectedCardS,countTotalPercentS,cardArrS,percentArrS} = this.state;
+        const {selectedCardA,countTotalPercentA,cardArrA,percentArrA} = this.state;
+        const {selectedCardB,countTotalPercentB,cardArrB,percentArrB} = this.state;
+        const {selectedCardC,countTotalPercentC,cardArrC,percentArrC} = this.state;
+        const {selectedCardD,countTotalPercentD,cardArrD,percentArrD} = this.state;
 
         const {luckyEntity} = this.props;
         let luckyType = '暂无显示'
@@ -454,7 +510,7 @@ class LuckyPercentConfig extends Component{
                        </Row>
                            <Affix offsetTop={80}>
                                {
-                                   totalPercent !== 0 &&
+                                    totalPercent !== 0 &&
                                <Row>
                                    <Col xs={6} md={6}>概率总计：{totalPercent}%</Col>
                                    <Col xs={16} md={17}><Progress percent={totalPercent}   status={status} /></Col>
@@ -466,7 +522,7 @@ class LuckyPercentConfig extends Component{
                            <Row>
                                <Col xs={6} md={6} >本周S卡包：</Col>
                                <Col xs={16} md={17} >
-                                   <Select mode="multiple"  style={{ width: '100%' }} placeholder='请选择本周的S卡' onChange={this.changeCardS} >
+                                   <Select mode="multiple" value={selectedCardS.map(record =>record.id)}  style={{ width: '100%' }} placeholder='请选择本周的S卡' onChange={this.changeCardS} >
                                        {
                                            cardArrS &&cardArrS.length > 0 &&  cardArrS.map(record =>
                                                <Option key={record.id} value={record.id}>{record.name+`(${record.topStar}星)`}</Option>
@@ -483,6 +539,8 @@ class LuckyPercentConfig extends Component{
                                }
                                {
                                    selectedCardS && selectedCardS.map((record,index) =>{
+                                       let percentValue = this.commonCompareArr(percentArrS,record)
+
                                        let mdColStyle = mdColStyle1
                                        if(index %2 ==0){
                                            mdColStyle = mdColStyle1
@@ -490,7 +548,7 @@ class LuckyPercentConfig extends Component{
                                            mdColStyle = mdColStyle2
                                        }
                                        return  <Col xs={xsColStyle}  md={mdColStyle} key={record.id} >
-                                           {record.name+`(${record.topStar}星)`}配置： <Input onChange={(e) => this.changePercentS(e,record)} type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
+                                           {record.name+`(${record.topStar}星)`}配置： <Input value={percentValue} onChange={(e) => this.changePercentS(e,record)} type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
                                        </Col>
                                    })
                                }
@@ -502,7 +560,7 @@ class LuckyPercentConfig extends Component{
                            <Row>
                                <Col xs={6} md={6} >本周A卡包：</Col>
                                <Col xs={16} md={17} >
-                                   <Select mode="multiple"  style={{ width: '100%' }} placeholder='请选择本周的A卡' onChange={this.changeCardA} >
+                                   <Select mode="multiple" value={selectedCardA.map(record =>record.id)}  style={{ width: '100%' }} placeholder='请选择本周的A卡' onChange={this.changeCardA} >
                                        {
                                            cardArrA &&cardArrA.length > 0 &&  cardArrA.map(record =>
                                                <Option key={record.id} value={record.id}>{record.name+`(${record.topStar}星)`}</Option>
@@ -519,6 +577,8 @@ class LuckyPercentConfig extends Component{
                                }
                                {
                                    selectedCardA && selectedCardA.map((record,index) =>{
+                                       let percentValue = this.commonCompareArr(percentArrA,record)
+
                                        let mdColStyle = mdColStyle1
                                        if(index %2 ==0){
                                            mdColStyle = mdColStyle1
@@ -526,7 +586,7 @@ class LuckyPercentConfig extends Component{
                                            mdColStyle = mdColStyle2
                                        }
                                        return  <Col xs={xsColStyle}  md={mdColStyle} key={record.id} >
-                                           {record.name+`(${record.topStar}星)`}配置： <Input onChange={(e) => this.changePercentA(e,record)} type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
+                                           {record.name+`(${record.topStar}星)`}配置： <Input value={percentValue}  onChange={(e) => this.changePercentA(e,record)} type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
                                        </Col>
                                    })
                                }
@@ -538,7 +598,7 @@ class LuckyPercentConfig extends Component{
                            <Row>
                                <Col xs={6} md={6} >本周B卡包：</Col>
                                <Col xs={16} md={17} >
-                                   <Select mode="multiple"  style={{ width: '100%' }} placeholder='请选择本周的B卡' onChange={this.changeCardB} >
+                                   <Select mode="multiple" value={selectedCardB.map(record =>record.id)}  style={{ width: '100%' }} placeholder='请选择本周的B卡' onChange={this.changeCardB} >
                                        {
                                            cardArrB &&cardArrB.length > 0 &&  cardArrB.map(record =>
                                                <Option key={record.id} value={record.id}>{record.name+`(${record.topStar}星)`}</Option>
@@ -555,6 +615,8 @@ class LuckyPercentConfig extends Component{
                                }
                                {
                                    selectedCardB && selectedCardB.map((record,index) =>{
+                                       let percentValue = this.commonCompareArr(percentArrB,record)
+
                                        let mdColStyle = mdColStyle1
                                        if(index %2 ==0){
                                            mdColStyle = mdColStyle1
@@ -562,7 +624,7 @@ class LuckyPercentConfig extends Component{
                                            mdColStyle = mdColStyle2
                                        }
                                        return  <Col xs={xsColStyle}  md={mdColStyle} key={record.id} >
-                                           {record.name+`(${record.topStar}星)`}配置： <Input onChange={(e) => this.changePercentB(e,record)} type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
+                                           {record.name+`(${record.topStar}星)`}配置： <Input value={percentValue} onChange={(e) => this.changePercentB(e,record)} type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
                                        </Col>
                                    })
                                }
@@ -574,7 +636,7 @@ class LuckyPercentConfig extends Component{
                            <Row>
                                <Col xs={6} md={6} >本周C卡包：</Col>
                                <Col xs={16} md={17} >
-                                   <Select mode="multiple"  style={{ width: '100%' }} placeholder='请选择本周的C卡' onChange={this.changeCardC} >
+                                   <Select mode="multiple" value={selectedCardC.map(record =>record.id)}  style={{ width: '100%' }} placeholder='请选择本周的C卡' onChange={this.changeCardC} >
                                        {
                                            cardArrC &&cardArrC.length > 0 &&  cardArrC.map(record =>
                                                <Option key={record.id} value={record.id}>{record.name+`(${record.topStar}星)`}</Option>
@@ -591,6 +653,8 @@ class LuckyPercentConfig extends Component{
                                }
                                {
                                    selectedCardC && selectedCardC.map((record,index) =>{
+                                       let percentValue = this.commonCompareArr(percentArrC,record)
+
                                        let mdColStyle = mdColStyle1
                                        if(index %2 ==0){
                                            mdColStyle = mdColStyle1
@@ -598,7 +662,7 @@ class LuckyPercentConfig extends Component{
                                            mdColStyle = mdColStyle2
                                        }
                                        return  <Col xs={xsColStyle}  md={mdColStyle} key={record.id} >
-                                           {record.name+`(${record.topStar}星)`}配置： <Input onChange={(e) => this.changePercentC(e,record)} type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
+                                           {record.name+`(${record.topStar}星)`}配置： <Input value={percentValue} onChange={(e) => this.changePercentC(e,record)} type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
                                        </Col>
                                    })
                                }
@@ -610,7 +674,7 @@ class LuckyPercentConfig extends Component{
                            <Row>
                                <Col xs={6} md={6} >本周D卡包：</Col>
                                <Col xs={16} md={17} >
-                                   <Select mode="multiple"  style={{ width: '100%' }} placeholder='请选择本周的D卡' onChange={this.changeCardD} >
+                                   <Select mode="multiple" value={selectedCardD.map(record =>record.id)}  style={{ width: '100%' }} placeholder='请选择本周的D卡' onChange={this.changeCardD} >
                                        {
                                            cardArrD &&cardArrD.length > 0 &&  cardArrD.map(record =>
                                                <Option key={record.id} value={record.id}>{record.name+`(${record.topStar}星)`}</Option>
@@ -627,6 +691,8 @@ class LuckyPercentConfig extends Component{
                                }
                                {
                                    selectedCardD && selectedCardD.map((record,index) =>{
+                                       let percentValue = this.commonCompareArr(percentArrD,record)
+
                                        let mdColStyle = mdColStyle1
                                         if(index %2 ==0){
                                            mdColStyle = mdColStyle1
@@ -634,7 +700,7 @@ class LuckyPercentConfig extends Component{
                                            mdColStyle = mdColStyle2
                                        }
                                        return  <Col xs={xsColStyle}  md={mdColStyle} key={record.id} >
-                                               {record.name+`(${record.topStar}星)`}配置： <Input onChange={(e) => this.changePercentD(e,record)} type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
+                                               {record.name+`(${record.topStar}星)`}配置： <Input value={percentValue} onChange={(e) => this.changePercentD(e,record)} type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
                                        </Col>
                                    })
                                }
