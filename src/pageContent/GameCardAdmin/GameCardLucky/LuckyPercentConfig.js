@@ -489,6 +489,8 @@ class LuckyPercentConfig extends Component{
             luckyType ='至尊卡包'
         }
 
+        const output = luckyEntity.output;
+
         const totalPercent = countTotalPercentA+countTotalPercentB+countTotalPercentC+countTotalPercentD+countTotalPercentS
         let status ='normal'
         if(totalPercent<0 || totalPercent>100.0001){
@@ -505,7 +507,7 @@ class LuckyPercentConfig extends Component{
                        <Row>
                            <Col xs={6} md={6}>卡片说明：</Col>
                            <Col xs={6} md={6}>{luckyType}</Col>
-                           <Col xs={6} md={6}>{luckyEntity.output}</Col>
+                           <Col xs={6} md={6}>{output}</Col>
                        </Row>
                            <Affix offsetTop={80}>
                                {
@@ -517,199 +519,222 @@ class LuckyPercentConfig extends Component{
                                }
                            </Affix>
                        <hr />
-                       <Row >
-                           <Row>
-                               <Col xs={6} md={6} >本周S卡包：</Col>
-                               <Col xs={16} md={17} >
-                                   <Select mode="multiple" value={selectedCardS.map(record =>record.id)}  style={{ width: '100%' }} placeholder='请选择本周的S卡' onChange={this.changeCardS} >
-                                       {
-                                           cardArrS &&cardArrS.length > 0 &&  cardArrS.map(record =>
-                                               <Option key={record.id} value={record.id}>{record.name+`(${record.topStar}星)`}</Option>
-                                           )
-                                       }
-                                   </Select>
-                               </Col>
-                           </Row>
+
+                       {
+                           output.indexOf('S') !== -1 &&
+                               <div>
+                                   <Row >
+                                       <Row>
+                                           <Col xs={6} md={6} >本周S卡包：</Col>
+                                           <Col xs={16} md={17} >
+                                               <Select mode="multiple" value={selectedCardS.map(record =>record.id)}  style={{ width: '100%' }} placeholder='请选择本周的S卡' onChange={this.changeCardS} >
+                                                   {
+                                                       cardArrS &&cardArrS.length > 0 &&  cardArrS.map(record =>
+                                                           <Option key={record.id} value={record.id}>{record.name+`(${record.topStar}星)`}</Option>
+                                                       )
+                                                   }
+                                               </Select>
+                                           </Col>
+                                       </Row>
 
 
-                           <Row>
-                               {
-                                   selectedCardS && selectedCardS.length > 0 && <Col xs={{span:17,offset:6}} md={{span:17,offset:6}}>概率总计:<Progress percent={countTotalPercentS} size="small" status="active" /></Col>
-                               }
-                               {
-                                   selectedCardS && selectedCardS.map((record,index) =>{
-                                       let percentValue = this.commonCompareArr(percentArrS,record)
+                                       <Row>
+                                           {
+                                               selectedCardS && selectedCardS.length > 0 && <Col xs={{span:17,offset:6}} md={{span:17,offset:6}}>概率总计:<Progress percent={countTotalPercentS} size="small" status="active" /></Col>
+                                           }
+                                           {
+                                               selectedCardS && selectedCardS.map((record,index) =>{
+                                                   let percentValue = this.commonCompareArr(percentArrS,record)
 
-                                       let mdColStyle = mdColStyle1
-                                       if(index %2 ==0){
-                                           mdColStyle = mdColStyle1
-                                       }else {
-                                           mdColStyle = mdColStyle2
-                                       }
-                                       return  <Col xs={xsColStyle}  md={mdColStyle} key={record.id} >
-                                           {record.name+`(${record.topStar}星)`}配置： <Input value={percentValue} onChange={(e) => this.changePercentS(e,record)} type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
+                                                   let mdColStyle = mdColStyle1
+                                                   if(index %2 ==0){
+                                                       mdColStyle = mdColStyle1
+                                                   }else {
+                                                       mdColStyle = mdColStyle2
+                                                   }
+                                                   return  <Col xs={xsColStyle}  md={mdColStyle} key={record.id} >
+                                                       {record.name+`(${record.topStar}星)`}配置： <Input value={percentValue} onChange={(e) => this.changePercentS(e,record)} type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
+                                                   </Col>
+                                               })
+                                           }
+                                       </Row>
+                                   </Row>
+                                   <hr />
+                               </div>
+                       }
+
+                       {
+                           output.indexOf('A') !== -1 &&
+                               <div>
+                                   <Row >
+                                       <Row>
+                                           <Col xs={6} md={6} >本周A卡包：</Col>
+                                           <Col xs={16} md={17} >
+                                               <Select mode="multiple" value={selectedCardA.map(record =>record.id)}  style={{ width: '100%' }} placeholder='请选择本周的A卡' onChange={this.changeCardA} >
+                                                   {
+                                                       cardArrA &&cardArrA.length > 0 &&  cardArrA.map(record =>
+                                                           <Option key={record.id} value={record.id}>{record.name+`(${record.topStar}星)`}</Option>
+                                                       )
+                                                   }
+                                               </Select>
+                                           </Col>
+                                       </Row>
+
+
+                                       <Row>
+                                           {
+                                               selectedCardA && selectedCardA.length > 0 && <Col xs={{span:17,offset:6}} md={{span:17,offset:6}}>概率总计:<Progress percent={countTotalPercentA} size="small" status="active" /></Col>
+                                           }
+                                           {
+                                               selectedCardA && selectedCardA.map((record,index) =>{
+                                                   let percentValue = this.commonCompareArr(percentArrA,record)
+
+                                                   let mdColStyle = mdColStyle1
+                                                   if(index %2 ==0){
+                                                       mdColStyle = mdColStyle1
+                                                   }else {
+                                                       mdColStyle = mdColStyle2
+                                                   }
+                                                   return  <Col xs={xsColStyle}  md={mdColStyle} key={record.id} >
+                                                       {record.name+`(${record.topStar}星)`}配置： <Input value={percentValue}  onChange={(e) => this.changePercentA(e,record)} type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
+                                                   </Col>
+                                               })
+                                           }
+                                       </Row>
+                                   </Row>
+                                   <hr />
+                               </div>
+                       }
+
+                       {
+                           output.indexOf('B') !== -1 &&
+                           <div>
+                               <Row >
+                                   <Row>
+                                       <Col xs={6} md={6} >本周B卡包：</Col>
+                                       <Col xs={16} md={17} >
+                                           <Select mode="multiple" value={selectedCardB.map(record =>record.id)}  style={{ width: '100%' }} placeholder='请选择本周的B卡' onChange={this.changeCardB} >
+                                               {
+                                                   cardArrB &&cardArrB.length > 0 &&  cardArrB.map(record =>
+                                                       <Option key={record.id} value={record.id}>{record.name+`(${record.topStar}星)`}</Option>
+                                                   )
+                                               }
+                                           </Select>
                                        </Col>
-                                   })
-                               }
-                           </Row>
-                       </Row>
-                       <hr />
+                                   </Row>
 
-                       <Row >
-                           <Row>
-                               <Col xs={6} md={6} >本周A卡包：</Col>
-                               <Col xs={16} md={17} >
-                                   <Select mode="multiple" value={selectedCardA.map(record =>record.id)}  style={{ width: '100%' }} placeholder='请选择本周的A卡' onChange={this.changeCardA} >
+
+                                   <Row>
                                        {
-                                           cardArrA &&cardArrA.length > 0 &&  cardArrA.map(record =>
-                                               <Option key={record.id} value={record.id}>{record.name+`(${record.topStar}星)`}</Option>
-                                           )
+                                           selectedCardB && selectedCardB.length > 0 && <Col xs={{span:17,offset:6}} md={{span:17,offset:6}}>概率总计:<Progress percent={countTotalPercentB} size="small" status="active" /></Col>
                                        }
-                                   </Select>
-                               </Col>
-                           </Row>
-
-
-                           <Row>
-                               {
-                                   selectedCardA && selectedCardA.length > 0 && <Col xs={{span:17,offset:6}} md={{span:17,offset:6}}>概率总计:<Progress percent={countTotalPercentA} size="small" status="active" /></Col>
-                               }
-                               {
-                                   selectedCardA && selectedCardA.map((record,index) =>{
-                                       let percentValue = this.commonCompareArr(percentArrA,record)
-
-                                       let mdColStyle = mdColStyle1
-                                       if(index %2 ==0){
-                                           mdColStyle = mdColStyle1
-                                       }else {
-                                           mdColStyle = mdColStyle2
-                                       }
-                                       return  <Col xs={xsColStyle}  md={mdColStyle} key={record.id} >
-                                           {record.name+`(${record.topStar}星)`}配置： <Input value={percentValue}  onChange={(e) => this.changePercentA(e,record)} type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
-                                       </Col>
-                                   })
-                               }
-                           </Row>
-                       </Row>
-                       <hr />
-
-                       <Row >
-                           <Row>
-                               <Col xs={6} md={6} >本周B卡包：</Col>
-                               <Col xs={16} md={17} >
-                                   <Select mode="multiple" value={selectedCardB.map(record =>record.id)}  style={{ width: '100%' }} placeholder='请选择本周的B卡' onChange={this.changeCardB} >
                                        {
-                                           cardArrB &&cardArrB.length > 0 &&  cardArrB.map(record =>
-                                               <Option key={record.id} value={record.id}>{record.name+`(${record.topStar}星)`}</Option>
-                                           )
+                                           selectedCardB && selectedCardB.map((record,index) =>{
+                                               let percentValue = this.commonCompareArr(percentArrB,record)
+
+                                               let mdColStyle = mdColStyle1
+                                               if(index %2 ==0){
+                                                   mdColStyle = mdColStyle1
+                                               }else {
+                                                   mdColStyle = mdColStyle2
+                                               }
+                                               return  <Col xs={xsColStyle}  md={mdColStyle} key={record.id} >
+                                                   {record.name+`(${record.topStar}星)`}配置： <Input value={percentValue} onChange={(e) => this.changePercentB(e,record)} type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
+                                               </Col>
+                                           })
                                        }
-                                   </Select>
-                               </Col>
-                           </Row>
+                                   </Row>
+                               </Row>
+                               <hr />
+                           </div>
+                       }
 
-
-                           <Row>
-                               {
-                                   selectedCardB && selectedCardB.length > 0 && <Col xs={{span:17,offset:6}} md={{span:17,offset:6}}>概率总计:<Progress percent={countTotalPercentB} size="small" status="active" /></Col>
-                               }
-                               {
-                                   selectedCardB && selectedCardB.map((record,index) =>{
-                                       let percentValue = this.commonCompareArr(percentArrB,record)
-
-                                       let mdColStyle = mdColStyle1
-                                       if(index %2 ==0){
-                                           mdColStyle = mdColStyle1
-                                       }else {
-                                           mdColStyle = mdColStyle2
-                                       }
-                                       return  <Col xs={xsColStyle}  md={mdColStyle} key={record.id} >
-                                           {record.name+`(${record.topStar}星)`}配置： <Input value={percentValue} onChange={(e) => this.changePercentB(e,record)} type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
+                       {
+                           output.indexOf('C') !== -1 &&
+                           <div>
+                               <Row >
+                                   <Row>
+                                       <Col xs={6} md={6} >本周C卡包：</Col>
+                                       <Col xs={16} md={17} >
+                                           <Select mode="multiple" value={selectedCardC.map(record =>record.id)}  style={{ width: '100%' }} placeholder='请选择本周的C卡' onChange={this.changeCardC} >
+                                               {
+                                                   cardArrC &&cardArrC.length > 0 &&  cardArrC.map(record =>
+                                                       <Option key={record.id} value={record.id}>{record.name+`(${record.topStar}星)`}</Option>
+                                                   )
+                                               }
+                                           </Select>
                                        </Col>
-                                   })
-                               }
-                           </Row>
-                       </Row>
-                       <hr />
+                                   </Row>
 
-                       <Row >
-                           <Row>
-                               <Col xs={6} md={6} >本周C卡包：</Col>
-                               <Col xs={16} md={17} >
-                                   <Select mode="multiple" value={selectedCardC.map(record =>record.id)}  style={{ width: '100%' }} placeholder='请选择本周的C卡' onChange={this.changeCardC} >
+
+                                   <Row>
                                        {
-                                           cardArrC &&cardArrC.length > 0 &&  cardArrC.map(record =>
-                                               <Option key={record.id} value={record.id}>{record.name+`(${record.topStar}星)`}</Option>
-                                           )
+                                           selectedCardC && selectedCardC.length > 0 && <Col xs={{span:17,offset:6}} md={{span:17,offset:6}}>概率总计:<Progress percent={countTotalPercentC} size="small" status="active" /></Col>
                                        }
-                                   </Select>
-                               </Col>
-                           </Row>
-
-
-                           <Row>
-                               {
-                                   selectedCardC && selectedCardC.length > 0 && <Col xs={{span:17,offset:6}} md={{span:17,offset:6}}>概率总计:<Progress percent={countTotalPercentC} size="small" status="active" /></Col>
-                               }
-                               {
-                                   selectedCardC && selectedCardC.map((record,index) =>{
-                                       let percentValue = this.commonCompareArr(percentArrC,record)
-
-                                       let mdColStyle = mdColStyle1
-                                       if(index %2 ==0){
-                                           mdColStyle = mdColStyle1
-                                       }else {
-                                           mdColStyle = mdColStyle2
-                                       }
-                                       return  <Col xs={xsColStyle}  md={mdColStyle} key={record.id} >
-                                           {record.name+`(${record.topStar}星)`}配置： <Input value={percentValue} onChange={(e) => this.changePercentC(e,record)} type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
-                                       </Col>
-                                   })
-                               }
-                           </Row>
-                       </Row>
-                       <hr />
-
-                       <Row >
-                           <Row>
-                               <Col xs={6} md={6} >本周D卡包：</Col>
-                               <Col xs={16} md={17} >
-                                   <Select mode="multiple" value={selectedCardD.map(record =>record.id)}  style={{ width: '100%' }} placeholder='请选择本周的D卡' onChange={this.changeCardD} >
                                        {
-                                           cardArrD &&cardArrD.length > 0 &&  cardArrD.map(record =>
-                                               <Option key={record.id} value={record.id}>{record.name+`(${record.topStar}星)`}</Option>
-                                           )
+                                           selectedCardC && selectedCardC.map((record,index) =>{
+                                               let percentValue = this.commonCompareArr(percentArrC,record)
+
+                                               let mdColStyle = mdColStyle1
+                                               if(index %2 ==0){
+                                                   mdColStyle = mdColStyle1
+                                               }else {
+                                                   mdColStyle = mdColStyle2
+                                               }
+                                               return  <Col xs={xsColStyle}  md={mdColStyle} key={record.id} >
+                                                   {record.name+`(${record.topStar}星)`}配置： <Input value={percentValue} onChange={(e) => this.changePercentC(e,record)} type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
+                                               </Col>
+                                           })
                                        }
-                                   </Select>
-                               </Col>
-                           </Row>
+                                   </Row>
+                               </Row>
+                               <hr />
+                           </div>
+                       }
 
-
-                           <Row>
-                               {
-                                   selectedCardD && selectedCardD.length > 0 && <Col xs={{span:17,offset:6}} md={{span:17,offset:6}}>概率总计:<Progress percent={countTotalPercentD} size="small" status="active" /></Col>
-                               }
-                               {
-                                   selectedCardD && selectedCardD.map((record,index) =>{
-                                       let percentValue = this.commonCompareArr(percentArrD,record)
-
-                                       let mdColStyle = mdColStyle1
-                                        if(index %2 ==0){
-                                           mdColStyle = mdColStyle1
-                                       }else {
-                                           mdColStyle = mdColStyle2
-                                       }
-                                       return  <Col xs={xsColStyle}  md={mdColStyle} key={record.id} >
-                                               {record.name+`(${record.topStar}星)`}配置： <Input value={percentValue} onChange={(e) => this.changePercentD(e,record)} type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
+                       {
+                           output.indexOf('D') !== -1 &&
+                           <div>
+                               <Row >
+                                   <Row>
+                                       <Col xs={6} md={6} >本周D卡包：</Col>
+                                       <Col xs={16} md={17} >
+                                           <Select mode="multiple" value={selectedCardD.map(record =>record.id)}  style={{ width: '100%' }} placeholder='请选择本周的D卡' onChange={this.changeCardD} >
+                                               {
+                                                   cardArrD &&cardArrD.length > 0 &&  cardArrD.map(record =>
+                                                       <Option key={record.id} value={record.id}>{record.name+`(${record.topStar}星)`}</Option>
+                                                   )
+                                               }
+                                           </Select>
                                        </Col>
-                                   })
-                               }
-                           </Row>
-                       </Row>
-                       <hr />
+                                   </Row>
 
 
+                                   <Row>
+                                       {
+                                           selectedCardD && selectedCardD.length > 0 && <Col xs={{span:17,offset:6}} md={{span:17,offset:6}}>概率总计:<Progress percent={countTotalPercentD} size="small" status="active" /></Col>
+                                       }
+                                       {
+                                           selectedCardD && selectedCardD.map((record,index) =>{
+                                               let percentValue = this.commonCompareArr(percentArrD,record)
+
+                                               let mdColStyle = mdColStyle1
+                                               if(index %2 ==0){
+                                                   mdColStyle = mdColStyle1
+                                               }else {
+                                                   mdColStyle = mdColStyle2
+                                               }
+                                               return  <Col xs={xsColStyle}  md={mdColStyle} key={record.id} >
+                                                   {record.name+`(${record.topStar}星)`}配置： <Input value={percentValue} onChange={(e) => this.changePercentD(e,record)} type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
+                                               </Col>
+                                           })
+                                       }
+                                   </Row>
+                               </Row>
+                               <hr />
+                           </div>
+                       }
                    </div>
-
                 <div>
                     <Row gutter={50}>
                         <Col xs={{offset:5, span:4}} md={{offset:5, span:4}} >
