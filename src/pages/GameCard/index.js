@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Tabs,Card,Row,Col,Button,Avatar  } from "antd";
+import {Tabs,Card,Row,Col,Button,Avatar,Spin  } from "antd";
 import {addAjax} from "../../util/ajax";
 
 const {TabPane} = Tabs;
@@ -21,8 +21,13 @@ const gridStyleD = {
 const marginStyle ={
     marginBottom:'6px'
 }
+let openCount = 0;
 
 class GameCard extends Component {
+
+    state ={
+        loading:false,
+    }
 
      onChange = (date, dateString) => {
         console.log(date, dateString);
@@ -35,12 +40,25 @@ class GameCard extends Component {
 
     // 开箱 (两个参数，luckyId,开的次数)
     openLucky = (luckyId,openTimes) =>{
+        this.setState({loading:true})
         const user = JSON.parse(localStorage.getItem('user'));
         addAjax(`/game/lucky/${user.id}/${luckyId}/${openTimes}`)
             .then(response =>{
-                    alert(response.data.message);
+                // 从数据库里面拉取数据，让用户看到刚刚得到了什么
+                this.setState({loading:false})
+                const result = response.data.data
+                console.log('开箱结果：',++openCount)
+                result.map(record =>{
+                    if(record.cardType === 'S'){
+                        console.error(`第${record.rewardOrder}次：获得了id为${record.cardId}的${record.cardType}卡${record.cardNums}张`)
+                    }else if(record.cardType === 'A') {
+                        console.warn(`第${record.rewardOrder}次：获得了id为${record.cardId}的${record.cardType}卡${record.cardNums}张`)
+                    }else {
+                        console.log(`第${record.rewardOrder}次：获得了id为${record.cardId}的${record.cardType}卡${record.cardNums}张`)
+
+                    }
+                })
             })
-         console.log('开一次')
     }
 
     // 查看概率
@@ -49,6 +67,9 @@ class GameCard extends Component {
     }
 
     render() {
+
+        const {loading} = this.state;
+
         return (
             <Tabs defaultActiveKey="1" onChange={this.callback}>
                 <TabPane tab="我的卡片" key="1">
@@ -302,9 +323,11 @@ class GameCard extends Component {
 
                 </TabPane>
                 <TabPane tab="获取卡片" key="2">
-                    <div>
-                        <Card title="免费卡包" extra={<a href="#" onClick={this.showPercent}>查看概率</a>} >
-                            <Row>
+                    <Spin spinning={loading} >
+                        <div>
+
+                            <Card title="免费卡包" extra={<a href="#" onClick={this.showPercent}>查看概率</a>} >
+                                <Row>
                                     <Col xs={12}>
                                         <Row style={marginStyle}>
                                             <Col xs={24}>
@@ -332,102 +355,103 @@ class GameCard extends Component {
                                             <Col xs={24} >1. D1卡片*1</Col>
                                         </Row>
                                     </Col>
-                            </Row>
-                        </Card>
-                        <Card title="普通卡包" extra={<a href="#">查看概率</a>} >
-                            <Row>
-                                <Col xs={12}>
-                                    <Row style={marginStyle}>
-                                        <Col xs={24}>
-                                            <Avatar shape="square" size={120} icon="user" />
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col xs={16} style={marginStyle}>
-                                            <Button style={{width:120}} onClick={() =>this.openLucky(10,1)}>1次&nbsp;&nbsp;&nbsp;&nbsp;50G</Button>
-                                        </Col>
-                                        <Col xs={16} style={marginStyle}>
-                                            <Button style={{width:120}} onClick={() =>this.openLucky(10,10)}>10次&nbsp;&nbsp;&nbsp;&nbsp;450G</Button>
-                                        </Col>
-                                    </Row>
-                                </Col >
-                                <Col  xs={12}>
-                                    <Row style={marginStyle}>
-                                        <Col xs={24}>卡包说明：</Col>
-                                        <Col xs={24} >1.可以获得D-B卡片</Col>
-                                        <Col xs={24} >2.等级越高，获得稀有卡片几率越高</Col>
-                                    </Row>
+                                </Row>
+                            </Card>
+                            <Card title="普通卡包" extra={<a href="#">查看概率</a>} >
+                                <Row>
+                                    <Col xs={12}>
+                                        <Row style={marginStyle}>
+                                            <Col xs={24}>
+                                                <Avatar shape="square" size={120} icon="user" />
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs={16} style={marginStyle}>
+                                                <Button style={{width:120}} onClick={() =>this.openLucky(10,1)}>1次&nbsp;&nbsp;&nbsp;&nbsp;50G</Button>
+                                            </Col>
+                                            <Col xs={16} style={marginStyle}>
+                                                <Button style={{width:120}} onClick={() =>this.openLucky(10,10)}>10次&nbsp;&nbsp;&nbsp;&nbsp;450G</Button>
+                                            </Col>
+                                        </Row>
+                                    </Col >
+                                    <Col  xs={12}>
+                                        <Row style={marginStyle}>
+                                            <Col xs={24}>卡包说明：</Col>
+                                            <Col xs={24} >1.可以获得D-B卡片</Col>
+                                            <Col xs={24} >2.等级越高，获得稀有卡片几率越高</Col>
+                                        </Row>
 
-                                    <Row>
-                                        <Col xs={24}>获得结果：</Col>
-                                        <Col xs={24} >1. D1卡片*1</Col>
-                                    </Row>
-                                </Col>
-                            </Row>
-                        </Card>
-                        <Card title="高级卡包"  extra={<a href="#">查看概率</a>} >
-                            <Row>
-                                <Col xs={12}>
-                                    <Row style={marginStyle}>
-                                        <Col xs={24}>
-                                            <Avatar shape="square" size={120} icon="user" />
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col xs={16} style={marginStyle}>
-                                            <Button style={{width:120}} onClick={() =>this.openLucky(11,1)}>1次&nbsp;&nbsp;&nbsp;&nbsp;120G</Button>
-                                        </Col>
-                                        <Col xs={16} style={marginStyle}>
-                                            <Button style={{width:120}} onClick={() =>this.openLucky(11,10)}>10次&nbsp;&nbsp;&nbsp;&nbsp;1080G</Button>
-                                        </Col>
-                                    </Row>
-                                </Col >
-                                <Col  xs={12}>
-                                    <Row style={marginStyle}>
-                                        <Col xs={24}>卡包说明：</Col>
-                                        <Col xs={24} >1.可以获得C-A卡片</Col>
-                                        <Col xs={24} >2.等级越高，获得稀有卡片几率越高</Col>
-                                    </Row>
+                                        <Row>
+                                            <Col xs={24}>获得结果：</Col>
+                                            <Col xs={24} >1. D1卡片*1</Col>
+                                        </Row>
+                                    </Col>
+                                </Row>
+                            </Card>
+                            <Card title="高级卡包"  extra={<a href="#">查看概率</a>} >
+                                <Row>
+                                    <Col xs={12}>
+                                        <Row style={marginStyle}>
+                                            <Col xs={24}>
+                                                <Avatar shape="square" size={120} icon="user" />
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs={16} style={marginStyle}>
+                                                <Button style={{width:120}} onClick={() =>this.openLucky(11,1)}>1次&nbsp;&nbsp;&nbsp;&nbsp;120G</Button>
+                                            </Col>
+                                            <Col xs={16} style={marginStyle}>
+                                                <Button style={{width:120}} onClick={() =>this.openLucky(11,10)}>10次&nbsp;&nbsp;&nbsp;&nbsp;1080G</Button>
+                                            </Col>
+                                        </Row>
+                                    </Col >
+                                    <Col  xs={12}>
+                                        <Row style={marginStyle}>
+                                            <Col xs={24}>卡包说明：</Col>
+                                            <Col xs={24} >1.可以获得C-A卡片</Col>
+                                            <Col xs={24} >2.等级越高，获得稀有卡片几率越高</Col>
+                                        </Row>
 
-                                    <Row>
-                                        <Col xs={24}>获得结果：</Col>
-                                        <Col xs={24} >1. C1卡片*1</Col>
-                                    </Row>
-                                </Col>
-                            </Row>
-                        </Card>
-                        <Card title="至尊卡包"  extra={<a href="#">查看概率</a>} >
-                            <Row>
-                                <Col xs={12}>
-                                    <Row style={marginStyle}>
-                                        <Col xs={24}>
-                                            <Avatar shape="square" size={120} icon="user" />
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col xs={16} style={marginStyle}>
-                                            <Button style={{width:120}} onClick={() =>this.openLucky(12,1)}>1次&nbsp;&nbsp;&nbsp;&nbsp;50 钻</Button>
-                                        </Col>
-                                        <Col xs={16} style={marginStyle}>
-                                            <Button style={{width:120}} onClick={() =>this.openLucky(12,10)}>10次&nbsp;&nbsp;&nbsp;&nbsp;450 钻</Button>
-                                        </Col>
-                                    </Row>
-                                </Col >
-                                <Col  xs={12}>
-                                    <Row style={marginStyle}>
-                                        <Col xs={24}>卡包说明：</Col>
-                                        <Col xs={24} >1.可以获得B-S卡片</Col>
-                                        <Col xs={24} >2.等级越高，获得稀有卡片几率越高</Col>
-                                    </Row>
+                                        <Row>
+                                            <Col xs={24}>获得结果：</Col>
+                                            <Col xs={24} >1. C1卡片*1</Col>
+                                        </Row>
+                                    </Col>
+                                </Row>
+                            </Card>
+                            <Card title="至尊卡包"  extra={<a href="#">查看概率</a>} >
+                                <Row>
+                                    <Col xs={12}>
+                                        <Row style={marginStyle}>
+                                            <Col xs={24}>
+                                                <Avatar shape="square" size={120} icon="user" />
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs={16} style={marginStyle}>
+                                                <Button style={{width:120}} onClick={() =>this.openLucky(12,1)}>1次&nbsp;&nbsp;&nbsp;&nbsp;50 钻</Button>
+                                            </Col>
+                                            <Col xs={16} style={marginStyle}>
+                                                <Button style={{width:120}} onClick={() =>this.openLucky(12,10)}>10次&nbsp;&nbsp;&nbsp;&nbsp;450 钻</Button>
+                                            </Col>
+                                        </Row>
+                                    </Col >
+                                    <Col  xs={12}>
+                                        <Row style={marginStyle}>
+                                            <Col xs={24}>卡包说明：</Col>
+                                            <Col xs={24} >1.可以获得B-S卡片</Col>
+                                            <Col xs={24} >2.等级越高，获得稀有卡片几率越高</Col>
+                                        </Row>
 
-                                    <Row>
-                                        <Col xs={24}>获得结果：</Col>
-                                        <Col xs={24} >1. B1卡片*1</Col>
-                                    </Row>
-                                </Col>
-                            </Row>
-                        </Card>
-                    </div>
+                                        <Row>
+                                            <Col xs={24}>获得结果：</Col>
+                                            <Col xs={24} >1. B1卡片*1</Col>
+                                        </Row>
+                                    </Col>
+                                </Row>
+                            </Card>
+                        </div>
+                    </Spin>
                 </TabPane>
                 <TabPane tab="卡片图鉴" key="3">
                 </TabPane>
