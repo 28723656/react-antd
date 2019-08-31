@@ -8,6 +8,7 @@ import UpdateGameCardModal from "../../../pageContent/GameCardAdmin/GameCard/Upd
 import UpdateGameCardStarModal from "../../../pageContent/GameCardAdmin/GameCard/UpdateGameCardStarModal";
 import SureToDeleteModal from "../../../pageContent/GameCardAdmin/GameCard/SureToDeleteModal";
 import LuckyUpdateModal from "../../../pageContent/GameCardAdmin/GameCardLucky/LuckyUpdateModal";
+import CardPercentModal from "../../../pageContent/GameCardAdmin/GameCard/CardPercentModal";
 
 const {TabPane} = Tabs;
 
@@ -17,6 +18,7 @@ class GameCardAdmin extends Component {
         visibleStar: false, // 星级
         visibleRank: false, // 等级
         visibleCard: false, // 卡片 *
+        visiblePercent:false, // 概率
         activeKey: '1', // 默认显示第一个标签页面
         cardEntity: {},  // 修改选择的一个卡片实体 *
         cardTitle: "添加卡片",// 添加卡片还是修改卡片
@@ -74,12 +76,22 @@ class GameCardAdmin extends Component {
         });
     };
 
+    // 模态框 大概【概率管理】
+    showRankPercent =(record ) =>{
+        this.setState({
+            visiblePercent: true,
+            activeKey: '5',
+            cardEntity:record,
+        });
+    }
+
     // 改变tab页面
     changeTabs = (value) => {
-        if (value !== '3'|| value !=='4') {
+        if (value !== '3'|| value !=='4' ||value !=='5') {
             this.setState({
                 visibleRank: false,
                 visibleLuckyConfig:false,
+                visiblePercent:false,
                 activeKey: value
             })
         }
@@ -243,6 +255,12 @@ class GameCardAdmin extends Component {
                     return <a onClick={() =>this.showRankModal(record)}>编辑</a>
                 }
             },
+            {
+                title: '概率管理',
+                render: (text,record) => {
+                    return <a onClick={() =>this.showRankPercent(record)}>编辑</a>
+                }
+            },
         ]
         const luckyColumns = [
             {
@@ -263,6 +281,7 @@ class GameCardAdmin extends Component {
             {
                 title: '产出',
                 dataIndex: 'output',
+                width:'25%',
                 align:'center',
                 render:(text) =>{
                     const outputArr = text.split('')
@@ -303,10 +322,12 @@ class GameCardAdmin extends Component {
             },
             {
                 title: '修改数据',
+                width:'24%',
+                align:'center',
                 render: (text,record) => {
                     return <div>
                         <a onClick={() =>this.updateLucky(record)} >修改</a>
-                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                         <a onClick={() =>this.deleteLucky(record)} >删除</a>
                     </div>
                 }
@@ -320,7 +341,7 @@ class GameCardAdmin extends Component {
             },
         ]
 
-        const {activeKey, visibleRank, visibleCard, cardEntity, cardTitle, cardData, starData,starArr,visibleStar,deletePassword,deleteUrl,initMethod} = this.state
+        const {activeKey, visibleRank, visiblePercent,visibleCard, cardEntity, cardTitle, cardData, starData,starArr,visibleStar,deletePassword,deleteUrl,initMethod} = this.state
         const {luckyData,luckyTitle,visibleLucky,luckyEntity,visibleLuckyConfig,deleteVisible} = this.state;
 
         return (
@@ -345,9 +366,16 @@ class GameCardAdmin extends Component {
                 }
 
                 {visibleLuckyConfig &&
-                <TabPane tab="概率配置(临时)" key="4">
+                <TabPane tab="抽奖概率配置(临时)" key="4">
                     <LuckyPercentConfig luckyEntity={luckyEntity}/>
                 </TabPane>
+                }
+
+                {
+                    visiblePercent &&
+                    <TabPane tab="卡牌概率配置(临时)" key="5">
+                    <CardPercentModal cardEntity={cardEntity}/>
+                    </TabPane>
                 }
 
 

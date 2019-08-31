@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Tabs,Card,Row,Col,Button,Avatar  } from "antd";
+import {addAjax} from "../../util/ajax";
 
 const {TabPane} = Tabs;
 
@@ -32,13 +33,14 @@ class GameCard extends Component {
          console.log('升级了卡片')
     }
 
-    // 开箱一次
-    openOne = () =>{
+    // 开箱 (两个参数，luckyId,开的次数)
+    openLucky = (luckyId,openTimes) =>{
+        const user = JSON.parse(localStorage.getItem('user'));
+        addAjax(`/game/lucky/${user.id}/${luckyId}/${openTimes}`)
+            .then(response =>{
+                    alert(response.data.message);
+            })
          console.log('开一次')
-    }
-    // 开箱10次
-    openTen =() =>{
-         console.log('开10次')
     }
 
     // 查看概率
@@ -311,10 +313,10 @@ class GameCard extends Component {
                                         </Row>
                                         <Row>
                                             <Col xs={16} style={marginStyle}>
-                                                <Button style={{width:120}} onClick={this.openOne}>1次&nbsp;&nbsp;&nbsp;&nbsp;1 🗝</Button>
+                                                <Button style={{width:120}} onClick={() =>this.openLucky(9,1)}>1次&nbsp;&nbsp;&nbsp;&nbsp;1 🗝</Button>
                                             </Col>
                                             <Col xs={16} style={marginStyle}>
-                                                <Button style={{width:120}} onClick={this.openTen}>10次&nbsp;&nbsp;&nbsp;&nbsp;9 🗝</Button>
+                                                <Button style={{width:120}} onClick={() =>this.openLucky(9,10)}>10次&nbsp;&nbsp;&nbsp;&nbsp;9 🗝</Button>
                                             </Col>
                                         </Row>
                                     </Col >
@@ -342,10 +344,10 @@ class GameCard extends Component {
                                     </Row>
                                     <Row>
                                         <Col xs={16} style={marginStyle}>
-                                            <Button style={{width:120}} onClick={this.openOne}>1次&nbsp;&nbsp;&nbsp;&nbsp;50G</Button>
+                                            <Button style={{width:120}} onClick={() =>this.openLucky(10,1)}>1次&nbsp;&nbsp;&nbsp;&nbsp;50G</Button>
                                         </Col>
                                         <Col xs={16} style={marginStyle}>
-                                            <Button style={{width:120}} onClick={this.openTen}>10次&nbsp;&nbsp;&nbsp;&nbsp;450G</Button>
+                                            <Button style={{width:120}} onClick={() =>this.openLucky(10,10)}>10次&nbsp;&nbsp;&nbsp;&nbsp;450G</Button>
                                         </Col>
                                     </Row>
                                 </Col >
@@ -373,10 +375,10 @@ class GameCard extends Component {
                                     </Row>
                                     <Row>
                                         <Col xs={16} style={marginStyle}>
-                                            <Button style={{width:120}}>1次&nbsp;&nbsp;&nbsp;&nbsp;120G</Button>
+                                            <Button style={{width:120}} onClick={() =>this.openLucky(11,1)}>1次&nbsp;&nbsp;&nbsp;&nbsp;120G</Button>
                                         </Col>
                                         <Col xs={16} style={marginStyle}>
-                                            <Button style={{width:120}}>10次&nbsp;&nbsp;&nbsp;&nbsp;1080G</Button>
+                                            <Button style={{width:120}} onClick={() =>this.openLucky(11,10)}>10次&nbsp;&nbsp;&nbsp;&nbsp;1080G</Button>
                                         </Col>
                                     </Row>
                                 </Col >
@@ -404,10 +406,10 @@ class GameCard extends Component {
                                     </Row>
                                     <Row>
                                         <Col xs={16} style={marginStyle}>
-                                            <Button style={{width:120}}>1次&nbsp;&nbsp;&nbsp;&nbsp;50 钻</Button>
+                                            <Button style={{width:120}} onClick={() =>this.openLucky(12,1)}>1次&nbsp;&nbsp;&nbsp;&nbsp;50 钻</Button>
                                         </Col>
                                         <Col xs={16} style={marginStyle}>
-                                            <Button style={{width:120}}>10次&nbsp;&nbsp;&nbsp;&nbsp;450 钻</Button>
+                                            <Button style={{width:120}} onClick={() =>this.openLucky(12,10)}>10次&nbsp;&nbsp;&nbsp;&nbsp;450 钻</Button>
                                         </Col>
                                     </Row>
                                 </Col >

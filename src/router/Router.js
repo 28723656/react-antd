@@ -9,7 +9,7 @@ import Register from "../pages/Login/Register";
 class Router extends Component {
 
     render() {
-        const user = localStorage.getItem("user");
+        const user = JSON.parse(localStorage.getItem('user'));
         console.log('user', user);
         return (
             <div>

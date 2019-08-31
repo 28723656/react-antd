@@ -105,7 +105,6 @@ class EditableTable extends React.Component {
             {
                 title: '等级',
                 dataIndex: 'rank',
-                width: '10%',
             },
             {
                 title: '星级',
@@ -708,30 +707,31 @@ class EditableTable extends React.Component {
             <div>
 
                 <div>
-                    <Row gutter={20}>
-                        <Col span={3} >当前卡片:</Col>
-                        <Col span={4}>{cardEntity.type  || '暂无类型'}</Col>
-                        <Col span={4}>{cardEntity.name  || '暂无名称'}</Col>
-                        <Col span={4}>{cardEntity.skill===1?'金币加成':(cardEntity.skill===2?'经验加成':(cardEntity.skill===3?'免费抽卡加成':'没有加成'))}</Col>
+                    <Row >
+                        <Col xs={{ span:6}} md={{span:3}} >当前卡片:</Col>
+                        <Col span={3}>{cardEntity.type  || '暂无类型'}</Col>
+                        <Col span={3}>{cardEntity.name  || '暂无名称'}</Col>
+                        <Col xs={{ span:6}} xs={{ span:4}}>{cardEntity.skill===1?'金币加成':(cardEntity.skill===2?'经验加成':(cardEntity.skill===3?'免费抽卡加成':'没有加成'))}</Col>
                         <Col span={4}>{'最高'+cardEntity.topStar+'星' || '暂无星级'}</Col>
                     </Row>
+                    <hr />
 
                     <Row>
-                        <Col span={16}>
+                        <Col xs={{ span:14}} md={{ span:16}}>
                             <div>
-                            <Row gutter={20} style={{marginTop:'4px'}} >
+                            <Row gutter={10} style={{marginTop:'4px'}} >
                                 <Col span={4} >参数设置:</Col>
                                 <Col span={8}>1星: <Input type='number' value={oneStar} suffix="级" onChange={this.changeOneStar} /> </Col>
                                 <Col span={8}>每星增加:<Input type='number' value={eachStar} suffix="级" onChange={this.changeEachStar} /></Col>
                             </Row>
 
-                            <Row gutter={20} style={{marginTop:'4px'}}>
+                            <Row gutter={10} style={{marginTop:'4px'}}>
                                 <Col offset={4} span={8}>花费(1级): <Input type='number' value={oneCost} suffix="G" onChange={this.changeOneCost} /> </Col>
                                 <Col span={8}>每级增加:<Input type='number' value={eachCost} suffix="G" onChange={this.changeEachCost} /></Col>
                             </Row>
                                 {
                                     cardEntity.skill===1 &&
-                                    <Row gutter={20} style={{marginTop:'4px'}}>
+                                    <Row gutter={10} style={{marginTop:'4px'}}>
                                         <Col  offset={4}  span={8}>金币(1级): <Input type='number' value={oneIncCoin} suffix="%" onChange={this.changeOneIncCoin} /> </Col>
                                         <Col span={8}>每级增加:<Input type='number' value={eachIncCoin} suffix="%" onChange={this.changeEachIncCoin} /></Col>
                                     </Row>
@@ -739,7 +739,7 @@ class EditableTable extends React.Component {
 
                                 {
                                     cardEntity.skill===2 &&
-                                    <Row gutter={20} style={{marginTop:'4px'}}>
+                                    <Row gutter={10} style={{marginTop:'4px'}}>
                                         <Col  offset={4}  span={8}>经验(1级): <Input type='number' value={oneIncExperience} suffix="%" onChange={this.changeOneIncExperience} /> </Col>
                                         <Col span={8}>每级增加:<Input type='number' value={eachIncExperience} suffix="%" onChange={this.changeEachIncExperience} /></Col>
                                     </Row>
@@ -748,11 +748,11 @@ class EditableTable extends React.Component {
                                 {
                                     cardEntity.skill===3 &&
                                     <div>
-                                        <Row gutter={20} style={{marginTop:'4px'}}>
+                                        <Row gutter={10} style={{marginTop:'4px'}}>
                                             <Col  offset={4}  span={8}>概率下限(1级): <Input type='number' value={oneLowPercent} onChange={this.changeOneLowPercent}  /> </Col>
                                             <Col span={8}>每级增加:<Input type='number' value={eachLowPercent} onChange={this.changeEachLowPercent}  /></Col>
                                         </Row>
-                                        <Row gutter={20} style={{marginTop:'4px'}}>
+                                        <Row gutter={10} style={{marginTop:'4px'}}>
                                             <Col  offset={4}  span={8}>概率上限(1级): <Input type='number' value={oneTopPercent} onChange={this.changeOneTopPercent}   /> </Col>
                                             <Col span={8}>每级增加:<Input type='number' value={eachTopPercent}  onChange={this.changeEachTopPercent} /></Col>
                                         </Row>
@@ -762,9 +762,9 @@ class EditableTable extends React.Component {
                             </div>
                         </Col>
 
-                        <Col span={6}>
+                        <Col xs={{ span:9}} md={{ span:6}}>
                             <div>
-                                <Row gutter={20} style={{marginTop:'5px'}}>
+                                <Row gutter={10} style={{marginTop:'5px'}}>
                                     <Col>满级级数： <Title level={4}>{fullRank || 0}&nbsp;级</Title></Col>
                                 </Row>
                                 <Row >
@@ -799,16 +799,17 @@ class EditableTable extends React.Component {
                             </div>
                         </Col>
                     </Row>
+                    <hr />
                 </div>
 
                 <div>
                     <Row gutter={50}>
-                        <Col offset={3} span={4} >
+                        <Col xs={{offset:5, span:4}} md={{offset:5, span:4}} >
                             <Button onClick={this.handlePreview} type="primary">
                                 生成预览
                             </Button>
                         </Col>
-                        <Col span={4}>
+                        <Col xs={{offset:2, span:4}} md={{offset:2, span:4}}>
                             <Button loading={loadingButton} onClick={this.handleSaveConfig} type="primary">
                                 保存配置
                             </Button>
@@ -816,7 +817,7 @@ class EditableTable extends React.Component {
 
 
                     </Row>
-
+                    <hr />
 
                 </div>
 

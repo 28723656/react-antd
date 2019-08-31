@@ -419,7 +419,7 @@ class LuckyPercentConfig extends Component{
             {
                 title:'卡片',
                 dataIndex:'name',
-                width:'20%'
+                width:'15%'
             },
 
             {
@@ -455,7 +455,6 @@ class LuckyPercentConfig extends Component{
                 title:'概率',
                 dataIndex:'percent',
                 align:'center',
-                width:'40%',
                 render:text =><Progress percent={text}  status="active" />
             },
         ]
@@ -509,15 +508,15 @@ class LuckyPercentConfig extends Component{
                            <Col xs={6} md={6}>{luckyType}</Col>
                            <Col xs={6} md={6}>{output}</Col>
                        </Row>
-                           <Affix offsetTop={80}>
                                {
-                                    totalPercent !== 0 &&
-                               <Row>
-                                   <Col xs={6} md={6}>概率总计：{totalPercent}%</Col>
-                                   <Col xs={16} md={17}><Progress percent={totalPercent}   status={status} /></Col>
-                               </Row>
+                                   totalPercent !== 0 &&
+                                   <Affix offsetTop={80}>
+                                   <Row>
+                                       <Col xs={6} md={6}>概率总计：{totalPercent}%</Col>
+                                       <Col xs={16} md={17}><Progress percent={totalPercent}   status={status} /></Col>
+                                   </Row>
+                                   </Affix>
                                }
-                           </Affix>
                        <hr />
 
                        {
