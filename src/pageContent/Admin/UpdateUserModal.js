@@ -59,8 +59,10 @@ class UpdateUserModalClass extends Component {
     };
     // 验证密码
     validatePassword = (rule, value, callback) => {
-        const { form } = this.props;
-        if (value && value.length >=6 && value.length <=16) {
+
+        const { form ,type} = this.props;
+        // 如果是修改，密码就可以随便了
+        if (type === 1 || value && value.length >=6 && value.length <=16) {
                 callback();
         }else {
             callback('密码的长度6-16');
@@ -123,12 +125,12 @@ class UpdateUserModalClass extends Component {
                     )}
                 </Form.Item>
 
-                {type !== 1 &&
+                {type !== 3 &&
                 <Form.Item label="密码">
                     {getFieldDecorator('password', {
                         rules: [
                             {
-                                required: true,
+                                required: false,
                                 message: '密码在6-16位之间',
                             },
                             {
