@@ -3,6 +3,7 @@ import {Row, Col, Select, Input, Progress, Affix, Button,message} from 'antd';
 import PropTypes from "prop-types";
 import {addAjax, getAjax} from "../../../util/ajax";
 import SmallTable from "../../../components/Table/SmallTable";
+import {GenIntegerId, GenNonDuplicateID} from "../../../util/randomUtil";
 
 const {Option} = Select;
 
@@ -42,6 +43,22 @@ class LuckyPercentConfig extends Component{
 
         tableVisible:false,  // 生成预览的可见性
         dataSource:[],
+
+
+        // 下面用于加载金币、钻石、钥匙的列表
+        coinArr:[],
+        diamondArr:[],
+        keyArr:[],
+
+        selectedCoin:[],
+        countTotalPercentCoin:0, // 总概率
+
+        selectedDiamond:[],
+        countTotalPercentDiamond:0,
+
+        selectedKey:[],
+        countTotalPercentKey:0,
+
 
 
     }
@@ -219,8 +236,102 @@ class LuckyPercentConfig extends Component{
 
     //-----------------------end:DDDDDDDDDDDDDDDDDDDDDDDD-----------------------------------
 
+    // 改变金币配置
+    changeCardCoin =(value) =>{
+        const {selectedCoin,countTotalPercentCoin} = this.state;
+        const finalResult = value.map(record => {
+            let temp = selectedCoin.filter(record2 => record2.rewardNum === record)
+            if(temp.length > 0){
+                return temp[0]
+            }else {
+                return {percent:'',rewardNum:record}
+            }
+        })
+        this.setState({selectedCoin:finalResult.sort(this.commonSort),countTotalPercentCoin:this.commonCountTotalPercent(finalResult)});
+
+    }
+
+    // 改变金币下面的输入框
+    changePercentCoin =(e,rewardNum) =>{
+        const inputValue = e.target.value
+        const {selectedCoin,countTotalPercentCoin} = this.state;
+        // 这里又是直接给对象赋值，进而改变数组
+        selectedCoin.map(record =>{
+            if(record.rewardNum === rewardNum){
+                record.percent = inputValue
+            }
+        })
+        this.setState({selectedCoin,countTotalPercentCoin:this.commonCountTotalPercent(selectedCoin)});
+    }
+
+    // 改变钻石配置
+    changeCardDiamond =(value) =>{
+        const {selectedDiamond,countTotalPercentDiamond} = this.state;
+        const finalResult = value.map(record => {
+            let temp = selectedDiamond.filter(record2 => record2.rewardNum === record)
+            if(temp.length > 0){
+                return temp[0]
+            }else {
+                return {percent:'',rewardNum:record}
+            }
+        })
+        this.setState({selectedDiamond:finalResult.sort(this.commonSort),countTotalPercentDiamond:this.commonCountTotalPercent(finalResult)});
+
+    }
+
+    // 改变钻石下面的输入框
+    changePercentDiamond =(e,rewardNum) =>{
+        const inputValue = e.target.value
+        const {selectedDiamond,countTotalPercentDiamond} = this.state;
+        // 这里又是直接给对象赋值，进而改变数组
+        selectedDiamond.map(record =>{
+            if(record.rewardNum === rewardNum){
+                record.percent = inputValue
+            }
+        })
+        this.setState({selectedDiamond,countTotalPercentDiamond:this.commonCountTotalPercent(selectedDiamond)});
+    }
+
+    // 改变钥匙配置
+    changeCardKey =(value) =>{
+        const {selectedKey,countTotalPercentKey} = this.state;
+        const finalResult = value.map(record => {
+            let temp = selectedKey.filter(record2 => record2.rewardNum === record)
+            if(temp.length > 0){
+                return temp[0]
+            }else {
+                return {percent:'',rewardNum:record}
+            }
+        })
+        this.setState({selectedKey:finalResult.sort(this.commonSort),countTotalPercentKey:this.commonCountTotalPercent(finalResult)});
+
+    }
+
+    // 改变钥匙下面的输入框
+    changePercentKey =(e,rewardNum) =>{
+        const inputValue = e.target.value
+        const {selectedKey,countTotalPercentKey} = this.state;
+        // 这里又是直接给对象赋值，进而改变数组
+        selectedKey.map(record =>{
+            if(record.rewardNum === rewardNum){
+                record.percent = inputValue
+            }
+        })
+        this.setState({selectedKey,countTotalPercentKey:this.commonCountTotalPercent(selectedKey)});
+    }
 
     // ************公共方法***************
+
+    commonSort =(a,b) =>{
+        return a.rewardNum -b.rewardNum;
+    }
+
+    commonGetRewardTypeArr =(finalResult,rewardType) =>{
+       const tempResult = finalResult.filter(record =>record.rewardType === rewardType)
+        return tempResult.map(record =>{
+            return {percent:record.percent,rewardNum:record.rewardNum}
+        })
+    }
 
     commonCountTotalPercent =(totalPercent) =>{
         let tempPercent = 0;
@@ -253,14 +364,31 @@ class LuckyPercentConfig extends Component{
             let singleDataSource ={}
             let tempEntity =[]
             singleDataSource.cardId = record.id
-            singleDataSource.key = record.id
-            singleDataSource.star = record.topStar
-            singleDataSource.cardType = record.type
-            singleDataSource.type = luckyEntity.type
-            singleDataSource.luckyId = luckyEntity.id
-            singleDataSource.name = record.name
             tempEntity = totalPercent.filter(percentRecord =>percentRecord.id === record.id)
             singleDataSource.percent = tempEntity[0].percent*1
+            singleDataSource.cardType = record.type
+            singleDataSource.luckyId = luckyEntity.id
+            singleDataSource.rewardType = 4
+            singleDataSource.type = luckyEntity.type
+            singleDataSource.key = GenNonDuplicateID()
+            singleDataSource.star = record.topStar
+            singleDataSource.name = record.name
+            dataSource.push(singleDataSource)
+        })
+        return dataSource
+    }
+
+    // 组装成DataSource,好直接传入后台
+    commonGetDataSource2 = (selectedMoney,rewardType,dataSource) =>{
+        const {luckyEntity} = this.props
+        selectedMoney.map((record,index) =>{
+            let singleDataSource ={}
+            singleDataSource.percent =record.percent*1
+            singleDataSource.luckyId = luckyEntity.id
+            singleDataSource.rewardNum = record.rewardNum
+            singleDataSource.rewardType = rewardType
+            singleDataSource.type = luckyEntity.type
+            singleDataSource.key = GenNonDuplicateID()
             dataSource.push(singleDataSource)
         })
         return dataSource
@@ -310,6 +438,7 @@ class LuckyPercentConfig extends Component{
         this.setState({tableVisible:true})
         const {selectedCardS,selectedCardA,selectedCardB,selectedCardC,selectedCardD}=this.state;
         const {percentArrS,percentArrA,percentArrB,percentArrC,percentArrD}=this.state;
+        const {selectedCoin,selectedDiamond,selectedKey} = this.state;
 
         let dataSource = []
         dataSource = this.commonGetDataSource(selectedCardS,percentArrS,dataSource);
@@ -317,6 +446,9 @@ class LuckyPercentConfig extends Component{
         dataSource = this.commonGetDataSource(selectedCardB,percentArrB,dataSource);
         dataSource = this.commonGetDataSource(selectedCardC,percentArrC,dataSource);
         dataSource = this.commonGetDataSource(selectedCardD,percentArrD,dataSource);
+        dataSource = this.commonGetDataSource2(selectedCoin,1,dataSource);
+        dataSource = this.commonGetDataSource2(selectedDiamond,2,dataSource);
+        dataSource = this.commonGetDataSource2(selectedKey,3,dataSource);
         this.setState({dataSource})
     }
 
@@ -330,8 +462,8 @@ class LuckyPercentConfig extends Component{
             return;
         }
         // 没有达到100%
-        const {countTotalPercentS,countTotalPercentA,countTotalPercentB,countTotalPercentC,countTotalPercentD} = this.state;
-        const totalPercent = countTotalPercentA+countTotalPercentB+countTotalPercentC+countTotalPercentD+countTotalPercentS
+        const {countTotalPercentS,countTotalPercentA,countTotalPercentB,countTotalPercentC,countTotalPercentD,countTotalPercentCoin,countTotalPercentDiamond,countTotalPercentKey} = this.state;
+        const totalPercent = countTotalPercentA+countTotalPercentB+countTotalPercentC+countTotalPercentD+countTotalPercentS+countTotalPercentCoin+countTotalPercentDiamond+countTotalPercentKey
         console.log('totalPercent',totalPercent)
         if(totalPercent< 99.9999 || totalPercent > 100.0001 ){
             message.error('请调整至100再保存配置！')
@@ -358,6 +490,7 @@ class LuckyPercentConfig extends Component{
 
         const {luckyEntity} = this.props;
 
+        // 初始化卡片数据
         getAjax('/game/card')
             .then(response =>{
                const result = response.data.data;
@@ -389,11 +522,24 @@ class LuckyPercentConfig extends Component{
                             selectedCardD = this.commonGetCommon(tempCardD,finalResult);
                             this.setState({selectedCardS,selectedCardA,selectedCardB,selectedCardC,selectedCardD})
 
+                            const selectedCoin =this.commonGetRewardTypeArr(finalResult,1)
+                            const selectedDiamond =this.commonGetRewardTypeArr(finalResult,2)
+                            const selectedKey = this.commonGetRewardTypeArr(finalResult,3)
+
+                            this.setState({selectedCoin})
+                            this.setState({selectedDiamond})
+                            this.setState({selectedKey})
+
+
                             this.setState({countTotalPercentS:this.commonCountTotalPercent(finalResult.filter(record =>record.cardType ==='S'))})
                             this.setState({countTotalPercentA:this.commonCountTotalPercent(finalResult.filter(record =>record.cardType ==='A'))})
                             this.setState({countTotalPercentB:this.commonCountTotalPercent(finalResult.filter(record =>record.cardType ==='B'))})
                             this.setState({countTotalPercentC:this.commonCountTotalPercent(finalResult.filter(record =>record.cardType ==='C'))})
                             this.setState({countTotalPercentD:this.commonCountTotalPercent(finalResult.filter(record =>record.cardType ==='D'))})
+
+                            this.setState({countTotalPercentCoin:this.commonCountTotalPercent(selectedCoin)});
+                            this.setState({countTotalPercentDiamond:this.commonCountTotalPercent(selectedDiamond)});
+                            this.setState({countTotalPercentKey:this.commonCountTotalPercent(selectedKey)});
 
                             this.setState({percentArrS:this.commonTranslateTo(finalResult,'S')})
                             this.setState({percentArrA:this.commonTranslateTo(finalResult,'A')})
@@ -406,6 +552,12 @@ class LuckyPercentConfig extends Component{
                     })
 
             })
+
+        // 初始化金币钻石钥匙数据
+       getAjax(`/plan/dict/percent_coin`).then(response =>this.setState({coinArr:response.data.data}))
+       getAjax(`/plan/dict/percent_diamond`).then(response =>this.setState({diamondArr:response.data.data}))
+       getAjax(`/plan/dict/percent_key`).then(response =>this.setState({keyArr:response.data.data}))
+
     }
 
     // 初始化所有卡包的数据
@@ -458,6 +610,54 @@ class LuckyPercentConfig extends Component{
                 render:text =><Progress percent={text}  status="active" />
             },
         ]
+        const columns2 =[
+            {
+                title:'货币类型',
+                dataIndex:'rewardType',
+                width:'15%',
+                render: text =>{
+                    if(text === 1){
+                        return '金币'
+                    }else if(text === 2){
+                        return '钻石'
+                    }else if(text === 3){
+                        return '钥匙'
+                    }else {
+                        return '不明物体'
+                    }
+                }
+            },
+
+            {
+                title:'数量',
+                dataIndex:'rewardNum',
+                width:'20%',
+            },
+
+            {
+                title:'类型',
+                dataIndex:'type',
+                width:'20%',
+                render: (text) =>{
+                    if(text ===1 ){
+                        return '免费卡包'
+                    }else if(text ===2 ){
+                        return '普通卡包'
+                    }else if(text ===3 ){
+                        return '高级卡包'
+                    }else if(text ===4 ){
+                        return '至尊卡包'
+                    }
+                }
+            },
+            {
+                title:'概率',
+                dataIndex:'percent',
+                align:'center',
+                render:text =><Progress percent={text}  status="active" />
+            },
+        ]
+
 
         const xsColStyle={ span: 16, offset: 6 }
         const mdColStyle1={ span: 8, offset: 6}
@@ -467,6 +667,12 @@ class LuckyPercentConfig extends Component{
         //
         const {tableVisible,dataSource} = this.state
         //console.log(dataSource)
+
+        // 金币钻石key
+        const {coinArr,diamondArr,keyArr} = this.state;
+        const {selectedCoin,countTotalPercentCoin} = this.state;
+        const {selectedDiamond,countTotalPercentDiamond} = this.state;
+        const {selectedKey,countTotalPercentKey} = this.state;
 
         // 服务于S
         const {selectedCardS,countTotalPercentS,cardArrS,percentArrS} = this.state;
@@ -490,7 +696,7 @@ class LuckyPercentConfig extends Component{
 
         const output = luckyEntity.output;
 
-        const totalPercent = countTotalPercentA+countTotalPercentB+countTotalPercentC+countTotalPercentD+countTotalPercentS
+        const totalPercent = countTotalPercentA+countTotalPercentB+countTotalPercentC+countTotalPercentD+countTotalPercentS+countTotalPercentCoin+countTotalPercentDiamond+countTotalPercentKey
         let status ='normal'
         if(totalPercent<0 || totalPercent>100.0001){
             status = 'exception'
@@ -733,6 +939,129 @@ class LuckyPercentConfig extends Component{
                                <hr />
                            </div>
                        }
+                            {/*金币配置*/}
+                       <div>
+                           <Row >
+                               <Row>
+                                   <Col xs={6} md={6} >金币配置：</Col>
+                                   <Col xs={16} md={17} >
+                                       <Select mode="multiple" value={selectedCoin.map(coinRecord => coinRecord.rewardNum*1)}   style={{ width: '100%' }} placeholder='请选择本周的金币' onChange={this.changeCardCoin} >
+                                           {
+                                               coinArr &&coinArr.length > 0 &&  coinArr.map(record =>
+                                                   <Option key={record.id} value={record.name*1}>{record.name+`个`}</Option>
+                                               )
+                                           }
+                                       </Select>
+                                   </Col>
+                               </Row>
+
+
+                               <Row>
+                                   {
+                                       selectedCoin && selectedCoin.length > 0 && <Col xs={{span:17,offset:6}} md={{span:17,offset:6}}>概率总计:<Progress percent={countTotalPercentCoin} size="small" status="active" /></Col>
+                                   }
+                                   {
+                                       selectedCoin && selectedCoin.map((record,index) =>{
+                                       //    let percentValue = this.commonCompareArr(percentArrD,record)
+
+                                           let mdColStyle = mdColStyle1
+                                           if(index %2 ==0){
+                                               mdColStyle = mdColStyle1
+                                           }else {
+                                               mdColStyle = mdColStyle2
+                                           }
+                                           return  <Col xs={xsColStyle}  md={mdColStyle} key={record.rewardNum} >
+                                               {`${record.rewardNum}个`}配置： <Input value={record.percent} onChange={e =>this.changePercentCoin(e,record.rewardNum)}  type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
+                                           </Col>
+                                       })
+                                   }
+                               </Row>
+                           </Row>
+                           <hr />
+                       </div>
+
+                       {/*钻石配置*/}
+                       <div>
+                           <Row >
+                               <Row>
+                                   <Col xs={6} md={6} >钻石配置：</Col>
+                                   <Col xs={16} md={17} >
+                                       <Select mode="multiple" value={selectedDiamond.map(diamondRecord => diamondRecord.rewardNum*1)}   style={{ width: '100%' }} placeholder='请选择本周的金币' onChange={this.changeCardDiamond} >
+                                           {
+                                               diamondArr &&diamondArr.length > 0 &&  diamondArr.map(record =>
+                                                   <Option key={record.id} value={record.name*1}>{record.name+`个`}</Option>
+                                               )
+                                           }
+                                       </Select>
+                                   </Col>
+                               </Row>
+
+
+                               <Row>
+                                   {
+                                       selectedDiamond && selectedDiamond.length > 0 && <Col xs={{span:17,offset:6}} md={{span:17,offset:6}}>概率总计:<Progress percent={countTotalPercentDiamond} size="small" status="active" /></Col>
+                                   }
+                                   {
+                                       selectedDiamond && selectedDiamond.map((record,index) =>{
+                                           //    let percentValue = this.commonCompareArr(percentArrD,record)
+
+                                           let mdColStyle = mdColStyle1
+                                           if(index %2 ==0){
+                                               mdColStyle = mdColStyle1
+                                           }else {
+                                               mdColStyle = mdColStyle2
+                                           }
+                                           return  <Col xs={xsColStyle}  md={mdColStyle} key={record.rewardNum} >
+                                               {`${record.rewardNum}个`}配置： <Input value={record.percent} onChange={e =>this.changePercentDiamond(e,record.rewardNum)}  type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
+                                           </Col>
+                                       })
+                                   }
+                               </Row>
+                           </Row>
+                           <hr />
+                       </div>
+
+                       {/*钥匙配置*/}
+                       <div>
+                           <Row >
+                               <Row>
+                                   <Col xs={6} md={6} >钥匙配置：</Col>
+                                   <Col xs={16} md={17} >
+                                       <Select mode="multiple" value={selectedKey.map(keyRecord => keyRecord.rewardNum*1)}   style={{ width: '100%' }} placeholder='请选择本周的金币' onChange={this.changeCardKey} >
+                                           {
+                                               keyArr &&keyArr.length > 0 &&  keyArr.map(record =>
+                                                   <Option key={record.id} value={record.name*1}>{record.name+`个`}</Option>
+                                               )
+                                           }
+                                       </Select>
+                                   </Col>
+                               </Row>
+
+
+                               <Row>
+                                   {
+                                       selectedKey && selectedKey.length > 0 && <Col xs={{span:17,offset:6}} md={{span:17,offset:6}}>概率总计:<Progress percent={countTotalPercentKey} size="small" status="active" /></Col>
+                                   }
+                                   {
+                                       selectedKey && selectedKey.map((record,index) =>{
+                                           //    let percentValue = this.commonCompareArr(percentArrD,record)
+
+                                           let mdColStyle = mdColStyle1
+                                           if(index %2 ==0){
+                                               mdColStyle = mdColStyle1
+                                           }else {
+                                               mdColStyle = mdColStyle2
+                                           }
+                                           return  <Col xs={xsColStyle}  md={mdColStyle} key={record.rewardNum} >
+                                               {`${record.rewardNum}个`}配置： <Input value={record.percent} onChange={e =>this.changePercentKey(e,record.rewardNum)}  type='number' addonBefore='概率:' addonAfter='%' placeholder='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请设置概率' />
+                                           </Col>
+                                       })
+                                   }
+                               </Row>
+                           </Row>
+                           <hr />
+                       </div>
+
                    </div>
                 <div>
                     <Row gutter={50}>
@@ -754,7 +1083,8 @@ class LuckyPercentConfig extends Component{
                     {
                         tableVisible && <div>
                             <hr/>
-                            <SmallTable rowKey='key' columns={columns} dataSource={dataSource} />
+                            <SmallTable rowKey='key' columns={columns} dataSource={dataSource.filter(record =>record.rewardType === 4)} />
+                            <SmallTable rowKey='key' columns={columns2} dataSource={dataSource.filter(record =>record.rewardType !== 4)} />
                         </div>
                     }
                 </div>

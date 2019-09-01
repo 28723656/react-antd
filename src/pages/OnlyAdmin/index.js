@@ -46,7 +46,26 @@ class OnlyAdmin extends Component {
 
         return (
             <Tabs defaultActiveKey="1" onChange={this.callback}>
-                <TabPane tab="评论留言" key="1">
+                <TabPane tab="ip管理" key="1">
+                    {ipList &&
+                    <Card title='ip' bordered={true} bodyStyle={{paddingTop: '2px'}}>
+                        <List
+                            header={<div>最近登录ip(50条)</div>}
+                            bordered
+                            dataSource={ipList}
+                            renderItem={item => (
+                                <List.Item>
+                                    <Typography.Text mark>{item.username}</Typography.Text> &nbsp; &nbsp; &nbsp; &nbsp;
+                                    <Typography.Text >{item.ip}</Typography.Text> &nbsp; &nbsp; &nbsp; &nbsp;
+                                    <Typography.Text > {moment(item.createTime.map((record,index)=> index === 1 ?record-1:record)  ).format("YYYY-MM-DD HH:mm:ss")}</Typography.Text>
+                                </List.Item>
+                            )}
+                        />
+                    </Card>
+                    }
+                </TabPane>
+
+                <TabPane tab="评论留言" key="2">
                     {messageList &&
                     <Card title='留言' bordered={true} bodyStyle={{paddingTop: '2px'}}>
                         <List
@@ -63,24 +82,7 @@ class OnlyAdmin extends Component {
                     }
 
                 </TabPane>
-                <TabPane tab="ip管理" key="2">
-                    {ipList &&
-                    <Card title='ip' bordered={true} bodyStyle={{paddingTop: '2px'}}>
-                        <List
-                            header={<div>最近登录ip(50条)</div>}
-                            bordered
-                            dataSource={ipList}
-                            renderItem={item => (
-                                <List.Item>
-                                    <Typography.Text mark>{item.username}</Typography.Text> &nbsp; &nbsp; &nbsp; &nbsp;
-                                    <Typography.Text >{item.ip}</Typography.Text> &nbsp; &nbsp; &nbsp; &nbsp;
-                                    <Typography.Text > {moment(item.createTime).format("YYYY-MM-DD HH:mm:ss")}</Typography.Text>
-                                </List.Item>
-                            )}
-                        />
-                    </Card>
-                    }
-                </TabPane>
+
 
 
 

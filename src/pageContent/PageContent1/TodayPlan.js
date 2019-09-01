@@ -5,6 +5,7 @@ import {columns1_3, data1_1, data1_3} from "../../mock/mockDataPage1";
 import AddPlanModal from "./Common/AddPlanModal";
 import PropTypes from "prop-types";
 import TablePlan from "./Common/TablePlan";
+import {browserRedirect} from "../../util/whichDevice";
 
 /**
  * page1  今日计划部分
@@ -46,29 +47,6 @@ class TodayPlan extends Component{
     }
 
 
-     browserRedirect =() => {
-        let sUserAgent = navigator.userAgent.toLowerCase();
-        let bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
-        let bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
-        let bIsMidp = sUserAgent.match(/midp/i) == "midp";
-        let bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
-        let bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
-        let bIsAndroid = sUserAgent.match(/android/i) == "android";
-        let bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
-        let bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
-        if ( bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
-            console.log("您正在使用移动手机！");
-           return 'phone';
-        } else if(bIsIpad ){
-            console.log("您正在使用平板！");
-            return 'pad';
-        }else {
-            console.log("您正在使用PC设备");
-           return 'pc'
-        }
-    }
-
-
 
 
 
@@ -86,7 +64,7 @@ class TodayPlan extends Component{
                         topStr ='[置顶]' ;
                     }
                     let nameAfter ='->'+value
-                    if(this.browserRedirect() === 'phone' && (nameAfter+topStr).length >14){
+                    if(browserRedirect()=== 'phone' && (nameAfter+topStr).length >14){
                         nameAfter = nameAfter.substring(0,12)+"...";
                     }
                     switch (row.rank) {
