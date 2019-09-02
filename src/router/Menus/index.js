@@ -43,6 +43,11 @@ const linkList = [
         </Menu.Item>
     },
     {
+        menu: 'gameCard', link: <Menu.Item key="1006">
+            <NavLink to='/gameCard'>卡牌游戏</NavLink>
+        </Menu.Item>
+    },
+    {
         menu: 'plan', link: <Menu.Item key="1">
             <NavLink to='/plan'>今日任务</NavLink>
         </Menu.Item>
@@ -88,13 +93,8 @@ const linkList = [
         </Menu.Item>
     },
     {
-        menu: 'gameCard', link: <Menu.Item key="1006">
-            <NavLink to='/gameCard'>卡片游戏</NavLink>
-        </Menu.Item>
-    },
-    {
         menu: 'gameCardAdmin', link: <Menu.Item key="1007">
-            <NavLink to='/gameCardAdmin'>卡片游戏管理</NavLink>
+            <NavLink to='/gameCardAdmin'>卡牌游戏管理</NavLink>
         </Menu.Item>
     },
     {

@@ -51,7 +51,7 @@ class UpdateGameCardStarModalForm extends Component{
 
                         {
                             starArr.map((value, index) =>{
-                                const label = value + '星'
+                                const label = `${value-1}星->${value}星`
                                 const starName = 'star' + value
                                 let initialValue = starData.filter((record) =>record.star === value)
                                 if(initialValue[0] !== undefined){

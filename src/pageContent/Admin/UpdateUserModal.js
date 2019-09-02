@@ -49,8 +49,8 @@ class UpdateUserModalClass extends Component {
 
     // 验证手机
     validatePhone = (rule, value, callback) => {
-        const { form } = this.props;
-        if (value && value.startsWith('1') && value.length === 11) {
+        const { form,type } = this.props;
+        if (type === 1 ||value && value.startsWith('1') && value.length === 11) {
             callback();
         }else {
             callback('请输入正确的手机号码！');
@@ -113,7 +113,7 @@ class UpdateUserModalClass extends Component {
                     {getFieldDecorator('phone',{
                         rules: [
                             {
-                                required: true,
+                                required: false,
                                 message: '输入合法的手机号!',
                             },
                             {

@@ -34,8 +34,9 @@ class MyCard extends Component {
         const phone = browserRedirect();
 
         return (
+            cardData.length>0 &&
             <Card title={title}>
-                {cardData.length > 0 && cardData.map(record => {
+                { cardData.map(record => {
                     // 黑色星星的数量
                     const blackStar = record.currentStar
                     const whiteStar = record.topStar - record.currentStar
@@ -85,10 +86,10 @@ class MyCard extends Component {
                                             <span>当前等级:</span>
                                         </Col>
                                         <Col xs={6}>
-                                            <span>{record.currentRank+'级'}</span>
+                                            <span>{record.currentRank+'/'+record.starTopRank}</span>
                                         </Col>
                                         <Col xs={4}>
-                                            <a onClick={this.updateCard}> 升级</a>
+                                            {record.starTopRank - record.currentRank >0 && <a onClick={this.updateCard}> 升级</a> }
                                         </Col>
                                     </Row>
 
@@ -105,10 +106,10 @@ class MyCard extends Component {
                                             <span>当前效果：</span>
                                         </Col>
                                         <Col xs={16}>
-                                            {record.skill === 1 && <span>金币: +{record.incSkill}% </span>}
-                                            {record.skill === 2 && <span>经验: +{record.incSkill}% </span>}
+                                            {record.skill === 1 && <span>金币: +{record.incCoin}% </span>}
+                                            {record.skill === 2 && <span>经验: +{record.incExperience}% </span>}
                                             {record.skill === 3 &&
-                                            <span>免费钥匙: {record.incSkillLow}-{record.incSkillTop}🔑 </span>}
+                                            <span>免费钥匙: {record.incKeyLow}-{record.incKeyTop}🔑 </span>}
                                         </Col>
                                     </Row>
                                     <Row>
@@ -116,10 +117,10 @@ class MyCard extends Component {
                                             <span>下一级：</span>
                                         </Col>
                                         <Col xs={16}>
-                                            {record.skill === 1 && <span>金币: +{record.incSkillNext}% </span>}
-                                            {record.skill === 2 && <span>经验: +{record.incSkillNext}% </span>}
+                                            {record.skill === 1 && <span>金币: +{record.incCoinNext}% </span>}
+                                            {record.skill === 2 && <span>经验: +{record.incExperienceNext}% </span>}
                                             {record.skill === 3 &&
-                                            <span>免费钥匙: {record.incSkillLowNext}-{record.incSkillTopNext}🔑 </span>}
+                                            <span>免费钥匙: {record.incKeyLowNext}-{record.incKeyTopNext}🔑 </span>}
                                         </Col>
                                     </Row>
                                 </Col>

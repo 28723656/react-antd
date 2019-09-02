@@ -87,6 +87,8 @@ class GameCard extends Component {
                 this.success(result, openCount);
                 // 更新用户的货币信息
                 this.updateCoinData();
+                // 重点，获取卡牌信息
+                this.showMyCard();
             })
     }
 
@@ -159,6 +161,7 @@ class GameCard extends Component {
     showMyCard = () => {
         const user = getUser();
         getAjax(`/game/card/showMyCard/${user.id}`).then(response => {
+            console.log('获取到的卡片数据:',response.data.data)
             this.setState({cardData: response.data.data})
         })
     }
