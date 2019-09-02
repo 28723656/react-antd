@@ -10,6 +10,7 @@ import {getUser} from "../../util/userUtil";
 import {browserRedirect} from "../../util/whichDevice";
 import {GenNonDuplicateID} from "../../util/randomUtil";
 import MyCard from "../../pageContent/GameCardAdmin/GameCard/MyCard";
+import MyMoney from "../../pageContent/GameCardAdmin/GameCard/MyMoney";
 
 const {TabPane} = Tabs;
 
@@ -49,7 +50,7 @@ class GameCard extends Component {
     // 开箱 (两个参数，luckyId,开的次数)
     openLucky = (luckyId, openTimes) => {
         this.setState({loading: true})
-        const user = JSON.parse(localStorage.getItem('user'));
+        const user = getUser()
         addAjax(`/game/lucky/${user.id}/${luckyId}/${openTimes}`)
             .then(response => {
                 // 从数据库里面拉取数据，让用户看到刚刚得到了什么
@@ -85,10 +86,7 @@ class GameCard extends Component {
 
                 })
                 this.success(result, openCount);
-                // 更新用户的货币信息
-                this.updateCoinData();
-                // 重点，获取卡牌信息
-                this.showMyCard();
+                this.commonInitMethod();
             })
     }
 
@@ -166,6 +164,14 @@ class GameCard extends Component {
         })
     }
 
+    // 公共更新方法
+    commonInitMethod =() =>{
+        // 更新用户的货币信息
+        this.updateCoinData();
+        // 重点，获取卡牌信息
+        this.showMyCard();
+    }
+
     // 初始化数据
     initData = () => {
         // 获取lucky表的抽奖信息
@@ -184,11 +190,7 @@ class GameCard extends Component {
             this.setState({luckyType: result})
         })
 
-        // 更新用户的货币信息
-        this.updateCoinData();
-
-        // 重点，获取卡牌信息
-        this.showMyCard();
+      this.commonInitMethod();
     }
 
     componentDidMount() {
@@ -199,19 +201,6 @@ class GameCard extends Component {
 
 
         const {loading, luckyData, luckyType, userCoin, cardData} = this.state;
-        console.log('userCoin', userCoin, typeof userCoin)
-        let coinNum = 0;
-        let diamondNum = 0;
-        let keyNum = 0;
-        userCoin.length > 0 && userCoin.map(record => {
-            if (record.type === 1) {
-                coinNum = record.moneyNum;
-            } else if (record.type === 2) {
-                diamondNum = record.moneyNum
-            } else if (record.type === 3) {
-                keyNum = record.moneyNum
-            }
-        })
 
         // 把卡牌信息分开
         const cardDataD = cardData.filter(record => record.cardType === "D")
@@ -226,12 +215,7 @@ class GameCard extends Component {
                     <Spin spinning={loading}>
                         <div>
                             <Card>
-                                <Row>
-                                    <Col xs={6} md={4}>我的货币：</Col>
-                                    <Col xs={6} md={3}>{coinNum}💰</Col>
-                                    <Col xs={6} md={3}>{diamondNum}💎</Col>
-                                    <Col xs={6} md={3}>{keyNum}🔑</Col>
-                                </Row>
+                              <MyMoney userCoin={userCoin}/>
                             </Card>
                         </div>
                         <div>
@@ -428,14 +412,24 @@ class GameCard extends Component {
                     </Spin>
                 </TabPane>
                 <TabPane tab="我的卡片" key="2">
-                   <MyCard cardData={cardDataS} title="S级卡片"/>
-                   <MyCard cardData={cardDataA} title="A级卡片"/>
-                   <MyCard cardData={cardDataB} title="B级卡片"/>
-                   <MyCard cardData={cardDataC} title="C级卡片"/>
-                   <MyCard cardData={cardDataD} title="D级卡片"/>
+                    <Card> <MyMoney userCoin={userCoin}/> </Card>
+                   <MyCard cardData={cardDataS} initMethod={this.commonInitMethod} title="S级卡片"/>
+                   <MyCard cardData={cardDataA} initMethod={this.commonInitMethod} title="A级卡片"/>
+                   <MyCard cardData={cardDataB} initMethod={this.commonInitMethod} title="B级卡片"/>
+                   <MyCard cardData={cardDataC} initMethod={this.commonInitMethod} title="C级卡片"/>
+                   <MyCard cardData={cardDataD} initMethod={this.commonInitMethod} title="D级卡片"/>
 
                 </TabPane>
                 <TabPane tab="卡片图鉴" key="3">
+                    <p>
+                        待完成：用于显示所有的卡片的各种详细信息
+                    </p>
+                </TabPane>
+
+                <TabPane tab="最近记录" key="4">
+                    <p>待完成：用于显示用户最近货币的消耗情况，用户卡片获得情况，用户升级的情况，数据我全都收集了，只是功能做出来需要时间，请等待</p>
+                    <p> 当然，你懂得，用户毕竟只能看到很有限的东西，我在这里加一个时间限制，限制用户看到的内容</p>
+                    <p> 还要做一个管理员界面，能够看到各种详细数据分析</p>
                 </TabPane>
 
 

@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Tabs, Input, Typography,Button,message} from "antd";
 import {addAjax} from "../../util/ajax";
+import {getUser} from "../../util/userUtil";
 
 const {TabPane} = Tabs;
 const { TextArea } = Input;
@@ -22,7 +23,7 @@ class Message extends Component {
         if(words ===""){
             message.warning("空内容...");
         }else{
-            const user = JSON.parse(localStorage.getItem('user'));
+            const user = getUser()
             addAjax(`/message/message`,{userId:user.id,message:this.state.words})
                 .then(response =>{
                     message.success("提交成功");
@@ -44,10 +45,10 @@ class Message extends Component {
                 <Text>有什么感觉不舒服，不对劲的地方，随便什么，留言一下</Text>
                 <br/>
                 <br/>
-                <TextArea rows={6} placeholder="欢迎留言"  onChange={this.changeWords}/>
+                <TextArea rows={6} value={words} placeholder="欢迎留言"  onChange={this.changeWords}/>
                 <br/>
                 <br/>
-                <Button block type="primary" onClick={this.handleClick} >提交</Button>
+                <Button block type="primary"  onClick={this.handleClick} >提交</Button>
             </div>
         )
     }

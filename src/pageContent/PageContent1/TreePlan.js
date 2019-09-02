@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 
 import {Tree, Input, Tag,Typography} from 'antd';
 import {getAjax} from "../../util/ajax";
+import {getUser} from "../../util/userUtil";
 
 const { TreeNode } = Tree;
 const { Text } = Typography;
@@ -102,7 +103,7 @@ class TreePlan extends Component{
     };
 
     componentDidMount() {
-        const user = JSON.parse(localStorage.getItem('user'));
+        const user = getUser()
         getAjax(`/plan/plan/tree/-1/${user.id}`).then((response) =>{
             if(response.data.flag){
                 this.setState({initData:response.data.data});

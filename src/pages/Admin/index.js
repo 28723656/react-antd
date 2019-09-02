@@ -329,9 +329,9 @@ class Admin extends Component {
             userListByRoleId,roleListByMenuId,
         type} = this.state;
 
-        console.log('userData',userData)
+    /*    console.log('userData',userData)
         console.log('roleData',roleData)
-        console.log('menuData',menuData)
+        console.log('menuData',menuData)*/
 
         return (
             <Tabs defaultActiveKey="1" onChange={this.callback}>

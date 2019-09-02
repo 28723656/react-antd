@@ -138,7 +138,7 @@ class Menus extends Component {
     initMenu = () =>{
         console.log('------lalala-------')
       const user = JSON.parse(localStorage.getItem('user'));
-      if(user!== null && !user.offLine){
+      if(user!== null ){
           getAjax(`/admin/user/menu/${user.id}`)
               .then(response =>{
                   const result = response.data;
@@ -183,14 +183,15 @@ class Menus extends Component {
                     </Menu>
                 </Header>
                 <Content style={{padding: '0 0px', marginTop: 64}}>
-
                     <div style={{padding: '24 0px', minHeight: '90vh'}}>
+                    <Switch>
                         {menuList && menuList.length > 0 && routerList.map((record,index) =>{
                             if(menuList.indexOf(record.menu) !== -1){
                                 return record.route;
                             }
                         })}
-                        <Route exact path="/" component={Person}/>
+                        <Route  component={Person}/>
+                    </Switch>
                     </div>
                 </Content>
                 <Footer style={{textAlign: 'center'}}>©2019 Created 风往西边吹丶 &nbsp;&nbsp;  QQ:28723656</Footer>

@@ -13,13 +13,13 @@ export    function  browserRedirect () {
     let bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
     let bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
     if ( bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
-        console.log("您正在使用移动手机！");
+      //  console.log("您正在使用移动手机！");
         return 'phone';
     } else if(bIsIpad ){
-        console.log("您正在使用平板！");
+       // console.log("您正在使用平板！");
         return 'pad';
     }else {
-        console.log("您正在使用PC设备");
+      //  console.log("您正在使用PC设备");
         return 'pc'
     }
 }

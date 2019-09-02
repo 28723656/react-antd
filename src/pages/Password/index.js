@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {Tabs,Input,Typography ,Select,Icon,Button,Progress,Row,Col,message  } from "antd";
 import {addAjax, deleteAjax, getAjax, updateAjax} from "../../util/ajax";
 import moment from 'moment';
+import {getUser} from "../../util/userUtil";
 
 const {TabPane} = Tabs;
 const { Search } = Input;
@@ -38,7 +39,7 @@ class Password extends Component {
 
     // 解密
     unlock = (record) =>{
-        const user = JSON.parse(localStorage.getItem('user'));
+        const user = getUser()
         console.log('点我啊',record);
         updateAjax(`/password/password/${user.id}`,{id:record.id})
             .then(response =>{
@@ -69,7 +70,7 @@ class Password extends Component {
 
     // 提交的时候
     handleSubmit =(value) =>{
-        const user = JSON.parse(localStorage.getItem('user'));
+        const user = getUser()
         // 发送ajax请求保存数据
        addAjax(`/password/password/${user.id}`,{days:this.state.selectedDays,password:value})
             .then(response =>{
@@ -87,7 +88,7 @@ class Password extends Component {
 
     // 展示数据
     showInfo =() =>{
-        const user = JSON.parse(localStorage.getItem('user'));
+        const user = getUser()
         // 顺便把数据展示一下下
         getAjax(`/password/password/${user.id}`)
             .then(response =>{

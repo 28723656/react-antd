@@ -15,6 +15,7 @@ import {
 import {weaponData_mock} from "../mock/test01data";
 import {addAjax, getAjax, updateAjax, deleteAjax} from "../util/ajax";
 import {message} from 'antd'
+import {getUser} from "../util/userUtil";
 
 
 /**
@@ -66,7 +67,7 @@ const planList = (data) => ({type: INIT_PLAN, data});
  * 页面一：添加计划
  */
 export const addPlan = (values) => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = getUser()
     return async dispatch => {
         const response = await addAjax(`/plan/plan/${user.id}`, values);
         const result = response.data;
@@ -82,7 +83,7 @@ export const addPlan = (values) => {
 
 // 完成计划
 export const finishPlan = (values) => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = getUser()
     return async dispatch => {
         const response = await updateAjax(`/plan/plan/${user.id}`, values);
         const result = response.data;
@@ -99,7 +100,7 @@ export const finishPlan = (values) => {
 
 // 修改计划
 export const updatePlan = (values) => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = getUser()
     return async dispatch => {
         const response = await updateAjax(`/plan/plan/update/${user.id}`, values);
         const result = response.data;
@@ -118,7 +119,7 @@ export const updatePlan = (values) => {
 
 // 删除计划
 export const deletePlan = (id) => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = getUser()
     return async dispatch => {
         const response = await deleteAjax(`/plan/plan/${id}/${user.id}`);
         const result = response.data;
@@ -144,7 +145,7 @@ export const loading = (value) => ({type: LOADING, data: value})
 
 // 初始化计划
 export const initPlanData = () => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = getUser()
     return async dispatch => {
         const response = await getAjax(`/plan/plan/${user.id}`);
         const result = response.data;

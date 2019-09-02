@@ -1,3 +1,8 @@
 export function getUser() {
-    return  JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem('user'));
+    if(user === null){
+        window.location="/";
+    }else {
+        return user;
+    }
 }

@@ -507,6 +507,7 @@ class EditableTable extends React.Component {
         const {fullRank, oneStar,eachStar,eachCost,oneCost,eachIncCoin,oneIncCoin,
             eachIncExperience,oneIncExperience,eachLowPercent,oneLowPercent,eachTopPercent,oneTopPercent} = this.state.configEntity
         let tempArr =[]
+        let rank = 1;
         for(let count=1;count<=fullRank;count++){
             let tempCount =count;
             let star = 0;

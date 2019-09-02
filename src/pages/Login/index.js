@@ -101,7 +101,7 @@ class LoginClass extends Component {
 
                                 </Form.Item>
                                 <p>测试用户账号：123 密码：123</p>
-                                <p>测试管理员账号：暂时不能透露</p>
+                                <p>游戏用户账号：1234 密码：1234</p>
                             </Form>
                         </div>
                     </Col>
