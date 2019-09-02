@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {Button, Form, Input, message, Select} from 'antd';
 import {addAjax, updateAjax} from "../../util/ajax";
 import TextArea from "antd/lib/input/TextArea";
+import {getUser} from "../../util/userUtil";
 
 const { Option } = Select;
 
@@ -13,7 +14,7 @@ class UpdateUserModalClass extends Component {
         this.props.form.validateFields((err, fieldsValue) => {
             if (!err) {
                 // 这里可以获取所有的值
-                console.log('Received values of form: ', fieldsValue);
+              //  console.log('Received values of form: ', fieldsValue);
                 const {type} = this.props;
                 // 添加   // 1-修改  2-添加  3-查看
                 if(type === 2){
@@ -30,6 +31,12 @@ class UpdateUserModalClass extends Component {
 
                         })
                 }else if(type === 1) {
+                    const user = getUser()
+                    if(user.phone ===fieldsValue.phone ){
+                        // 修改的时候,如果对象是自己，清除localStorage
+                         localStorage.removeItem("user");
+                    }
+
                     updateAjax('/admin/user',fieldsValue)
                         .then(json =>{
                             if(json.data.flag){
@@ -91,7 +98,7 @@ class UpdateUserModalClass extends Component {
     render() {
         let {getFieldDecorator} = this.props.form;
         const {roleList,type} = this.props;
-        console.log('roleList --->',roleList)
+       // console.log('roleList --->',roleList)
 
         const formItemLayout = {
             labelCol: {
