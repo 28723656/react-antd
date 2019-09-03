@@ -29,6 +29,7 @@ import OnlyAdmin from "../../pages/OnlyAdmin";
 import GameCard from "../../pages/GameCard";
 import GameCardAdmin from "../../pages/Admin/GameCardAdmin";
 import Test001 from "../../pages/Test001";
+import GameCardUser from "../../pages/GameCardUser";
 
 require('./style.css')
 
@@ -45,6 +46,11 @@ const linkList = [
     {
         menu: 'gameCard', link: <Menu.Item key="1006">
             <NavLink to='/gameCard'>卡牌游戏</NavLink>
+        </Menu.Item>
+    },
+    {
+        menu: 'gameCardUser', link: <Menu.Item key="2002">
+            <NavLink to='/gameCardUser'>卡牌详情</NavLink>
         </Menu.Item>
     },
     {
@@ -123,6 +129,7 @@ const routerList = [
     {menu:'message',route:<Route key={11} path="/message" component={Message}/>},
     {menu:'onlyAdmin',route:<Route key={12} path="/onlyAdmin" component={OnlyAdmin}/>},
     {menu:'gameCard',route:<Route key={13} path="/gameCard" component={GameCard}/>},
+    {menu:'gameCardUser',route:<Route key={15} path="/gameCardUser" component={GameCardUser}/>},
     {menu:'gameCardAdmin',route:<Route key={14} path="/gameCardAdmin" component={GameCardAdmin}/>},
 ]
 

@@ -72,7 +72,7 @@ class SmallTable extends Component{
                            hideOnSinglePage:true,
                            pageSize:30
                        }}
-                       scroll={{x: '100%'}}
+                    /*   scroll={{x: '100%'}}*/
                 />
             </div>
         )
