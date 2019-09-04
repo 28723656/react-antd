@@ -3,6 +3,7 @@ import {Col, Input, Modal, Row, Select,Form} from "antd";
 import PropTypes from "prop-types";
 import {addAjax, updateAjax} from "../../../util/ajax";
 const {Option} = Select
+const {TextArea} = Input;
 
 class LuckyUpdateModalForm extends Component{
 
@@ -62,6 +63,15 @@ class LuckyUpdateModalForm extends Component{
             >
                 <Form >
                     <Row gutter={5}>
+
+                        <Col xs={24}>
+                            <Form.Item label="抽奖名称">
+                                {getFieldDecorator('name', {initialValue: luckyEntity.name || ''})(
+                                    <Input />,
+                                )}
+                            </Form.Item>
+                        </Col>
+
                         <Col xs={12}>
                             {getFieldDecorator('id', {initialValue: luckyEntity.id || null})(
                                 <Input hidden={true}/>,
@@ -112,6 +122,13 @@ class LuckyUpdateModalForm extends Component{
                                         <Option value={2}>💎--钻石</Option>
                                         <Option value={3}>🔑--钥匙</Option>
                                     </Select>
+                                )}
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24}>
+                            <Form.Item label="描述">
+                                {getFieldDecorator('description', {initialValue: luckyEntity.description || '免费的卡包，还等啥'})(
+                                    <TextArea rows={3}></TextArea>
                                 )}
                             </Form.Item>
                         </Col>

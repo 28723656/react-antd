@@ -50,7 +50,7 @@ class GameCardUser extends Component {
         return (
             <Tabs defaultActiveKey="1" onChange={this.callback}>
 
-                <TabPane tab="卡片图鉴" key="1">
+                <TabPane tab="卡牌图鉴" key="1">
                     <CardDetail cardArr={cardArr}/>
                 </TabPane>
                 <TabPane tab="最近记录" key="2">

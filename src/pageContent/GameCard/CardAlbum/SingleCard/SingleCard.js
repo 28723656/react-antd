@@ -77,6 +77,9 @@ class SingleCard extends Component{
                     <Col span={14}>
                         <Row>
                             { cardEntity.rewardPlace.length >0 && cardEntity.rewardPlace.map((record,index) =>{
+                                if(record === null){
+                                    return <Col  key={index}></Col>
+                                }
                                return  <Col key={index} xs={12} md={12} xl={8}>{record}</Col>
                             })}
                             {

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Tabs, Card, Row, Col, Button, Avatar, Spin, Modal, message} from "antd";
+import {Avatar, Button, Card, Col, message, Modal, Row, Spin, Tabs,Typography } from "antd";
 import {addAjax, getAjax} from "../../util/ajax";
 import ShowPercentModal from "../../pageContent/GameCardAdmin/GameCard/ShowPercentModal";
 import box1 from "../../img/box/box1.png"
@@ -7,16 +7,11 @@ import box2 from "../../img/box/box2.png"
 import box3 from "../../img/box/box3.png"
 import box4 from "../../img/box/box4.png"
 import {getUser} from "../../util/userUtil";
-import {browserRedirect} from "../../util/whichDevice";
-import {GenNonDuplicateID} from "../../util/randomUtil";
 import MyCard from "../../pageContent/GameCardAdmin/GameCard/MyCard";
 import MyMoney from "../../pageContent/GameCard/Common/MyMoney";
-import SmallTable from "../../components/Table/SmallTable";
-import LuckyCardRecord from "../../pageContent/GameCard/RecentRecord/LuckyCardRecord";
-import LuckyCountRecord from "../../pageContent/GameCard/RecentRecord/LuckyCountRecord";
-import LuckyRecentFifty from "../../pageContent/GameCard/RecentRecord/LuckyRecentFifty";
 
 const {TabPane} = Tabs;
+const { Text } = Typography;
 
 const gridStyle = {
     width: '33.3%',
@@ -179,7 +174,7 @@ class GameCard extends Component {
     // 初始化数据
     initData = () => {
         // 获取lucky表的抽奖信息
-        getAjax(`/game/lucky`).then(response => {
+        getAjax(`/game/lucky/open`).then(response => {
             console.log('获取到的抽奖信息数据：', response.data.data)
             this.setState({luckyData: response.data.data})
         })
@@ -228,9 +223,12 @@ class GameCard extends Component {
                             luckyData.map(record => {
                                 const type = record.type;
                                 const resultDict = luckyType.filter(filterRecord => filterRecord.code * 1 === type)
-                                let title = ''
+                                let title =''
                                 if (resultDict.length > 0) {
-                                    title = resultDict[0].name;
+                                  title =  <div>
+                                        <Text>{record.name}</Text>
+                                        <Text type="secondary">（{resultDict[0].name}）</Text>
+                                    </div>
                                 }
                                 // 来默认选盒子
                                 let box = box4
@@ -279,8 +277,7 @@ class GameCard extends Component {
                                                 <Col xs={24}>卡包说明：</Col>
                                                 <Col xs={24}>1.可以获得{record.output}卡片</Col>
                                                 <Col xs={24}>2.等级越高，获得稀有卡片几率越高</Col>
-                                                <Col xs={24}>3.具体的概率列表可以自行查看</Col>
-                                                <Col xs={24}>4.以后再补充，啦啦啦</Col>
+                                                <Col xs={24}>3.{record.description}</Col>
                                             </Row>
                                         </Col>
                                     </Row>

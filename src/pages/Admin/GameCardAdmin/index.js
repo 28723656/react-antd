@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import {Button, message, Tabs} from "antd";
+import {Button, message, Tabs,Switch } from "antd";
 import SmallTable from "../../../components/Table/SmallTable";
 import Test001 from "../../Test001"
-import {deleteAjax, getAjax} from "../../../util/ajax";
+import {deleteAjax, getAjax, updateAjax} from "../../../util/ajax";
 import LuckyPercentConfig from "../../../pageContent/GameCardAdmin/GameCardLucky/LuckyPercentConfig";
 import UpdateGameCardModal from "../../../pageContent/GameCardAdmin/GameCard/UpdateGameCardModal";
 import UpdateGameCardStarModal from "../../../pageContent/GameCardAdmin/GameCard/UpdateGameCardStarModal";
@@ -192,6 +192,23 @@ class GameCardAdmin extends Component {
     }
 
     // --------------------------end:抽奖的事件管理------------------------------
+
+    /**
+     * 是否显示这个抽奖
+     * @param value
+     */
+    changeSwitch =(value,record) =>{
+        const open = value?1:0;
+        updateAjax(`/game/lucky/switch/${open}`,record).then(response =>{
+            if(response.data.flag){
+                message.success('修改成功');
+                this.initLuckyData();
+            }else {
+                message.warning('修改失败')
+            }
+        })
+    }
+
     // 初始化数据
     componentDidMount() {
         this.initCardData();
@@ -263,6 +280,10 @@ class GameCardAdmin extends Component {
             },
         ]
         const luckyColumns = [
+            {
+                title:'名称',
+                dataIndex:'name',
+            },
             {
                 title: '类型',
                 dataIndex: 'type',
@@ -339,6 +360,14 @@ class GameCardAdmin extends Component {
                     return <a onClick={() =>this.showLuckyConfigModal(record)} >编辑</a>
                 }
             },
+            {
+                title:'启用',
+                dataIndex:'open',
+                render : (text,record) => {
+                    return <Switch  onChange={value =>this.changeSwitch(value,record)} checked={text===1}/>
+                }
+            }
+
         ]
 
         const {activeKey, visibleRank, visiblePercent,visibleCard, cardEntity, cardTitle, cardData, starData,starArr,visibleStar,deletePassword,deleteUrl,initMethod} = this.state

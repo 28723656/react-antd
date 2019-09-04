@@ -164,8 +164,7 @@ class LuckyCard extends Component{
                                     <Col xs={24}>卡包说明：</Col>
                                     <Col xs={24}>1.可以获得{record.output}卡片</Col>
                                     <Col xs={24}>2.等级越高，获得稀有卡片几率越高</Col>
-                                    <Col xs={24}>3.具体的概率列表可以自行查看</Col>
-                                    <Col xs={24}>4.以后再补充，啦啦啦</Col>
+                                    <Col xs={24}>3.{record.description}</Col>
                                 </Row>
                             </Col>
                         </Row>

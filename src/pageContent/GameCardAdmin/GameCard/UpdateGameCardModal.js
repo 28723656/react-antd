@@ -17,6 +17,23 @@ class UpdateGameCardModalForm extends Component{
     }
 
 
+    // 因为添加了一个字段  type_dict，用于表示卡片的类型
+    changeType =(value) =>{
+        const {setFieldsValue} = this.props.form
+        if(value === 'S'){
+            setFieldsValue({typeDict:1})
+        }else if(value === 'A'){
+            setFieldsValue({typeDict:2})
+        }else if(value === 'B'){
+            setFieldsValue({typeDict:3})
+        }else if(value === 'C'){
+            setFieldsValue({typeDict:4})
+        }else if(value === 'D'){
+            setFieldsValue({typeDict:5})
+        }
+    }
+
+
     // 点击确定，提交修改/添加卡片信息
     handleCardOk =(e) =>{
         e.preventDefault();
@@ -68,6 +85,9 @@ class UpdateGameCardModalForm extends Component{
                             {getFieldDecorator('id', {initialValue: cardEntity.id || null})(
                                 <Input hidden={true}/>,
                             )}
+                            {getFieldDecorator('typeDict', {initialValue: cardEntity.typeDict || 5})(
+                                <Input hidden={true}/>,
+                            )}
                             <Form.Item label="名称">
                                 {getFieldDecorator('name', {initialValue: cardEntity.name || 'D'})(
                                     <Input/>,
@@ -77,7 +97,7 @@ class UpdateGameCardModalForm extends Component{
                         <Col xs={8}>
                             <Form.Item label="类型">
                                 {getFieldDecorator('type', {initialValue: cardEntity.type || 'D'})(
-                                    <Select>
+                                    <Select onChange={this.changeType}>
                                         <Option value="S">S级</Option>
                                         <Option value="A">A级</Option>
                                         <Option value="B">B级</Option>
