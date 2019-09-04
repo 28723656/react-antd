@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
-import {Button, Card, List, Tabs, Typography,Row,Col,message} from "antd";
+import {Button, Card, List, Tabs, Typography, Row, Col, message, Modal} from "antd";
 import {getAjax, updateAjax} from "../../util/ajax";
 import {getUser} from "../../util/userUtil";
+import ShowPercentModal from "../GameCard";
 
 const {TabPane} = Tabs;
 
@@ -128,13 +129,37 @@ class Person extends Component {
         }
     }
 
+    // 获取ip
     getSomeThing =() =>{
         const user = getUser()
         getAjax(`/ip/ip/${user.id}`)
     }
 
+    // 获取每日卡片技能的奖励
+    getRewardDay =() =>{
+        const user = getUser()
+        updateAjax(`/game/rewardDay/${user.id}`).then(response =>{
+            if(response.data.flag){
+                const result = response.data.data;
+                Modal.success({
+                    title: '今日奖励',
+                    icon: null,
+                    content:
+                        <div>
+                           <Row>
+                               <Col span={24}>----你的卡片技能如下---</Col>
+                               <Col  span={24}>每日获取数量为：{result.lowCount}至{result.topCount}个</Col>
+                               <Col  span={24}>今日获取为：<span style={{fontSize:'20px',color:'blue'}}>{result.rewardCount}个</span></Col>
+                           </Row>
+                        </div>
+                })
+            }
+        })
+    }
+
     componentDidMount() {
         this.getSomeThing();
+        this.getRewardDay();
     }
 
     render() {
@@ -155,8 +180,8 @@ class Person extends Component {
                         <Col xs={24} md={12} xl={8} style={{marginBottom:'10px'}}>
                             <Card title='消息通知' bordered={true} bodyStyle={{paddingTop: '2px'}}>
                                 <p>最近更新：</p>
-                                <p>1.xxxxx</p>
-                                <p>2.xxxxxxxx</p>
+                                <p>1.新增了卡牌图鉴</p>
+                                <p>2.新增了每日奖励（要用卡片技能），每天凌晨12点以后登录自动领取奖励</p>
                                 <Button onClick={this.getReward}  type="default" block>了解</Button>
                             </Card>
                         </Col>
