@@ -37,8 +37,11 @@ class LuckyRecentFifty extends Component{
 
 
         const style ={
+            marginTop:5,
             marginBottom:3
         }
+
+        const hrTag = <hr style={{marginBottom:'10px'}}/>
 
         const {resultArr} = this.state;
         let uniqueMarkBefore = ''
@@ -73,7 +76,7 @@ class LuckyRecentFifty extends Component{
                                     <Col span={4}>x{record.coinNum}</Col>
                                     <Col span={10}>{getMomentTime(record.rewardTime)}</Col>
                                 </Row>
-                                    {hrLine && <hr/>}
+                                    {hrLine && hrTag}
                             </div>
                         }else if(record.rewardType === 2){
                             return <div key={index} style={style}>
@@ -83,8 +86,8 @@ class LuckyRecentFifty extends Component{
                                     <Col span={4}>货币</Col>
                                     <Col span={4}>x{record.coinNum}</Col>
                                     <Col span={10}>{getMomentTime(record.rewardTime)}</Col>
-                                    {hrLine && <hr/>}
                                 </Row>
+                                {hrLine && hrTag}
                             </div>
                         }else if(record.rewardType === 3){
                             return <div  key={index} style={style}>
@@ -94,8 +97,8 @@ class LuckyRecentFifty extends Component{
                                     <Col span={4}>货币</Col>
                                     <Col span={4}>x{record.coinNum}</Col>
                                     <Col span={10}>{getMomentTime(record.rewardTime)}</Col>
-                                    {hrLine && <hr/>}
                                 </Row>
+                                {hrLine && hrTag}
                             </div>
                         }else if(record.rewardType === 4){
                             return <div key={index} style={style}>
@@ -105,8 +108,8 @@ class LuckyRecentFifty extends Component{
                                     <Col span={4}>{record.cardType}</Col>
                                     <Col span={4}>x{record.cardNum}</Col>
                                     <Col span={10}>{getMomentTime(record.rewardTime)}</Col>
-                                    {hrLine && <hr/>}
                                 </Row>
+                                {hrLine && hrTag}
                             </div>
                         }
                         })

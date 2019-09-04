@@ -6,6 +6,7 @@ import MyMoney from "../../pageContent/GameCard/Common/MyMoney";
 import LuckyCardRecord from "../../pageContent/GameCard/RecentRecord/LuckyCardRecord";
 import LuckyCountRecord from "../../pageContent/GameCard/RecentRecord/LuckyCountRecord";
 import LuckyRecentFifty from "../../pageContent/GameCard/RecentRecord/LuckyRecentFifty";
+import CardDetail from "../../pageContent/GameCard/CardAlbum/CardDetail";
 
 const {TabPane} = Tabs;
 
@@ -13,10 +14,20 @@ class GameCardUser extends Component {
 
     state = {
         userCoin: [],   // 用户货币
+        cardArr:[],  // 卡牌图鉴
     }
 
     onChange = (date, dateString) => {
         console.log(date, dateString);
+    }
+
+    // 卡牌图鉴
+    cardAlbum =() =>{
+        getAjax(`/game/card/dictionary`).then(response =>{
+            if(response.data.flag){
+                this.setState({cardArr:response.data.data})
+            }
+        })
     }
 
     // 更新货币信息
@@ -29,20 +40,18 @@ class GameCardUser extends Component {
     }
 
     // 公共更新方法
-    commonInitMethod = () => {
-        // 更新用户的货币信息
+    componentDidMount() {
         this.updateCoinData();
+        this.cardAlbum();
     }
 
     render() {
-        const {userCoin} = this.state;
+        const {userCoin,cardArr} = this.state;
         return (
-            <Tabs defaultActiveKey="2" onChange={this.callback}>
+            <Tabs defaultActiveKey="1" onChange={this.callback}>
 
                 <TabPane tab="卡片图鉴" key="1">
-                    <p>
-                        待完成：用于显示所有的卡片的各种详细信息
-                    </p>
+                    <CardDetail cardArr={cardArr}/>
                 </TabPane>
                 <TabPane tab="最近记录" key="2">
                     <Row gutter={5}>
