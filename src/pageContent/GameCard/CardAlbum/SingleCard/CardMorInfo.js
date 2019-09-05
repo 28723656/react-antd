@@ -63,7 +63,7 @@ class CardMorInfo extends Component{
                     if(cardRecord.skill === 1){
                         specialNode = <Col offset={2} span={8}>金币 +{record.incCoin}%</Col>
                     }else if(cardRecord.skill === 2){
-                        specialNode = <Col offset={2} span={8}>钻石 +{record.incCoin}%</Col>
+                        specialNode = <Col offset={2} span={8}>经验 +{record.incExperience}%</Col>
                     }else if(cardRecord.skill === 3){
                         specialNode = <Col span={7}>钥匙： +{record.lowPercent}个</Col>
                         specialNode2 = <Col span={7}>钥匙： +{record.topPercent}个</Col>

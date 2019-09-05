@@ -33,6 +33,7 @@ class GameCard extends Component {
         luckyData: [],  // 抽奖列表
         luckyType: [],  // 抽奖的字典类型
         userCoin: [],   // 用户货币
+        userSkill:{},  // 用户技能
 
         cardData: [], //我的卡牌信息
     }
@@ -146,11 +147,13 @@ class GameCard extends Component {
 
 
     // 更新货币信息
-    updateCoinData = () => {
+    updateCoinAndSkillData = () => {
         const user = getUser();
         getAjax(`/game/myMoney/${user.id}`).then(response => {
-            console.log('用户的货币信息:', response.data.data)
             this.setState({userCoin: response.data.data})
+        })
+        getAjax(`/game/myCard/skillCount/${user.id}`).then(response =>{
+            this.setState({userSkill: response.data.data})
         })
     }
 
@@ -166,7 +169,7 @@ class GameCard extends Component {
     // 公共更新方法
     commonInitMethod =() =>{
         // 更新用户的货币信息
-        this.updateCoinData();
+        this.updateCoinAndSkillData();
         // 重点，获取卡牌信息
         this.showMyCard();
     }
@@ -199,7 +202,7 @@ class GameCard extends Component {
     render() {
 
 
-        const {loading, luckyData, luckyType, userCoin, cardData} = this.state;
+        const {loading, luckyData, luckyType, userCoin, cardData,userSkill} = this.state;
 
         // 把卡牌信息分开
         const cardDataD = cardData.filter(record => record.cardType === "D")
@@ -214,7 +217,7 @@ class GameCard extends Component {
                     <Spin spinning={loading}>
                         <div>
                             <Card>
-                              <MyMoney userCoin={userCoin}/>
+                              <MyMoney userCoin={userCoin} userSkill={userSkill}/>
                             </Card>
                         </div>
                         <div>
@@ -289,7 +292,7 @@ class GameCard extends Component {
                     </Spin>
                 </TabPane>
                 <TabPane tab="我的卡片" key="2">
-                    <Card> <MyMoney userCoin={userCoin}/> </Card>
+                    <Card> <MyMoney userCoin={userCoin} userSkill={userSkill}/> </Card>
                    <MyCard cardData={cardDataS} initMethod={this.commonInitMethod} title="S级卡片"/>
                    <MyCard cardData={cardDataA} initMethod={this.commonInitMethod} title="A级卡片"/>
                    <MyCard cardData={cardDataB} initMethod={this.commonInitMethod} title="B级卡片"/>

@@ -6,11 +6,12 @@ class MyMoney extends Component{
 
     static propTypes = {
         userCoin: PropTypes.array.isRequired,
+        userSkill: PropTypes.object.isRequired,
     }
-
     render() {
 
-        const {userCoin} = this.props
+        const {userCoin,userSkill} = this.props
+        console.log('userSkill',userSkill)
 
         let coinNum = 0;
         let diamondNum = 0;
@@ -26,12 +27,25 @@ class MyMoney extends Component{
         })
 
         return (
-            <Row>
-                <Col xs={6} md={4}>我的货币：</Col>
-                <Col xs={6} md={3}>{coinNum}💰</Col>
-                <Col xs={6} md={3}>{diamondNum}💎</Col>
-                <Col xs={6} md={3}>{keyNum}🔑</Col>
-            </Row>
+            <div>
+                <Row>
+                    <Col xs={6} md={4}>我的货币：</Col>
+                    <Col xs={6} md={3}>{coinNum}💰</Col>
+                    <Col xs={6} md={3}>{diamondNum}💎</Col>
+                    <Col xs={6} md={3}>{keyNum}🔑</Col>
+                </Row>
+
+                <Row>
+                    <Col xs={6} md={4}>我的技能：</Col>
+                    <Col xs={10} md={3}>金币: +{userSkill.incCoin || 0}%</Col>
+                    <Col xs={8} md={3}>经验: +{userSkill.incExperience|| 0}%</Col>
+                    <Col offset={6} xs={16} md={3}>钥匙: {userSkill.lowPercent|| 0}-{userSkill.topPercent|| 0}个</Col>
+                </Row>
+
+            </div>
+
+
+
         )
     }
 }
