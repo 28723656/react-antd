@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Card} from "antd";
 import {GenNonDuplicateID} from "../../../util/randomUtil";
-import {Col, Row,message} from "antd";
+import {Col, Row,message,Spin} from "antd";
 
 import PropTypes from "prop-types";
 import {browserRedirect} from "../../../util/whichDevice";
@@ -57,6 +57,12 @@ const fullRankStylePad = {
 
 class MyCard extends Component {
 
+    state ={
+        spinningRank:false,
+        spinningStar:false,
+        spinningCardId:-1,
+    }
+
     static propTypes = {
         cardData: PropTypes.array.isRequired,
         title: PropTypes.string.isRequired,
@@ -65,12 +71,24 @@ class MyCard extends Component {
 
     // 升级卡片   unlock是为了提示一下 传入表示解锁
     updateCard =(cardId,updateType) =>{
+            this.setState({spinningCardId:cardId})
+        if(updateType === 1){
+            this.setState({spinningRank:true})
+        }else if(updateType === 2){
+            this.setState({spinningStar:true})
+        }
+
         const {initMethod} = this.props
-        console.log('准备升级id为'+cardId+'的卡片');
         const user = getUser()
+        console.log(`url:/game/myCard/${user.id}/${cardId}/${updateType}`)
         updateAjax(`/game/myCard/${user.id}/${cardId}/${updateType}`).then(response =>{
             if(response.data.flag){
                 initMethod()
+                setTimeout(() =>{
+                        this.setState({spinningRank:false})
+                        this.setState({spinningStar:false})
+                },500)
+
             }else {
                 message.warning("好像没钱了唉...");
             }
@@ -81,6 +99,8 @@ class MyCard extends Component {
 
         const {cardData, title} = this.props
         const phone = browserRedirect();
+        const {spinningCardId,spinningRank,spinningStar} = this.state
+   //     console.log('cardData',cardData)
 
         return (
             cardData.length>0 &&
@@ -164,10 +184,15 @@ class MyCard extends Component {
                                             {!record.updateStarNeedNum && <span>{record.cardNum}</span>}
                                         </Col>
                                         {record.updateStarNeedNum &&
+
                                             <Col xs={6}>
-                                                {record.cardNum - record.updateStarNeedNum >= 0 &&
-                                                <a onClick={() =>this.updateCard(record.cardId,2)}> {haveTheCard?'升星':'解锁'}</a>}
+                                                {record.cardNum - record.updateStarNeedNum >= 0 && <Spin spinning={spinningCardId === record.cardId ?spinningStar:false}>
+                                                <a onClick={() =>this.updateCard(record.cardId,2)}> {haveTheCard?'升星':'解锁'}</a>
+                                                </Spin>
+                                                }
                                             </Col>
+
+
                                         }
 
                                     </Row>
@@ -181,9 +206,11 @@ class MyCard extends Component {
                                             <Col xs={6}>
                                                 <span>{record.currentRank+'/'+record.starTopRank}</span>
                                             </Col>
-                                            <Col xs={4}>
-                                                {!fullStarRank && <a onClick={() =>this.updateCard(record.cardId,1)}> 升级</a> }
-                                            </Col>
+
+                                                <Col xs={4}>
+                                                    {!fullStarRank &&<Spin  spinning={spinningCardId === record.cardId ?spinningRank:false}> <a onClick={() =>this.updateCard(record.cardId,1)}> 升级</a></Spin> }
+                                                </Col>
+
                                         </Row>
 
                                         <Row>
@@ -191,7 +218,8 @@ class MyCard extends Component {
                                                 <span>升级花费:</span>
                                             </Col>
                                             <Col xs={6}>
-                                                <span>{!fullStarRank? record.cost+'💰':'0💰'}</span>
+                                                <span>{!fullStarRank && (record.cost || 0)+'💰'}</span>
+                                                <span>{fullStarRank && '0💰'}</span>
                                             </Col>
                                         </Row>
                                         <Row>
