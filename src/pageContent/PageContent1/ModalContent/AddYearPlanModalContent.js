@@ -5,6 +5,7 @@ import PlanRadioGroup from "../Common/PlanRadioGroup";
 import PlanSlider from "../Common/PlanSlider";
 import moment from 'moment';
 import locale from "antd/lib/date-picker/locale/zh_CN";
+import {getMomentTime, getMomentTimeNoFormat} from "../../../util/momentUtil";
 
 const {confirm} = Modal
 const { MonthPicker } = DatePicker;
@@ -123,7 +124,7 @@ class AddYearModalContentClass extends React.Component {
 
                 <Form.Item label='选择年份'
                 >
-                    {getFieldDecorator('startTime',{ initialValue:record !== null? moment(record.startTime).subtract(1,'months'):moment()})(
+                    {getFieldDecorator('startTime',{ initialValue:record !== null? getMomentTimeNoFormat(record.startTime):moment()})(
                         <MonthPicker locale={locale}   placeholder="选择年份" />
                         )}
                 </Form.Item>

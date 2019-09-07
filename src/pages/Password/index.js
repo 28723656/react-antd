@@ -3,6 +3,7 @@ import {Tabs,Input,Typography ,Select,Icon,Button,Progress,Row,Col,message  } fr
 import {addAjax, deleteAjax, getAjax, updateAjax} from "../../util/ajax";
 import moment from 'moment';
 import {getUser} from "../../util/userUtil";
+import {getDays, getHours, getMomentTime} from "../../util/momentUtil";
 
 const {TabPane} = Tabs;
 const { Search } = Input;
@@ -138,8 +139,8 @@ class Password extends Component {
                     {passwordData && passwordData.map((record,index) =>{
 
                         let now2 = moment()
-                        let diffDays = moment(record.endDate).subtract(1,'months').diff(moment(),'days');
-                        let diffHours =moment(record.endDate).subtract(1,'months').diff(moment(),'hours');
+                        let diffDays = getDays(record.endDate)
+                        let diffHours =getHours(record.endDate)
 
                         const totalHours = moment(record.endDate).diff(moment(record.beginDate),'hours')
                         const percent =parseFloat(((totalHours-diffHours)*100.00/totalHours).toFixed(1));
@@ -151,9 +152,10 @@ class Password extends Component {
 
                         return <div key={index}>
                             <hr/>
+
                             <Row  >
                                 <Col xs={17} md={8} style={{paddingTop:'5px'}} >
-                                    <span > {index+1}.创建时间：{moment(record.beginDate).format("YYYY-MM-DD HH:mm:ss")} </span>
+                                    <span > {index+1}.创建时间：{getMomentTime(record.beginDate)} </span>
                                 </Col>
                                 <Col offset={1} xs={6} md={8} style={{paddingTop:'5px'}} >
                                     <span > 周期：{record.days}天 </span>

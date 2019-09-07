@@ -7,6 +7,7 @@ import PlanSlider from "../Common/PlanSlider";
 import PlanSelectOptionList from "../Common/PlanSelectOptionList";
 import locale from 'antd/lib/date-picker/locale/zh_CN';
 import 'moment/locale/zh-cn';
+import {getMomentTimeNoFormat} from "../../../util/momentUtil";
 
 const { Option } = Select;
 //const format = 'HH:mm';
@@ -154,10 +155,10 @@ class AddPlanModalContentClass extends React.Component {
 
                     <Form.Item label='开始时间'
                     >
-                        {getFieldDecorator('startTime',{ initialValue:record !== null? moment(record.startTime).subtract(1,'months'):moment()})(<DatePicker locale={locale} showTime format={format}  />)}
+                        {getFieldDecorator('startTime',{ initialValue:record !== null? getMomentTimeNoFormat(record.startTime):moment()})(<DatePicker locale={locale} showTime format={format}  />)}
                     </Form.Item>
                     <Form.Item  label='结束时间'>
-                        {getFieldDecorator('endTime',{initialValue:record !== null? moment(record.endTime).subtract(1,'months'):moment().add(1,'h')})(<DatePicker locale={locale} showTime  format={format}  />)}
+                        {getFieldDecorator('endTime',{initialValue:record !== null? getMomentTimeNoFormat(record.endTime):moment().add(1,'h')})(<DatePicker locale={locale} showTime  format={format}  />)}
                     </Form.Item>
 
 
