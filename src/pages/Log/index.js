@@ -154,6 +154,13 @@ class Log extends Component {
                 </TabPane>
                 <TabPane tab="版本控制" key="4">
 
+                    <Card title='v0.2.2   2019-9-7'>
+                        <Row>
+                            <Col>1.管理员后台新增数据字典管理</Col>
+                            <Col>2.优化了下菜单显示</Col>
+                        </Row>
+                    </Card>
+
                     <Card title='v0.2.1   2019-9-5'>
                         <Row>
                             <Col>1.完成了基本的卡牌游戏</Col>

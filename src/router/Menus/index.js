@@ -7,7 +7,7 @@ import {
     Redirect,
     Switch,
 } from 'react-router-dom';
-import {Layout, Menu, Breadcrumb, Avatar, message} from 'antd';
+import {Layout, Menu, Breadcrumb, Avatar, message,Icon} from 'antd';
 import Page1 from "../../pages/Page1";
 import Page2 from "../../pages/Page2";
 import PlanStat from "../../pages/PlanStat";
@@ -37,6 +37,7 @@ require('./style.css')
 
 
 const {Header, Content, Footer} = Layout;
+const { SubMenu } = Menu;
 
 
 const linkList = [
@@ -71,29 +72,35 @@ const linkList = [
         </Menu.Item>
     },
     {
-        menu: 'TV', link: <Menu.Item key="20">
+        menu: 'TV',
+        link: <Menu.Item key="20">
             <NavLink to='/TV'>动漫</NavLink>
-        </Menu.Item>
+        </Menu.Item>,
+        parent:'others',
     },
-    {
+/*    {
         menu: 'homework', link: <Menu.Item key="40">
             <NavLink to='/homework'>作业界面</NavLink>
-        </Menu.Item>
-    },
+        </Menu.Item>,
+        parent:'others',
+    },*/
     {
         menu: 'log', link: <Menu.Item key="100">
             <NavLink to='/log'>更新日志</NavLink>
-        </Menu.Item>
+        </Menu.Item>,
+        parent:'others',
     },
     {
         menu: 'system', link: <Menu.Item key="1001">
-            <NavLink to='/system'>系统管理</NavLink>
-        </Menu.Item>
+            <NavLink to='/system'>用户角色权限</NavLink>
+        </Menu.Item>,
+        parent:'admin'
     },
     {
         menu: 'dictionaries', link: <Menu.Item key="1201">
             <NavLink to='/dictionaries'>数据字典</NavLink>
-        </Menu.Item>
+        </Menu.Item>,
+        parent:'admin'
     },
     {
         menu: 'score', link: <Menu.Item key="1002">
@@ -103,22 +110,26 @@ const linkList = [
     {
         menu: 'password', link: <Menu.Item key="1003">
             <NavLink to='/password'>密码加密</NavLink>
-        </Menu.Item>
+        </Menu.Item>,
+        parent:'others',
     },
     {
         menu: 'message', link: <Menu.Item key="1004">
             <NavLink to='/message'>留言</NavLink>
-        </Menu.Item>
+        </Menu.Item>,
+        parent:'others',
     },
     {
         menu: 'gameCardAdmin', link: <Menu.Item key="1007">
             <NavLink to='/gameCardAdmin'>卡牌游戏管理</NavLink>
-        </Menu.Item>
+        </Menu.Item>,
+        parent:'admin'
     },
     {
         menu: 'onlyAdmin', link: <Menu.Item key="1098">
             <NavLink to='/onlyAdmin'>管理员后台</NavLink>
-        </Menu.Item>
+        </Menu.Item>,
+        parent:'admin'
     },
     {
         menu: 'person', link: <Menu.Item key="1099">
@@ -130,8 +141,8 @@ const linkList = [
 const routerList = [
     {menu:'plan',route: <Route exact key={6} path="/plan" component={Page1}/>},
     {menu:'statistics',route:<Route key={1} path="/statistics" component={PlanStat}/>},
-    {menu:'TV',route: <Route key={2} path="/TV" component={Page4}/>},
-    {menu:'homework',route: <Route key={3} path="/homework" component={Page2}/>},
+    {menu:'TV',route: <Route key={2} path="/TV" component={Page4}/> },
+   /* {menu:'homework',route: <Route key={3} path="/homework" component={Page2}/>},*/
     {menu:'log',route:<Route key={4} path="/log" component={Log}/>},
     {menu:'system',route:<Route key={5} path="/system" component={Admin}/>},
     {menu:'person',route:<Route key={7} path="/person" component={Person}/>},
@@ -169,6 +180,7 @@ class Menus extends Component {
 
                     //  window.location="/"
                       this.setState({menuList:result.data});
+                      console.log('menuList:',result.data)
                   }else {
                       message.error('没有权限，请联系管理员');
                   }
@@ -185,6 +197,24 @@ class Menus extends Component {
 
     render() {
          const {menuList} = this.state;
+        const others =menuList && menuList.length > 0 && linkList.map((record, index) => {
+            if (menuList.indexOf(record.menu)!== -1 && record.parent === 'others'){
+                return record.link;
+            }
+        })
+       const realOthers =others && others.filter(record => record !==undefined)
+
+       const admin = menuList && menuList.length > 0 && linkList.map((record, index) => {
+            if (menuList.indexOf(record.menu)!== -1 && record.parent === 'admin'){
+                return record.link;
+            }
+        })
+        const realAdmin = admin&& admin.filter(record => record !==undefined)
+
+
+        console.log('realOthers',realOthers,'realAdmin',realAdmin)
+
+
         return (
             <Layout>
                 <Header style={{position: 'fixed', zIndex: 1, width: '100%'}}>
@@ -196,10 +226,33 @@ class Menus extends Component {
                         style={{lineHeight: '64px'}}
                     >
                         {menuList && menuList.length > 0 && linkList.map((record, index) => {
-                            if (menuList.indexOf(record.menu)!== -1){
+                            if (menuList.indexOf(record.menu)!== -1 && record.parent === undefined){
                                 return record.link;
                             }
                                 })}
+                        {realOthers && realOthers.length> 0 &&
+                        <SubMenu key="sub1" title={  <span>  <Icon type="unordered-list" /> <span>其他</span> </span>  } >
+                            {menuList && menuList.length > 0 && linkList.map((record, index) => {
+                                if (menuList.indexOf(record.menu)!== -1 && record.parent === 'others'){
+                                    return record.link;
+                                }
+                            })}
+                        </SubMenu>
+                        }
+
+                        {realAdmin && realAdmin.length > 0 &&
+                        <SubMenu key="sub2" title={  <span>  <Icon type="setting" /> <span>管理员后台</span> </span>  } >
+                            {menuList && menuList.length > 0 && linkList.map((record, index) => {
+                                if (menuList.indexOf(record.menu)!== -1 && record.parent === 'admin'){
+                                    return record.link;
+                                }
+                            })}
+                        </SubMenu>
+                        }
+
+
+
+
 
                     </Menu>
                 </Header>
