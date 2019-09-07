@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Card, DatePicker, List, Tabs, Typography} from "antd";
+import {Card, DatePicker, List, Tabs, Typography,Col,Row} from "antd";
 
 const {TabPane} = Tabs;
 const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
@@ -125,8 +125,64 @@ class Log extends Component {
 
                     </Card>
                 </TabPane>
+                <TabPane tab="系统说明" key="3">
+                    <Card title='前端'>
+                        <Row>
+                            <Col>1.用的react,react-router-dom做路由，redux做状态管理,但是后期嫌麻烦，就直接没用redux了</Col>
+                            <Col>2.ant-design前端组件，虽然是web端组件，但是我做的时候还是对手机和pad端进行的一些调整</Col>
+                        </Row>
+                    </Card>
+                    <Card title='后台'>
+                        <Row>
+                            <Col>1.springBoot+mybatisPlus，因为这样对数据库操作起来太方便了</Col>
+                            <Col>2.暂时没有加上任何的安全验证，因为我觉得测试起来可能不方便，等都成型了后，加上shiro吧</Col>
+                        </Row>
+                    </Card>
+                    <Card title='数据库'>
+                        <Row>
+                            <Col>1.主要用mysql,但是这次我没有主动关联任何主外键</Col>
+                            <Col>2.对于一些查询时间比较长的操作，我就把数据放入redis了</Col>
+                        </Row>
+                    </Card>
+                    <Card title='服务器'>
+                        <Row>
+                            <Col>1.阿里云的服务器,linux系统，左右的东西都放在docker里面跑了</Col>
+                            <Col>2.网易云那个东西，就是开源的一个项目，直接从git靠过来，在docker里面运行，就能直接调接口那数据了</Col>
+                            <Col>3.本来想搞个域名的，结果有一步要居住证，就算了</Col>
+                        </Row>
+                    </Card>
+                </TabPane>
+                <TabPane tab="版本控制" key="4">
+
+                    <Card title='v0.2.1   2019-9-5'>
+                        <Row>
+                            <Col>1.完成了基本的卡牌游戏</Col>
+                            <Col>2.能够自定义卡牌和抽奖，所有的数据都是自定义的</Col>
+                        </Row>
+                    </Card>
+
+                    <Card title='v0.1.1   2019-7-5'>
+                        <Row>
+                            <Col>1.完成了用户角色权限的划分</Col>
+                            <Col>2.动漫的基本雏形</Col>
+                        </Row>
+                    </Card>
+
+                    <Card title='v0.0.2   2019-6-29'>
+                        <Row>
+                            <Col>1.计划管理系统上线（但是只完成了部分）</Col>
+                        </Row>
+                    </Card>
+
+                    <Card title='v0.0.1   2019-6-15'>
+                        <Row>
+                            <Col>1.终于部署了自己的服务器，准备放点东西上去</Col>
+                            <Col></Col>
+                        </Row>
+                    </Card>
 
 
+                </TabPane>
 
             </Tabs>
         )

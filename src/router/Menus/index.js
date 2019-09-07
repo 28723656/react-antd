@@ -31,6 +31,7 @@ import GameCardAdmin from "../../pages/Admin/GameCardAdmin";
 import Test001 from "../../pages/Test001";
 import GameCardUser from "../../pages/GameCardUser";
 import GameMarket from "../../pages/Admin/GameMarket";
+import Dictionaries from "../../pages/Admin/Dictionaries";
 
 require('./style.css')
 
@@ -90,6 +91,11 @@ const linkList = [
         </Menu.Item>
     },
     {
+        menu: 'dictionaries', link: <Menu.Item key="1201">
+            <NavLink to='/dictionaries'>数据字典</NavLink>
+        </Menu.Item>
+    },
+    {
         menu: 'score', link: <Menu.Item key="1002">
             <NavLink to='/score'>积分</NavLink>
         </Menu.Item>
@@ -138,6 +144,7 @@ const routerList = [
     {menu:'gameCardUser',route:<Route key={15} path="/gameCardUser" component={GameCardUser}/>},
     {menu:'gameCardAdmin',route:<Route key={14} path="/gameCardAdmin" component={GameCardAdmin}/>},
     {menu:'gameMarket',route:<Route key={100} path="/gameMarket" component={GameMarket}/>},
+    {menu:'dictionaries',route:<Route key={101} path="/dictionaries" component={Dictionaries}/>},
 ]
 
 
