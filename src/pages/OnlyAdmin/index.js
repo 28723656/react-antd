@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {Card, DatePicker, List, Tabs, Typography} from "antd";
 import {getAjax} from "../../util/ajax";
 import moment from 'moment';
+import {getMomentTime} from "../../util/momentUtil";
 
 const {TabPane} = Tabs;
 
@@ -14,6 +15,8 @@ class OnlyAdmin extends Component {
         messageList:[],
         // Ip
         ipList:[],
+        // 登录
+        signInList:[],
     }
 
      onChange = (date, dateString) => {
@@ -35,18 +38,47 @@ class OnlyAdmin extends Component {
             })
     }
 
+    loadSignIn =() =>{
+      getAjax(`/game/recordSignIn/record/7`).then(response =>{
+          console.log('signInList',response.data.data)
+          this.setState({signInList:response.data.data})
+      })
+    }
+
     componentDidMount() {
        this.loadMessage();
        this.loadIp();
+       this.loadSignIn();
     }
 
     render() {
 
-        const {messageList,ipList} = this.state;
+        const {messageList,ipList,signInList} = this.state;
+        console.log('signInList-render',signInList)
 
         return (
             <Tabs defaultActiveKey="1" onChange={this.callback}>
-                <TabPane tab="ip管理" key="1">
+
+                <TabPane tab="今日活跃" key="1">
+                    {signInList&& signInList.length>0 &&
+                    <Card title='登录情况' bordered={true} bodyStyle={{paddingTop: '2px'}}>
+                        <List
+                            header={<div>近一周登录记录</div>}
+                            bordered
+                            dataSource={signInList}
+                            renderItem={item => (
+                                <List.Item>
+                                    <Typography.Text>{item.userId}</Typography.Text> &nbsp; &nbsp; &nbsp; &nbsp;
+                                    <Typography.Text mark>{item.nickName}</Typography.Text> &nbsp; &nbsp; &nbsp; &nbsp;
+                                    <Typography.Text >{getMomentTime(item.createTime)}</Typography.Text> &nbsp; &nbsp; &nbsp; &nbsp;
+                                </List.Item>
+                            )}
+                        />
+                    </Card>
+                    }
+                </TabPane>
+
+                <TabPane tab="ip管理" key="2">
                     {ipList &&
                     <Card title='ip' bordered={true} bodyStyle={{paddingTop: '2px'}}>
                         <List
@@ -65,7 +97,7 @@ class OnlyAdmin extends Component {
                     }
                 </TabPane>
 
-                <TabPane tab="评论留言" key="2">
+                <TabPane tab="评论留言" key="3">
                     {messageList &&
                     <Card title='留言' bordered={true} bodyStyle={{paddingTop: '2px'}}>
                         <List
@@ -82,9 +114,6 @@ class OnlyAdmin extends Component {
                     }
 
                 </TabPane>
-
-
-
 
             </Tabs>
         )

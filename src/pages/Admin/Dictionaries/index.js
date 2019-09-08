@@ -120,10 +120,12 @@ class Dictionaries extends Component {
             {
                title:'code',
                dataIndex:'code',
+                width: '10%'
             },
             {
                 title:'名称',
                 dataIndex:'name',
+                width:'15%'
             },
             {
                 title:'描述',
@@ -145,12 +147,15 @@ class Dictionaries extends Component {
                       <a onClick={() =>this.deleteDict(record)}>删除</a>
                   </div>
               },
+                width:'100px',
+                align:'center',
             },
             {
                 title:'子类',
                 render: (text,record) =>{
                     return  <a onClick={() =>this.showDictSon(record)}>编辑</a>
                 },
+                width:'12%'
             },
         ]
 
@@ -183,6 +188,7 @@ class Dictionaries extends Component {
                         <a onClick={() =>this.deleteDictSon(record)}>删除</a>
                     </div>
                 },
+                align: 'center'
             },
         ]
 

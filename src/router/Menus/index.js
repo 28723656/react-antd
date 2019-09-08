@@ -217,7 +217,7 @@ class Menus extends Component {
 
         return (
             <Layout>
-                <Header style={{position: 'fixed', zIndex: 1, width: '100%'}}>
+                <Header style={{position: 'fixed', zIndex: 1, width: '100%',padding:0}}>
                     <div className='logo'/>
                     <Menu
                         theme="dark"
@@ -232,21 +232,13 @@ class Menus extends Component {
                                 })}
                         {realOthers && realOthers.length> 0 &&
                         <SubMenu key="sub1" title={  <span>  <Icon type="unordered-list" /> <span>其他</span> </span>  } >
-                            {menuList && menuList.length > 0 && linkList.map((record, index) => {
-                                if (menuList.indexOf(record.menu)!== -1 && record.parent === 'others'){
-                                    return record.link;
-                                }
-                            })}
+                            {realOthers}
                         </SubMenu>
                         }
 
                         {realAdmin && realAdmin.length > 0 &&
                         <SubMenu key="sub2" title={  <span>  <Icon type="setting" /> <span>管理员后台</span> </span>  } >
-                            {menuList && menuList.length > 0 && linkList.map((record, index) => {
-                                if (menuList.indexOf(record.menu)!== -1 && record.parent === 'admin'){
-                                    return record.link;
-                                }
-                            })}
+                            {admin}
                         </SubMenu>
                         }
 

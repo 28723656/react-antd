@@ -142,7 +142,7 @@ class Person extends Component {
             if(response.data.flag){
                 const result = response.data.data;
                 Modal.success({
-                    title: '今日奖励',
+                    title: '今日卡牌奖励',
                     icon: null,
                     content:
                         <div>
@@ -157,9 +157,31 @@ class Person extends Component {
         })
     }
 
+    // 获取每日签到奖励
+    getSignInDay =() =>{
+        const user = getUser()
+        updateAjax(`/game/recordSignIn/user/${user.id}`).then(response =>{
+            if(response.data.flag){
+                const result = response.data.data;
+                Modal.success({
+                    title: '今日签到奖励',
+                    icon: null,
+                    content:
+                        <div>
+                            <Row>
+                                <Col span={24}>----今日签到奖励为---</Col>
+                                <Col  span={24}>今日获取为：<span style={{fontSize:'20px',color:'blue'}}>{result.description}</span></Col>
+                            </Row>
+                        </div>
+                })
+            }
+        })
+    }
+
     componentDidMount() {
         this.getSomeThing();
         this.getRewardDay();
+        this.getSignInDay();
     }
 
     render() {
@@ -181,7 +203,7 @@ class Person extends Component {
                             <Card title='消息通知' bordered={true} bodyStyle={{paddingTop: '2px'}}>
                                 <p>最近更新：</p>
                                 <p>1.新增了卡牌图鉴</p>
-                                <p>2.新增了每日奖励（要用卡片技能），每天凌晨12点以后登录自动领取奖励</p>
+                                <p>2.新增了每日奖励（要用卡片技能），每天凌晨0点以后登录自动领取奖励</p>
                                 <Button onClick={this.getReward}  type="default" block>了解</Button>
                             </Card>
                         </Col>
