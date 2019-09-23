@@ -43,6 +43,7 @@ const initData = [
 
 const initTitle='表格标题'
 const initRowKey='id'
+const initShowHeader = true
 
 
 
@@ -53,21 +54,23 @@ class SmallTable extends Component{
         title:PropTypes.string,
         columns: PropTypes.array,
         dataSource: PropTypes.array,
-        rowKey:PropTypes.string
+        rowKey:PropTypes.string,
+        showHeader:PropTypes.bool,
     }
 
 
     render() {
-        let {title,columns,dataSource,rowKey} = this.props;
+        let {title,columns,dataSource,rowKey,showHeader} = this.props;
         //如果为空，就用默认的
         rowKey = rowKey===undefined?initRowKey:rowKey;
         title = title===undefined?initTitle:title;
         columns = columns===undefined?initColumns:columns;
         dataSource = dataSource===undefined?initData:dataSource;
+        showHeader = showHeader===undefined?initShowHeader:showHeader;
 
         return (
             <div>
-                <Table rowKey={rowKey} columns={columns} dataSource={dataSource} size="middle"
+                <Table rowKey={rowKey} columns={columns} dataSource={dataSource} size="middle" showHeader={showHeader}
                        pagination={{
                            hideOnSinglePage:true,
                            pageSize:30

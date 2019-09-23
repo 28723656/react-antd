@@ -6,9 +6,9 @@ import moment from 'moment';
  * @returns {string}
  */
 
-export function getMomentTime(time) {
+export function getMomentTime(time,formatStyle) {
     if(time && time.length && time.length > 0){
-        return  moment(time.map((record,index)=> index === 1 ?record-1:record)  ).format("YYYY-MM-DD HH:mm:ss")
+        return  moment(time.map((record,index)=> index === 1 ?record-1:record)  ).format(formatStyle || "YYYY-MM-DD HH:mm:ss")
     }else {
         return null;
     }

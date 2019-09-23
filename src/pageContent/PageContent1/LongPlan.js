@@ -5,6 +5,7 @@ import AddPlanModal from './Common/AddPlanModal'
 import PropTypes from 'prop-types'
 import TodayPlan from "../../pages/Page1";
 import TablePlan from "./Common/TablePlan";
+import moment from "moment";
 
 /**
  * 长期计划
@@ -27,10 +28,13 @@ class LongPlan extends Component {
     render() {
         const {weekPlan, monthPlan, yearPlan} = this.props.data;
         const {addPlan, modalData, switchModal, updatePlan, deletePlan,setRecord,recordData} = this.props;
+        const currentWeek = moment().week();
+        const currentMonth = moment().month()+1;
+        const currentYear = moment().year();
 
         return (
             <div style={{padding: 5}}>
-                <Card title='本周计划' bordered={false} bodyStyle={{padding: '8px'}}>
+                <Card title={'本周计划('+currentWeek+'周)'} bordered={false} bodyStyle={{padding: '8px'}}>
                     <TablePlan data={weekPlan} columns={columns2_3} type={2} switchModal={switchModal} setRecord={setRecord}/>
                     <AddPlanModal data={monthPlan} record={recordData}
                                   modalData={modalData} switchModal={switchModal}
@@ -55,7 +59,7 @@ class LongPlan extends Component {
 
                 </Card>
 
-                <Card title='6月计划' style={{marginTop: 20}} bodyStyle={{padding: '8px'}}>
+                <Card title={currentMonth+'月计划'} style={{marginTop: 20}} bodyStyle={{padding: '8px'}}>
                     <TablePlan data={monthPlan} columns={columns2_3} type={3} switchModal={switchModal} setRecord={setRecord}/>
                     <AddPlanModal data={yearPlan} record={recordData}
                                   modalData={modalData} switchModal={switchModal}
@@ -80,7 +84,7 @@ class LongPlan extends Component {
                     </Row>
                 </Card>
 
-                <Card title='2019年计划' style={{marginTop: 20}} bodyStyle={{padding: '8px'}}>
+                <Card title={currentYear+'年计划'} style={{marginTop: 20}} bodyStyle={{padding: '8px'}}>
                     <TablePlan data={yearPlan} columns={columns2_3} type={4} switchModal={switchModal} setRecord={setRecord}/>
                     <AddPlanModal record={recordData}
                                   modalData={modalData} switchModal={switchModal}

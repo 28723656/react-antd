@@ -82,10 +82,10 @@ export const addPlan = (values) => {
 }
 
 // 完成计划
-export const finishPlan = (values) => {
+export const finishPlan = (values,finished) => {
     const user = getUser()
     return async dispatch => {
-        const response = await updateAjax(`/plan/plan/${user.id}`, values);
+        const response = await updateAjax(`/plan/plan/${user.id}/${finished}`, values);
         const result = response.data;
         // 添加成功
         if (result.flag) {

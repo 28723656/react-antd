@@ -6,6 +6,7 @@ import UpdateRoleModal from '../../pageContent/Admin/UpdateRoleModal'
 import UpdateMenuModal from '../../pageContent/Admin/UpdateMenuModal'
 import ModalContent from "../Page2";
 import {deleteAjax, getAjax} from "../../util/ajax";
+import {getUser} from "../../util/userUtil";
 
 const {TabPane} = Tabs;
 const {confirm} = Modal
@@ -82,6 +83,7 @@ class Admin extends Component {
 
     // 删除
     handleDelete =(id,type) =>{
+        const user =getUser();
         let url =''
         let name=''
         if(type === 'user'){
@@ -100,16 +102,20 @@ class Admin extends Component {
             okText:'确定',
             cancelText:'取消',
             onOk: () => {
-               deleteAjax(url)
-                    .then(response =>{
+                if(user.id === 1){
+                    deleteAjax(url).then(response =>{
                         const  result = response.data;
                         if(!result.flag){
-                           message.error(result.message);
+                            message.error(result.message);
                         }else {
                             //
                             this.initValue()
                         }
                     });
+                }else {
+                    message.error('抱歉，不是所有的管理员都删除的')
+                }
+
             },
             onCancel() {
                 console.log('取消');
