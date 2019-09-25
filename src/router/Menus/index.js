@@ -32,6 +32,7 @@ import Test001 from "../../pages/Test001";
 import GameCardUser from "../../pages/GameCardUser";
 import GameMarket from "../../pages/Admin/GameMarket";
 import Dictionaries from "../../pages/Admin/Dictionaries";
+import Poker from "../../pages/Poker";
 
 require('./style.css')
 
@@ -44,6 +45,11 @@ const linkList = [
     {
         menu: 'wangyi', link: <Menu.Item key="2004">
             <NavLink to='/wangyi'>网易云相关</NavLink>
+        </Menu.Item>
+    },
+    {
+        menu: 'poker', link: <Menu.Item key="20041">
+            <NavLink to='/poker'>Poker</NavLink>
         </Menu.Item>
     },
     {
@@ -156,6 +162,7 @@ const routerList = [
     {menu:'gameCardAdmin',route:<Route key={14} path="/gameCardAdmin" component={GameCardAdmin}/>},
     {menu:'gameMarket',route:<Route key={100} path="/gameMarket" component={GameMarket}/>},
     {menu:'dictionaries',route:<Route key={101} path="/dictionaries" component={Dictionaries}/>},
+    {menu:'poker',route:<Route key={101} path="/poker" component={Poker}/>},
 ]
 
 
