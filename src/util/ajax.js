@@ -84,7 +84,7 @@ export  function deleteAjax(url,data) {
  */
 export  function getMongoAjax(url = '', data = {}) {
 
-    const baseURL='http://localhost:4000'
+    const baseURL=API_ROOT+':4000'
     url = url + '?time='+new Date().getTime();
 
     if(JSON.stringify(data) !== "{}"){
@@ -116,7 +116,7 @@ export  function getMongoAjax(url = '', data = {}) {
 
 // 增
 export  function postMongoAjax(url,data) {
-    const baseURL='http://localhost:4000'
+    const baseURL=API_ROOT+':4000'
     const completeUrl =baseURL+url
     const options = {
         method: 'post',
@@ -125,3 +125,13 @@ export  function postMongoAjax(url,data) {
     };
     return axios(options);
 }
+
+
+
+// 接口地址根路径
+const WS_DEV_API_ROOT = 'ws://localhost:4000';
+const WS_PROD_API_ROOT = 'ws://47.106.187.222:4000';
+
+export const WS_API_ROOT = process.env.NODE_ENV === 'production'
+    ? WS_PROD_API_ROOT : WS_DEV_API_ROOT;
+

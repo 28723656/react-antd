@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import {Button, Row, Col, Tabs, message} from "antd";
 import Friends from "../../pageContent/Poker/zjh/Friends";
-import {addAjax} from "../../util/ajax";
+import {addAjax, WS_API_ROOT} from "../../util/ajax";
 import {getUser} from "../../util/userUtil";
 import MongoTest from "../../pageContent/Poker/test/MongoTest";
 import SocketTest from "../../pageContent/Poker/test/SocketTest";
@@ -25,7 +25,8 @@ class Poker extends Component{
     initIO = () => {
         if(!io.socket||io.socket.disconnected){
             // 连接服务器, 得到代表连接的 socket 对象
-            io.socket = io('ws://localhost:4000')
+            io.socket = io(WS_API_ROOT)
+
             const user = getUser();
 
             //发送消息,说我在线
