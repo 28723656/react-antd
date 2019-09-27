@@ -47,12 +47,17 @@ class Friends extends Component{
         const userMongo = userList.filter(record => record.id === user.id)
         console.log('^^^^userMongo',userMongo)
 
+        let  userList2
+        if(userMongo.length !== 0){
+            // 找出userList中和自己是一个room的，且不等于0的
+            userList2 =  userList.filter((record =>{
+                return record.room !== '0' && record.room === userMongo[0].room;
+            }))
+            console.log('^^^^userList2',userList2)
+        }else {
+            userList2 = []
+        }
 
-        // 找出userList中和自己是一个room的，且不等于0的
-       const userList2 =  userList.filter((record =>{
-            return record.room !== '0' && record.room === userMongo[0].room;
-        }))
-        console.log('^^^^userList2',userList2)
 
 
 
