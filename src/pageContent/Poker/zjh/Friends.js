@@ -193,6 +193,7 @@ class Friends extends Component{
                     dataSource={players}
                     renderItem={item => <List.Item>
                         {item.nickName} &nbsp;&nbsp;&nbsp; <Button  disabled={item.id === user.id} onClick={() =>this.invite(item)}>邀请</Button>
+                        {user.id === 1 &&  <Button type='danger' onClick={() =>this.letHimOut()} >踢出</Button> }
                     </List.Item>}
                 />
 

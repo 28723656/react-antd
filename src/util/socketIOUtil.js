@@ -1,3 +1,4 @@
+/*
 import io from 'socket.io-client'
 
 export  function initIO() {
@@ -11,3 +12,4 @@ export  function initIO() {
     }
 
 }
+*/
