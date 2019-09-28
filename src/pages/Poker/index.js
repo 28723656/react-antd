@@ -8,11 +8,12 @@ import SocketTest from "../../pageContent/Poker/test/SocketTest";
 import Friends2 from "../../pageContent/Poker/zjh/Friends2";
 import io from 'socket.io-client'
 import moment from "moment";
+import RealGame from "../../pageContent/Poker/zjh/RealGame";
 const {TabPane} = Tabs;
 
 class Poker extends Component{
     state ={
-        activeKey:"1",
+        activeKey:"5",
         userList:[], // 当前在线的人
         inputValue:'', // 输入框，聊天
         msgList:[],   // 聊天消息
@@ -223,6 +224,10 @@ class Poker extends Component{
                 </TabPane>
                 <TabPane tab="mongoTest" key="4">
                     <MongoTest/>
+                </TabPane>
+
+                <TabPane tab="realGame" key="5">
+                    <RealGame/>
                 </TabPane>
             </Tabs>
         )
