@@ -14,7 +14,7 @@ const {TabPane} = Tabs;
 
 class Poker extends Component{
     state ={
-        activeKey:"5",
+        activeKey:"1",
         userList:[], // 当前在线的人
         inputValue:'', // 输入框，聊天
         msgList:[],   // 聊天消息
@@ -37,7 +37,7 @@ class Poker extends Component{
 
             // 监听在线
             io.socket.on('receiveOnLine',  (data,str,theUser) => {
-                console.log('浏览器端接收到消息:', data,str,theUser)
+            //    console.log('浏览器端接收到消息:', data,str,theUser)
                 if(str === 'in'){
                     message.success('用户:'+theUser.nickName+'已上线！')
                 }else {
@@ -53,10 +53,10 @@ class Poker extends Component{
 
             // 监听聊天
             io.socket.on('receiveMsg',  (data) => {
-                console.log('浏览器端接收到消息:', data)
+               // console.log('浏览器端接收到消息:', data)
                 // 更新state
                 const {msgList} = this.state;
-                console.log('msgList',msgList)
+              //  console.log('msgList',msgList)
                 if(msgList!== undefined && msgList!==null){
                     msgList.push(data);
                     this.setState({msgList})
@@ -66,7 +66,7 @@ class Poker extends Component{
 
             // 监听邀请信息
             io.socket.on('receiveInvite',  (owner,guest) => {
-                console.log('浏览器端接收到消息:', owner,guest)
+            //    console.log('浏览器端接收到消息:', owner,guest)
                 // 如果这个人是被邀请的那个人
                 if(guest.id === user.id){
                     this.setState({inviteVisible:true,owner,guest})
@@ -76,7 +76,7 @@ class Poker extends Component{
 
             // 监听邀请是否同意
             io.socket.on('receiveInviteOne',  (data,owner,guest,bool) => {
-                console.log('浏览器端接收到消息邀请信息:', data,owner,guest,bool)
+               // console.log('浏览器端接收到消息邀请信息:', data,owner,guest,bool)
                 if(bool){
                     this.setState({userList:data})
                 }
@@ -102,7 +102,7 @@ class Poker extends Component{
 
             // 监听发牌
             io.socket.on('receiveCardOver',(userList) =>{
-                console.log('我的牌：',userList)
+              //  console.log('我的牌：',userList)
                 this.setState({roomUserList:userList})
             })
 
@@ -115,7 +115,7 @@ class Poker extends Component{
 
 
     changeTab =(value) =>{
-        console.log(value,typeof value)
+      //  console.log(value,typeof value)
         this.setState({activeKey:value})
     }
 
@@ -133,7 +133,7 @@ class Poker extends Component{
         if(inputValue!==''){
             user.msg= inputValue
             user.sendTime = moment()
-            console.log("客户端发送消息:",user)
+        //    console.log("客户端发送消息:",user)
             //发送消息
             io.socket.emit('sendMsg',user)
             this.setState({inputValue:''})
@@ -161,7 +161,7 @@ class Poker extends Component{
 
     // 房主邀请客人
     inviteSomeone =(owner,guest) =>{
-        console.log(owner+'邀请了'+guest)
+      //  console.log(owner+'邀请了'+guest)
         //发送邀请消息
         if(io.socket.disconnected){
             message.warning("哥，你被某人T了，邀请不到了！")
@@ -174,7 +174,7 @@ class Poker extends Component{
 
     // 让某个玩家下线
     letHimOut =(item) =>{
-        console.log('管理员要T出用户：',item.id)
+      //  console.log('管理员要T出用户：',item.id)
         const user = getUser();
         // 加一个字段，说用户退出了
         user.out = true
@@ -205,7 +205,13 @@ class Poker extends Component{
 
        // 通知所有房间里面的人，已经发牌了
         io.socket.emit('sendCardOver',newRoomUserList);
+    }
 
+    // 看牌
+    lookCard =(selfUser) =>{
+
+        // 通知所有人，这个人看牌了
+        io.socket.emit('sendLookCard',selfUser);
 
     }
 
@@ -233,7 +239,7 @@ class Poker extends Component{
         return (
 
             <Tabs  activeKey={activeKey} onChange={this.changeTab}>
-                <TabPane tab="poker" key="1">
+                <TabPane tab="所有游戏" key="1">
                     <div>
                         <br />
                         <Row>
@@ -263,19 +269,21 @@ class Poker extends Component{
                         </Row>
                     </div>
                 </TabPane>
-                <TabPane tab="gameTest" key="2">
+                <TabPane tab="炸金花" key="5">
+                    <RealGame lookCard={this.lookCard} sendCard={this.sendCard} roomUserList={roomUserList}/>
+                </TabPane>
+                <TabPane tab="聊天" key="3">
+                    <SocketTest inputChange={this.inputChange} inputValue={inputValue} msgList={msgList} sendMsg={this.sendMsg}  />
+                </TabPane>
+                <TabPane tab="准备" key="2">
                         <Friends2 gameStart={this.gameStart} guest={guest}  owner={owner}  userList={userList} handleCancel={this.handleCancel} handleOk={this.handleOk} inviteSomeone={this.inviteSomeone} inviteVisible={inviteVisible} letHimOut={this.letHimOut}/>
                 </TabPane>
-                <TabPane tab="socketTest" key="3">
-                   <SocketTest inputChange={this.inputChange} inputValue={inputValue} msgList={msgList} sendMsg={this.sendMsg}  />
-                </TabPane>
-                <TabPane tab="mongoTest" key="4">
+
+                <TabPane tab="无关的东西" key="4">
                     <MongoTest/>
                 </TabPane>
 
-                <TabPane tab="realGame" key="5">
-                    <RealGame sendCard={this.sendCard} roomUserList={roomUserList}/>
-                </TabPane>
+
             </Tabs>
         )
     }

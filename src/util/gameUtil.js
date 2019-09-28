@@ -60,8 +60,8 @@ export function getCardNumber(cardNumber) {
 // 直接返回一个组件
 export function getCardTypeNumber(type,cardNumber) {
 
-    let tempType = '♠'
-    let tempCardNumber = 'A'
+    let tempType = ''
+    let tempCardNumber = '-'
     let style={color:'red'}
 
     if (type === 1) {

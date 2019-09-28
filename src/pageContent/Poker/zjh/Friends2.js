@@ -42,11 +42,11 @@ class Friends extends Component{
 
 
         const {userList,handleCancel,handleOk,inviteVisible,owner,guest} = this.props;
-        console.log('^^^^userList',userList)
+    //    console.log('^^^^userList',userList)
         const user = getUser();
 
         const userMongo = userList.filter(record => record.id === user.id)
-        console.log('^^^^userMongo',userMongo)
+     //   console.log('^^^^userMongo',userMongo)
 
         let  userList2
         if(userMongo.length !== 0){
@@ -54,7 +54,7 @@ class Friends extends Component{
             userList2 =  userList.filter((record =>{
                 return record.room !== '0' && record.room === userMongo[0].room;
             }))
-            console.log('^^^^userList2',userList2)
+      //      console.log('^^^^userList2',userList2)
         }else {
             userList2 = []
         }
