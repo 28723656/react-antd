@@ -209,10 +209,14 @@ class Poker extends Component{
 
     // 看牌
     lookCard =(selfUser) =>{
-
         // 通知所有人，这个人看牌了
         io.socket.emit('sendLookCard',selfUser);
+    }
 
+    // 弃牌
+    throwCard =(selfUser) =>{
+        // 通知所有人，这个人看牌了
+        io.socket.emit('sendThrowCard',selfUser);
     }
 
     // -------------------结束：游戏开始-----------------------
@@ -270,7 +274,7 @@ class Poker extends Component{
                     </div>
                 </TabPane>
                 <TabPane tab="炸金花" key="5">
-                    <RealGame lookCard={this.lookCard} sendCard={this.sendCard} roomUserList={roomUserList}/>
+                    <RealGame throwCard={this.throwCard} lookCard={this.lookCard} sendCard={this.sendCard} roomUserList={roomUserList}/>
                 </TabPane>
                 <TabPane tab="聊天" key="3">
                     <SocketTest inputChange={this.inputChange} inputValue={inputValue} msgList={msgList} sendMsg={this.sendMsg}  />

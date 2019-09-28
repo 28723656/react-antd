@@ -9,6 +9,7 @@ class RealGame extends Component{
         roomUserList:PropTypes.array.isRequired,
         sendCard:PropTypes.func.isRequired,
         lookCard:PropTypes.func.isRequired,
+        throwCard:PropTypes.func.isRequired,
     }
 
 
@@ -25,6 +26,23 @@ class RealGame extends Component{
             message.warning('还没看够？')
         }else if(selfUser.cardStatus === 2){
             this.props.lookCard(selfUser)
+        }else if(selfUser.cardStatus === 3){
+            // 弃牌了
+            message.warning('丢都牌了，一边去')
+        }
+    }
+
+    // 弃牌
+    throwCard =(selfUser)=>{
+        if(selfUser.cardStatus === 0){
+            message.warning('还没发牌呢，急个啥子！')
+        }else if(selfUser.cardStatus === 1) {
+            this.props.throwCard(selfUser)
+        }else if(selfUser.cardStatus === 2){
+            message.warning('有勇气，还没看牌就直接丢牌了')
+            this.props.throwCard(selfUser)
+        }else if(selfUser.cardStatus === 3){
+            message.warning('丢都牌了，一边去')
         }
     }
 
@@ -47,7 +65,10 @@ class RealGame extends Component{
 
        // console.log('当前玩家：',roomUserList);
 
-        const extra = <Button onClick={() =>this.lookCard(selfUser)}>看牌</Button>
+        const extra =<div>
+            <Button type='danger' onClick={() =>this.throwCard(selfUser)}>弃牌</Button> &nbsp;&nbsp;&nbsp;
+            <Button onClick={() =>this.lookCard(selfUser)}>看牌</Button>
+        </div>
 
 
         return (
@@ -77,6 +98,15 @@ class RealGame extends Component{
                                     <Card.Grid style={gridStyle}>-</Card.Grid>
                                 </div>
                             }
+                            {
+                                selfUser && selfUser.cardStatus === 3 &&
+                                <div>
+                                    {(selfUser.id === 1 ||selfUser.id===27) && <Card.Grid style={{width: '100%'}}><Button block type='primary' onClick={()=>this.sendCard(roomUserList)}>性感荷官，在线发牌</Button></Card.Grid> }
+                                    <Card.Grid style={gridStyle}>-</Card.Grid>
+                                    <Card.Grid style={gridStyle}>-</Card.Grid>
+                                    <Card.Grid style={gridStyle}>-</Card.Grid>
+                                </div>
+                            }
 
                         </Card>
                     </Col>
@@ -91,11 +121,13 @@ class RealGame extends Component{
                                     const status =  record.cardStatus
                                     let statusDesc = ''
                                     if(status === 0){
-                                        statusDesc =<Button  disabled>已弃牌 </Button>
+                                        statusDesc =<Button  disabled>准备中 </Button>
                                     }else if(status === 1){
                                         statusDesc =<Button  type='primary'>已看牌 </Button>
                                     }else if(status === 2){
                                         statusDesc =<Button  >未看牌</Button>
+                                    }else if(status === 3){
+                                        statusDesc =<Button type='dashed' >已弃牌</Button>
                                     }
 
                                     return  <Row key={record._id}>
