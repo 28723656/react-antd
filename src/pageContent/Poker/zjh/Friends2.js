@@ -17,6 +17,7 @@ class Friends extends Component{
         letHimOut:PropTypes.func.isRequired,
         owner:PropTypes.object.isRequired,
         guest:PropTypes.object.isRequired,
+        gameStart:PropTypes.func.isRequired,
     }
 
 
@@ -32,8 +33,8 @@ class Friends extends Component{
     }
 
     // 开始游戏
-    gameStart =() =>{
-        console.log('game start')
+    gameStart =(userList2) =>{
+        this.props.gameStart(userList2);
     }
 
 
@@ -91,7 +92,7 @@ class Friends extends Component{
                             {item.nickName}
                         </List.Item>}
                     />
-                    <Button type='primary' block size='large' onClick={this.gameStart}> 开始游戏 </Button>
+                    <Button type='primary' block size='large' onClick={() =>this.gameStart(userList2)}> 开始游戏 </Button>
                 </div>
                 }
 

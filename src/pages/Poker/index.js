@@ -9,6 +9,7 @@ import Friends2 from "../../pageContent/Poker/zjh/Friends2";
 import io from 'socket.io-client'
 import moment from "moment";
 import RealGame from "../../pageContent/Poker/zjh/RealGame";
+import {getRandom3Card} from "../../util/gameUtil";
 const {TabPane} = Tabs;
 
 class Poker extends Component{
@@ -20,6 +21,7 @@ class Poker extends Component{
         inviteVisible:false,  // 邀请的窗口
         owner:{}, // 邀请人  ：发起者
         guest:{},// 被邀请人
+        roomUserList:[],// 正在房间的人
     }
 
     // 连接
@@ -85,6 +87,26 @@ class Poker extends Component{
                     message.info('对方拒绝了您--')
                 }
             })
+
+
+            // 监听游戏开始
+            io.socket.on('receiveGameStart',(userList) =>{
+                userList.map(record =>{
+                    if(record.id === user.id){
+                        // 如果这个用户在里面，就进入游戏开始的界面
+                        this.setState({activeKey:'5'})
+                        this.setState({roomUserList:userList})
+                    }
+                })
+            })
+
+            // 监听发牌
+            io.socket.on('receiveCardOver',(userList) =>{
+                console.log('我的牌：',userList)
+                this.setState({roomUserList:userList})
+            })
+
+
 
 
         }
@@ -162,7 +184,32 @@ class Poker extends Component{
 
     }
 
+
+    // 开始游戏按钮
+    gameStart =(userList2) =>{
+        // 发送一个信号，说游戏开始了
+        io.socket.emit('sendGameStart',userList2);
+
+    }
+
     //--------------结束：处理邀请的----------------
+
+
+    // -------------------开始：游戏开始-----------------------
+
+    // 请求发牌
+    sendCard =(roomUserList)=>{
+        // 产生卡牌
+        const newRoomUserList = getRandom3Card(roomUserList);
+     //  console.log('产生的卡牌：',newRoomUserList) ;
+
+       // 通知所有房间里面的人，已经发牌了
+        io.socket.emit('sendCardOver',newRoomUserList);
+
+
+    }
+
+    // -------------------结束：游戏开始-----------------------
 
 
     componentDidMount() {
@@ -181,7 +228,7 @@ class Poker extends Component{
 
     render() {
 
-        const {activeKey,userList,inputValue,msgList,inviteVisible,owner,guest} = this.state;
+        const {activeKey,userList,inputValue,msgList,inviteVisible,owner,guest,roomUserList} = this.state;
 
         return (
 
@@ -217,7 +264,7 @@ class Poker extends Component{
                     </div>
                 </TabPane>
                 <TabPane tab="gameTest" key="2">
-                        <Friends2 guest={guest}  owner={owner}  userList={userList} handleCancel={this.handleCancel} handleOk={this.handleOk} inviteSomeone={this.inviteSomeone} inviteVisible={inviteVisible} letHimOut={this.letHimOut}/>
+                        <Friends2 gameStart={this.gameStart} guest={guest}  owner={owner}  userList={userList} handleCancel={this.handleCancel} handleOk={this.handleOk} inviteSomeone={this.inviteSomeone} inviteVisible={inviteVisible} letHimOut={this.letHimOut}/>
                 </TabPane>
                 <TabPane tab="socketTest" key="3">
                    <SocketTest inputChange={this.inputChange} inputValue={inputValue} msgList={msgList} sendMsg={this.sendMsg}  />
@@ -227,7 +274,7 @@ class Poker extends Component{
                 </TabPane>
 
                 <TabPane tab="realGame" key="5">
-                    <RealGame/>
+                    <RealGame sendCard={this.sendCard} roomUserList={roomUserList}/>
                 </TabPane>
             </Tabs>
         )
