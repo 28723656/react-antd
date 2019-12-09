@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Card, DatePicker, List, Tabs, Typography, Col, Row, Select, Input, Button, Form, Modal} from "antd";
+import {Card, DatePicker, List, Tabs, Typography, Col, Row, Select, Input, Button, Form, Modal,message} from "antd";
 import {addAjax, getAjax} from "../../util/ajax";
 import {getUser} from "../../util/userUtil";
 import {getMomentTime} from "../../util/momentUtil";
@@ -15,8 +15,8 @@ class StarClass extends Component {
     state = {
         starUser: {},   // 用户信息
         user: getUser(),
-        transData:[], // 交易记录
-        userList:[], // 可选用户列表
+        transData: [], // 交易记录
+        userList: [], // 可选用户列表
     }
 
     // 初始化数据
@@ -31,14 +31,14 @@ class StarClass extends Component {
         })
 
         // 获取用户的交易记录
-        getAjax(`/star/trans/${user.id}`).then((res) =>{
-            this.setState({transData:res.data.data})
+        getAjax(`/star/trans/${user.id}`).then((res) => {
+            this.setState({transData: res.data.data})
         })
 
         // 获取可交易的用户
-        getAjax(`/star/trans/transUser`).then((res)=>{
-            console.log("userList",res.data.data,'-------------')
-            this.setState({userList:res.data.data})
+        getAjax(`/star/trans/transUser`).then((res) => {
+            console.log("userList", res.data.data, '-------------')
+            this.setState({userList: res.data.data})
         })
 
     }
@@ -50,7 +50,7 @@ class StarClass extends Component {
             if (!err) {
                 // 这里可以获取所有的值
                 console.log('Received values of form: ', values);
-                addAjax(`/star/trans/`,values).then(() =>{
+                addAjax(`/star/trans/`, values).then(() => {
                     this.initData();
                     message.success("交易成功！");
 
@@ -60,14 +60,13 @@ class StarClass extends Component {
     };
 
 
-
     componentDidMount() {
         this.initData();
     }
 
     render() {
 
-        const { getFieldDecorator } = this.props.form;
+        const {getFieldDecorator} = this.props.form;
 
         const formItemLayout = {
             labelCol: {
@@ -80,7 +79,7 @@ class StarClass extends Component {
             },
         };
 
-        const {starUser, user,transData,userList} = this.state;
+        const {starUser, user, transData, userList} = this.state;
         return (
             <Tabs defaultActiveKey="1" onChange={this.callback}>
                 <TabPane tab="我的星星" key="1">
@@ -94,31 +93,32 @@ class StarClass extends Component {
                     </Card>
                     <Card title='操作' bordered={true} bodyStyle={{paddingTop: '2px'}}>
 
-                        <Form  onSubmit={this.handleSubmit}>
+                        <Form onSubmit={this.handleSubmit}>
                             <Row>
                                 {getFieldDecorator('userId', {initialValue: user.id})(
                                     <Input hidden={true}/>,
                                 )}
                                 <Col xs={24} md={4} xl={3}><Text>{user.nickName}:</Text></Col>
-                                <Col xs={4} md={4} xl={3} ><Text style={{marginTop:'3px'}}>赠送给</Text></Col>
+                                <Col xs={4} md={4} xl={3}><Text style={{marginTop: '3px'}}>赠送给</Text></Col>
                                 <Col xs={8} md={4} xl={3}>
-                                    <Form.Item >
+                                    <Form.Item>
                                         {getFieldDecorator('otherId')(
-                                            <Select >
-                                                {userList && userList.map((item,index) =><Option key={item.id} value={item.id}>{item.nickName}</Option>)}
+                                            <Select>
+                                                {userList && userList.map((item, index) => <Option key={item.id}
+                                                                                                   value={item.id}>{item.nickName}</Option>)}
                                             </Select>,
                                         )}
                                     </Form.Item>
 
                                 </Col>
-                                <Col xs={8} md={4} xl={3} style={{marginTop:'3px'}}>
+                                <Col xs={8} md={4} xl={3} style={{marginTop: '3px'}}>
                                     {getFieldDecorator('transNum', {initialValue: 10})(
                                         <Input type='number' width={30}/>
                                     )}
 
                                 </Col>
-                                <Col xs={4} md={4} xl={3} >
-                                    <Text style={{marginTop:'3px'}}>个星星</Text>
+                                <Col xs={4} md={4} xl={3}>
+                                    <Text style={{marginTop: '3px'}}>个星星</Text>
                                 </Col>
 
                                 <Col xs={24} md={24} xl={24}>
@@ -131,7 +131,7 @@ class StarClass extends Component {
                                 </Col>
                                 <Col xs={24} md={24} xl={24}><p></p></Col>
                                 <Col xs={24} md={24} xl={24}>
-                                    <Form.Item >
+                                    <Form.Item>
                                         <Button type="primary" htmlType="submit" block={true}>
                                             提交
                                         </Button>
@@ -143,8 +143,9 @@ class StarClass extends Component {
                     </Card>
                     <Card title='使用记录' bordered={true} bodyStyle={{paddingTop: '2px'}}>
                         <Row>
-                            {transData && transData.map((record,index) =>{
-                                return <Col xs={24} key={record.id}>我赠送给〖{record.otherName}〗了〖{record.transNum}〗积分({getMomentTime(record.createTime)})</Col>
+                            {transData && transData.map((record, index) => {
+                                return <Col xs={24}
+                                            key={record.id}>我赠送给〖{record.otherName}〗了〖{record.transNum}〗积分({getMomentTime(record.createTime)})</Col>
                             })}
 
                         </Row>
@@ -157,5 +158,5 @@ class StarClass extends Component {
 }
 
 
-const Star = Form.create({ name: 'star_user' })(StarClass);
-export  default Star
+const Star = Form.create({name: 'star_user'})(StarClass);
+export default Star
