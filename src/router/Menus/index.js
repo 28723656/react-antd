@@ -33,6 +33,7 @@ import GameCardUser from "../../pages/GameCardUser";
 import GameMarket from "../../pages/Admin/GameMarket";
 import Dictionaries from "../../pages/Admin/Dictionaries";
 import Poker from "../../pages/Poker";
+import Star from "../../pages/Star";
 
 require('./style.css')
 
@@ -142,6 +143,11 @@ const linkList = [
             <NavLink to='/person'>个人中心</NavLink>
         </Menu.Item>
     },
+    {
+        menu: 'star', link: <Menu.Item key="1100">
+            <NavLink to='/star'>星星</NavLink>
+        </Menu.Item>
+    },
     ]
 
 const routerList = [
@@ -162,7 +168,8 @@ const routerList = [
     {menu:'gameCardAdmin',route:<Route key={14} path="/gameCardAdmin" component={GameCardAdmin}/>},
     {menu:'gameMarket',route:<Route key={100} path="/gameMarket" component={GameMarket}/>},
     {menu:'dictionaries',route:<Route key={101} path="/dictionaries" component={Dictionaries}/>},
-    {menu:'poker',route:<Route key={101} path="/poker" component={Poker}/>},
+    {menu:'poker',route:<Route key={102} path="/poker" component={Poker}/>},
+    {menu:'star',route:<Route key={103} path="/star" component={Star}/>},
 ]
 
 
@@ -248,11 +255,6 @@ class Menus extends Component {
                             {admin}
                         </SubMenu>
                         }
-
-
-
-
-
                     </Menu>
                 </Header>
                 <Content style={{padding: '0 0px', marginTop: 64}}>
