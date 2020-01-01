@@ -191,19 +191,11 @@ class Person extends Component {
                 <TabPane tab="个人中心" key="1">
                     <Row gutter={20}>
                         <Col xs={24} md={12} xl={8} style={{marginBottom:'10px'}}>
-                            <Card title='签到处' bordered={true} bodyStyle={{paddingTop: '2px'}}>
-                                <p>今日奖励：哪里有奖励</p>
-                                <p>明日奖励：冒得！！！</p>
-                                <p>暂时就想这么多了</p>
-                                <Button onClick={this.getReward} type="primary" block>签到</Button>
-                            </Card>
-                        </Col>
-
-                        <Col xs={24} md={12} xl={8} style={{marginBottom:'10px'}}>
                             <Card title='消息通知' bordered={true} bodyStyle={{paddingTop: '2px'}}>
                                 <p>最近更新：</p>
                                 <p>1.新增了卡牌图鉴</p>
                                 <p>2.新增了每日奖励（要用卡片技能），每天凌晨0点以后登录自动领取奖励</p>
+                                <p>3.修复了密码管理的bug</p>
                                 <Button onClick={this.getReward}  type="default" block>了解</Button>
                             </Card>
                         </Col>

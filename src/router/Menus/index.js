@@ -143,11 +143,11 @@ const linkList = [
             <NavLink to='/person'>个人中心</NavLink>
         </Menu.Item>
     },
-    {
+  /*  {
         menu: 'star', link: <Menu.Item key="1100">
             <NavLink to='/star'>星星</NavLink>
         </Menu.Item>
-    },
+    },*/
     ]
 
 const routerList = [
@@ -169,7 +169,7 @@ const routerList = [
     {menu:'gameMarket',route:<Route key={100} path="/gameMarket" component={GameMarket}/>},
     {menu:'dictionaries',route:<Route key={101} path="/dictionaries" component={Dictionaries}/>},
     {menu:'poker',route:<Route key={102} path="/poker" component={Poker}/>},
-    {menu:'star',route:<Route key={103} path="/star" component={Star}/>},
+   /* {menu:'star',route:<Route key={103} path="/star" component={Star}/>},*/
 ]
 
 

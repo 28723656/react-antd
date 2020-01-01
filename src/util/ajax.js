@@ -71,7 +71,7 @@ export  function deleteAjax(url,data) {
   //      headers: { 'content-type': 'application/x-www-form-urlencoded' },
    //     data: qs.stringify(data),
         headers: { 'content-type': 'application/json;charset=utf-8' },
-     //   data,
+        data,
         url,
     };
     return axios(options);

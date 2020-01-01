@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Card, DatePicker, List, Tabs, Typography} from "antd";
+import {Button, Card, DatePicker, List, Tabs, Typography} from "antd";
 import {getAjax} from "../../util/ajax";
 import moment from 'moment';
 import {getMomentTime} from "../../util/momentUtil";
@@ -17,6 +17,8 @@ class OnlyAdmin extends Component {
         ipList:[],
         // 登录
         signInList:[],
+        // 查看多少天内的情况
+        signDays:90,
     }
 
      onChange = (date, dateString) => {
@@ -38,11 +40,19 @@ class OnlyAdmin extends Component {
             })
     }
 
+    getSignIn =(more=false) =>{
+        let {signDays} = this.state
+        if(more){
+            signDays +=90;
+            this.setState({signDays})
+        }
+        getAjax(`/game/recordSignIn/record/${signDays}`).then(response =>{
+            this.setState({signInList:response.data.data})
+        })
+    }
+
     loadSignIn =() =>{
-      getAjax(`/game/recordSignIn/record/7`).then(response =>{
-          console.log('signInList',response.data.data)
-          this.setState({signInList:response.data.data})
-      })
+      this.getSignIn();
     }
 
     componentDidMount() {
@@ -61,20 +71,24 @@ class OnlyAdmin extends Component {
 
                 <TabPane tab="今日活跃" key="1">
                     {signInList&& signInList.length>0 &&
-                    <Card title='登录情况' bordered={true} bodyStyle={{paddingTop: '2px'}}>
-                        <List
-                            header={<div>近一周登录记录</div>}
-                            bordered
-                            dataSource={signInList}
-                            renderItem={item => (
-                                <List.Item>
-                                    <Typography.Text>{item.userId}</Typography.Text> &nbsp; &nbsp; &nbsp; &nbsp;
-                                    <Typography.Text mark>{item.nickName}</Typography.Text> &nbsp; &nbsp; &nbsp; &nbsp;
-                                    <Typography.Text >{getMomentTime(item.createTime)}</Typography.Text> &nbsp; &nbsp; &nbsp; &nbsp;
-                                </List.Item>
-                            )}
-                        />
-                    </Card>
+                    <>
+                        <Card title='登录情况' bordered={true} bodyStyle={{paddingTop: '2px'}}>
+                            <List
+                                header={<div>近3个月内登录记录</div>}
+                                bordered
+                                dataSource={signInList}
+                                renderItem={item => (
+                                    <List.Item>
+                                        <Typography.Text>{item.userId}</Typography.Text> &nbsp; &nbsp;
+                                        <Typography.Text mark>{item.nickName}</Typography.Text> &nbsp; &nbsp;
+                                        <Typography.Text>{getMomentTime(item.createTime)}</Typography.Text> &nbsp; &nbsp;
+                                    </List.Item>
+                                )}
+                            />
+                        </Card>
+                        <br/>
+                        <Button type='primary' block onClick={() => this.getSignIn(true)}>多看3个月</Button>
+                    </>
                     }
                 </TabPane>
 
