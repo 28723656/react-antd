@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import PageCard from "../../components/Card/PageCard";
+import MyPageCard from "../../components/Card/MyPageCard";
 import CountDownPage from "../../pageContent/Page8/CountDownPage";
 import MyItem from "../../pageContent/Page8/MyItem";
 
@@ -22,10 +22,9 @@ const contentList = {
 class Page8 extends Component {
     render() {
         return (
-            <PageCard
+            <MyPageCard
                 tabList={tabList}
                 contentList={contentList}
-                firstPage='tab1'
             />
         )
     }

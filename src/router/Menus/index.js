@@ -32,6 +32,7 @@ import Test001 from "../../pages/Test001";
 import GameCardUser from "../../pages/GameCardUser";
 import GameMarket from "../../pages/Admin/GameMarket";
 import Dictionaries from "../../pages/Admin/Dictionaries";
+import DMC from '../../pages/DMC';
 import Poker from "../../pages/Poker";
 import Star from "../../pages/Star";
 
@@ -48,11 +49,11 @@ const linkList = [
             <NavLink to='/wangyi'>网易云相关</NavLink>
         </Menu.Item>
     },
-    {
+/*    {
         menu: 'poker', link: <Menu.Item key="20041">
             <NavLink to='/poker'>Poker</NavLink>
         </Menu.Item>
-    },
+    },*/
     {
         menu: 'gameCard', link: <Menu.Item key="1006">
             <NavLink to='/gameCard'>卡牌游戏</NavLink>
@@ -82,6 +83,13 @@ const linkList = [
         menu: 'TV',
         link: <Menu.Item key="20">
             <NavLink to='/TV'>动漫</NavLink>
+        </Menu.Item>,
+        parent:'others',
+    },
+    {
+        menu: 'dmc',
+        link: <Menu.Item key="104">
+            <NavLink to='/dmc'>鬼泣血宫</NavLink>
         </Menu.Item>,
         parent:'others',
     },
@@ -154,7 +162,8 @@ const routerList = [
     {menu:'plan',route: <Route exact key={6} path="/plan" component={Page1}/>},
     {menu:'statistics',route:<Route key={1} path="/statistics" component={PlanStat}/>},
     {menu:'TV',route: <Route key={2} path="/TV" component={Page4}/> },
-   /* {menu:'homework',route: <Route key={3} path="/homework" component={Page2}/>},*/
+    {menu:'dmc',route: <Route key={104} path="/dmc" component={DMC}/> },
+    /* {menu:'homework',route: <Route key={3} path="/homework" component={Page2}/>},*/
     {menu:'log',route:<Route key={4} path="/log" component={Log}/>},
     {menu:'system',route:<Route key={5} path="/system" component={Admin}/>},
     {menu:'person',route:<Route key={7} path="/person" component={Person}/>},
@@ -168,7 +177,7 @@ const routerList = [
     {menu:'gameCardAdmin',route:<Route key={14} path="/gameCardAdmin" component={GameCardAdmin}/>},
     {menu:'gameMarket',route:<Route key={100} path="/gameMarket" component={GameMarket}/>},
     {menu:'dictionaries',route:<Route key={101} path="/dictionaries" component={Dictionaries}/>},
-    {menu:'poker',route:<Route key={102} path="/poker" component={Poker}/>},
+   /* {menu:'poker',route:<Route key={102} path="/poker" component={Poker}/>},*/
    /* {menu:'star',route:<Route key={103} path="/star" component={Star}/>},*/
 ]
 

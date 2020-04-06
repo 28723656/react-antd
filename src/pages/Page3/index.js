@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Row, Col} from 'antd'
-import PageCard from "../Page4";
 import RankingList from '../../pageContent/Page4/RankingList'
+import MyPageCard from '../../components/Card/MyPageCard'
 
 
 const tabList = [
@@ -23,7 +23,7 @@ const contentList = {
 class Page1 extends Component {
     render() {
         return (
-            <PageCard
+            <MyPageCard
                 tabList={tabList}
                 contentList={contentList}
             />

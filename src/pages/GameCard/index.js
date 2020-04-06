@@ -7,7 +7,7 @@ import box2 from "../../img/box/box2.png"
 import box3 from "../../img/box/box3.png"
 import box4 from "../../img/box/box4.png"
 import {getUser} from "../../util/userUtil";
-import MyCard from "../../pageContent/GameCardAdmin/GameCard/MyCard";
+import GameCardIndex from "../../pageContent/GameCardAdmin/GameCard/GameCardIndex";
 import MyMoney from "../../pageContent/GameCard/Common/MyMoney";
 
 const {TabPane} = Tabs;
@@ -293,11 +293,11 @@ class GameCard extends Component {
                 </TabPane>
                 <TabPane tab="我的卡片" key="2">
                     <Card> <MyMoney userCoin={userCoin} userSkill={userSkill}/> </Card>
-                   <MyCard cardData={cardDataS} initMethod={this.commonInitMethod} title="S级卡片"/>
-                   <MyCard cardData={cardDataA} initMethod={this.commonInitMethod} title="A级卡片"/>
-                   <MyCard cardData={cardDataB} initMethod={this.commonInitMethod} title="B级卡片"/>
-                   <MyCard cardData={cardDataC} initMethod={this.commonInitMethod} title="C级卡片"/>
-                   <MyCard cardData={cardDataD} initMethod={this.commonInitMethod} title="D级卡片"/>
+                   <GameCardIndex cardData={cardDataS} initMethod={this.commonInitMethod} title="S级卡片"/>
+                   <GameCardIndex cardData={cardDataA} initMethod={this.commonInitMethod} title="A级卡片"/>
+                   <GameCardIndex cardData={cardDataB} initMethod={this.commonInitMethod} title="B级卡片"/>
+                   <GameCardIndex cardData={cardDataC} initMethod={this.commonInitMethod} title="C级卡片"/>
+                   <GameCardIndex cardData={cardDataD} initMethod={this.commonInitMethod} title="D级卡片"/>
 
                 </TabPane>
 

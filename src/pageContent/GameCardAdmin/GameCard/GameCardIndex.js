@@ -55,7 +55,7 @@ const fullRankStylePad = {
 }
 
 
-class MyCard extends Component {
+class GameCardIndex extends Component {
 
     state ={
         spinningRank:false,
@@ -275,4 +275,4 @@ class MyCard extends Component {
     }
 }
 
-export default MyCard
+export default GameCardIndex

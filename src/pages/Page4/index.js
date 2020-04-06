@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import {Card,Row,Col,Table,Icon} from "antd";
 import RankingList from '../../pageContent/Page4/RankingList'
-import PageCard from "../../components/Card/PageCard";
+import MyPageCard from "../../components/Card/MyPageCard";
 
 
 
@@ -25,7 +25,7 @@ class Page4 extends Component{
 
     render() {
         return (
-            <PageCard
+            <MyPageCard
                 tabList={tabList}
                 contentList={contentList}
             />
