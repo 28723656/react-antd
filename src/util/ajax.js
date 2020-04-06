@@ -2,7 +2,8 @@ import axios from 'axios'
 
 
 // 接口地址根路径
-const DEV_API_ROOT = 'http://localhost';
+//const DEV_API_ROOT = 'http://localhost';
+const DEV_API_ROOT = 'http://47.106.187.222';
 const PROD_API_ROOT = 'http://47.106.187.222';
 
 export const API_ROOT = process.env.NODE_ENV === 'production'

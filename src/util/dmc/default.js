@@ -100,7 +100,7 @@ export const DEFAULT_CONFIG = [
     '+m_WaveData=(WaveNum=99, Enemies=((EnemyName=WarriorDroneWeak, Num=10), (EnemyName=GrenadeDroneNoShield, Num=10)))',
     '+m_WaveData=(WaveNum=100, Enemies=((EnemyName=Mundus, Num=1)))',
     '+m_WaveData=(WaveNum=101, Enemies=((EnemyName=Vergil, Num=1)))',
-];
+]
 
 export const dmcColumns = [
     {
@@ -126,164 +126,217 @@ export const dmcColumns = [
             }
         }
     },
-];
+]
 
-export const dmcDataSource=[
+export const dmcDataSource = [
     {
+        id: 1,
         key: '1',
         name: '小冥',
         engName: 'WarriorDroneWeak',
         difficulty: 1,
         isBoss: false,
     }, {
+        id: 2,
         key: '2',
-        name: '死亡骑士',
-        engName: 'ShieldDrone',
-        difficulty: 5,
-        isBoss: false,
-    }, {
-        key: '3',
-        name: '电锯',
-        engName: 'ChainsawDrone',
-        difficulty: 6,
-        isBoss: false,
-    }, {
-        key: '4',
-        name: '激光豆丁',
-        engName: 'StingerDroneNoShield',
-        difficulty: 2,
-        isBoss: false,
-    }, {
-        key: '5',
-        name: '暴君',
-        engName: 'TankDrone',
-        difficulty: 9,
-        isBoss: false,
-    }, {
-        key: '6',
-        name: '中冥',
-        engName: 'WarriorDrone',
-        difficulty: 3,
-        isBoss: false,
-    }, {
-        key: '7',
-        name: '火骑士',
-        engName: 'RedShieldDrone',
-        difficulty: 7,
-        isBoss: false,
-    }, {
-        key: '8',
-        name: '炸弹豆丁',
-        engName: 'GrenadeDroneNoShield',
-        difficulty: 2,
-        isBoss: false,
-    }, {
-        key: '9',
-        name: '冰骑士',
-        engName: 'BlueShieldDrone',
-        difficulty: 7,
-        isBoss: false,
-    }, {
-        key: '10',
-        name: '大冥',
-        engName: 'WarriorDroneHeavy',
-        difficulty: 4,
-        isBoss: false,
-    }, {
-        key: '30',
-        name: '鸟人',
-        engName: 'FlyingDrone',
-        difficulty: 5,
-        isBoss: false,
-    }, {
-        key: '11',
-        name: '带盾激光豆丁',
-        engName: 'StingerDrone',
-        difficulty: 4,
-        isBoss: false,
-    }, {
-        key: '12',
-        name: '带盾炸弹豆丁',
-        engName: 'StingerDroneNoShield',
-        difficulty: 3,
-        isBoss: false,
-    }, {
-        key: '13',
         name: '小老鼠',
         engName: 'BabyRage',
         difficulty: 1,
         isBoss: false,
     }, {
-        key: '14',
+        id: 3,
+        key: '3',
+        name: '激光豆丁',
+        engName: 'StingerDroneNoShield',
+        difficulty: 2,
+        isBoss: false,
+    }, {
+        id: 4,
+        key: '4',
+        name: '炸弹豆丁',
+        engName: 'GrenadeDroneNoShield',
+        difficulty: 2,
+        isBoss: false,
+    }, {
+        id: 5,
+        key: '5',
+        name: '中冥',
+        engName: 'WarriorDrone',
+        difficulty: 3,
+        isBoss: false,
+    }, {
+        id: 6,
+        key: '6',
+        name: '带盾炸弹豆丁',
+        engName: 'StingerDroneNoShield',
+        difficulty: 3,
+        isBoss: false,
+    }, {
+        id: 7,
+        key: '7',
+        name: '大冥',
+        engName: 'WarriorDroneHeavy',
+        difficulty: 4,
+        isBoss: false,
+    }, {
+        id: 8,
+        key: '8',
+        name: '带盾激光豆丁',
+        engName: 'StingerDrone',
+        difficulty: 4,
+        isBoss: false,
+    }, {
+        id: 9,
+        key: '9',
+        name: '鸟人',
+        engName: 'FlyingDrone',
+        difficulty: 5,
+        isBoss: false,
+    }, {
+        id: 10,
+        key: '10',
+        name: '死亡骑士',
+        engName: 'ShieldDrone',
+        difficulty: 5,
+        isBoss: false,
+    }, {
+        id: 11,
+        key: '11',
+        name: '电锯',
+        engName: 'ChainsawDrone',
+        difficulty: 6,
+        isBoss: false,
+    }, {
+        id: 12,
+        key: '12',
         name: '老鼠',
         engName: 'rage',
         difficulty: 6,
         isBoss: false,
     }, {
+        id: 13,
+        key: '13',
+        name: '火骑士',
+        engName: 'RedShieldDrone',
+        difficulty: 7,
+        isBoss: false,
+    }, {
+        id: 14,
+        key: '14',
+        name: '冰骑士',
+        engName: 'BlueShieldDrone',
+        difficulty: 7,
+        isBoss: false,
+    }, {
+        id: 15,
         key: '15',
         name: '蓝老鼠',
         engName: 'AngelRage',
         difficulty: 8,
         isBoss: false,
     }, {
+        id: 16,
         key: '16',
         name: '红老鼠',
         engName: 'DemonRage',
         difficulty: 8,
         isBoss: false,
     }, {
+        id: 17,
         key: '17',
-        name: '双刀',
-        engName: 'DreamRunner',
-        difficulty: 10,
+        name: '暴君',
+        engName: 'TankDrone',
+        difficulty: 9,
         isBoss: false,
     }, {
+        id: 18,
         key: '18',
         name: '屠夫',
         engName: 'BuzzsawTank',
         difficulty: 9,
         isBoss: false,
     }, {
+        id: 19,
         key: '19',
+        name: '双刀',
+        engName: 'DreamRunner',
+        difficulty: 10,
+        isBoss: false,
+    }, {
+        id: 20,
+        key: '20',
         name: '女巫',
         engName: 'WarriorDrone',
         difficulty: 10,
         isBoss: false,
     }, {
-        key: '20',
+        id: 21,
+        key: '21',
         name: '魅魔',
         engName: 'Poison',
         difficulty: 11,
         isBoss: true,
     }, {
-        key: '21',
+        id: 22,
+        key: '22',
         name: '猎人 ',
         engName: 'Hunter',
         difficulty: 12,
         isBoss: true,
     }, {
-        key: '22',
+        id: 23,
+        key: '23',
         name: '曼达斯之子',
         engName: 'KillingFace',
         difficulty: 13,
         isBoss: true,
     }, {
-        key: '23',
+        id: 24,
+        key: '24',
         name: '鲍勃',
         engName: 'BobBarbas',
         difficulty: 14,
         isBoss: true,
     }, {
-        key: '24',
+        id: 25,
+        key: '25',
         name: '曼达斯',
         engName: 'Mundus',
         difficulty: 15,
         isBoss: true,
     }, {
-        key: '25',
+        id: 26,
+        key: '26',
         name: '维吉尔',
         engName: 'Vergil',
         difficulty: 16,
         isBoss: true,
     },
-].sort((first, second) => first.difficulty - second.difficulty);
+]
+
+export const DIFFICULTY_CONFIG = {
+    easyType: {
+        enemyRangeConfig: { begin: n => getDifficulty(1), end: n => getDifficulty(Math.floor(n / 20) + 3) }, // 难度范围
+        enemyTypeConfig: { begin: n => getDifficulty(1), end: n => getDifficulty(3) }, // 怪物有几种
+        enemyNumberConfig: { begin: n => getDifficulty(Math.floor(n / 20) + 1), end: n => getDifficulty(8) } // 怪物数量范围
+    },
+    middleType: {
+        enemyRangeConfig: { begin: n => getDifficulty(Math.floor(n / 20) + 1), end: n => getDifficulty(Math.floor(n / 20) + 6) }, // 难度范围
+        enemyTypeConfig: { begin: n => getDifficulty(1), end: n => getDifficulty(3) }, // 怪物有几种
+        enemyNumberConfig: { begin: n => getDifficulty(Math.floor(n / 20) + 4), end: n => getDifficulty(20) } // 怪物数量范围
+    },
+    hardType: {
+        enemyRangeConfig: { begin: n => getDifficulty(Math.floor(n / 15) + 1), end: n => getDifficulty(Math.floor(n / 15) + 8) }, // 难度范围
+        enemyTypeConfig: { begin: n => getDifficulty(2), end: n => getDifficulty(4) }, // 怪物有几种
+        enemyNumberConfig: { begin: n => getDifficulty(Math.floor(n / 10) + 5), end: n => getDifficulty(40) } // 怪物数量范围
+    },
+    hellType: {
+        enemyRangeConfig: { begin: n => getDifficulty(Math.floor(n / 12) + 1), end: n => getDifficulty(10) }, // 难度范围
+        enemyTypeConfig: { begin: n => getDifficulty(2), end: n => getDifficulty(4) }, // 怪物有几种
+        enemyNumberConfig: { begin: n => getDifficulty(Math.floor(n / 10) + 10), end: n => getDifficulty(50) } // 怪物数量范围
+    }
+}
+
+function getDifficulty (value) {
+    return value >= 10 ? 10 : value
+}
